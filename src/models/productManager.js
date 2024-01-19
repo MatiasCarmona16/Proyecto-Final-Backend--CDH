@@ -1,6 +1,5 @@
 import {promises as fs} from 'fs'
 import crypto from 'crypto'
-import e, { json } from 'express'
 
 export class ProductManager {
     constructor (path) {
@@ -24,13 +23,12 @@ export class ProductManager {
         const prodExst = prods.find(producto=> producto.code === prod.code)
         if(prodExst) {
             return false
+        } else {
+            prod.id = crypto.randomBytes(16).toString('hex')
+            prods.push(prod)
+            await fs.writeFile(this.path, JSON.stringify(prods))
+            return true
         }
-
-        prod.id = crypto.randomBytes(16).toString('hex')
-        prods.push(prod)
-        await fs.writeFile(this.path, JSON.stringify(prods))
-        return true
-    
     }
 
     async updateProduct (id, producto) {
@@ -48,8 +46,22 @@ export class ProductManager {
         prods.push(prod)
         await fs.writeFile(this.path, JSON.stringify(prods))
         return true
-        }
+        }else {
             return false
+        }
+    }
+
+    async deleteProduct(id) {
+        const prods = JSON(await fs.readFile(this.path, 'utf-8'))
+        const prod = prods.find(producto => producto.id === id)
+
+        if(prod) {
+            prods.filter(producto => producto.id !== id)
+            return true
+        } else {
+            return false
+        }
+
     }
 
 }
