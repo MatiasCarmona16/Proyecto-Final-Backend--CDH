@@ -8,18 +8,18 @@ export class ProductManager {
     }
 
     async getProducts() {
-        const prdcs = JSON(await fs.readFile(this.path, 'utf-8'))
+        const prdcs = JSON.parse(await fs.readFile(this.path, 'utf-8'))
         return prdcs
     }
 
     async getProductsById (id) {
-        const prdcs = JSON(await fs.readFile(this.path, 'utf-8'))
+        const prdcs = JSON.parse(await fs.readFile(this.path, 'utf-8'))
         const prd = prdcs.find(producto => producto.id === id)
         return prd
     }
 
     async addProduct(prod) {
-        const prods = JSON(await fs.readFile(this.path, 'utf-8'))
+        const prods = JSON.parse(await fs.readFile(this.path, 'utf-8'))
         const prodExst = prods.find(producto=> producto.code === prod.code)
         if(prodExst) {
             return false
@@ -32,7 +32,7 @@ export class ProductManager {
     }
 
     async updateProduct (id, producto) {
-        const prods = JSON(await fs.readFile(this.path, 'utf-8'))
+        const prods = JSON.parse(await fs.readFile(this.path, 'utf-8'))
         const prod = prods.find(producto => producto.id === id)
         if(prod) {
         prod.title = producto.title
@@ -42,7 +42,7 @@ export class ProductManager {
         prod.status = producto.status
         prod.stock = producto.stock
         prod.category = producto.category
-        prod.thumbnails = producto.thumbnails
+        prod.thumbnail = producto.thumbnail
         prods.push(prod)
         await fs.writeFile(this.path, JSON.stringify(prods))
         return true
@@ -52,11 +52,11 @@ export class ProductManager {
     }
 
     async deleteProduct(id) {
-        const prods = JSON(await fs.readFile(this.path, 'utf-8'))
+        const prods = JSON.parse(await fs.readFile(this.path, 'utf-8'))
         const prod = prods.find(producto => producto.id === id)
 
-        if(prod) {
-            prods.filter(producto => producto.id !== id)
+        if(prod) {            
+            await fs.writeFile(this.path, JSON.stringify(prods.filter(producto => producto.id !== id)))
             return true
         } else {
             return false
