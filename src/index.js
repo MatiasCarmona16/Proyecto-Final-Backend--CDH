@@ -6,6 +6,7 @@ import routerCart from './routes/cart.routes.js'
 
 const app = express()
 let PORT = 8080
+const uuid4 = require ('uuid4')
 
 //middlewares
 app.use(express.json()) 
