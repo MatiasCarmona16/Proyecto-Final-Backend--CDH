@@ -8,6 +8,9 @@ const handlebars = require('express-handlebars')
 const app = express()
 let PORT = 8080
 
+//CARPETAS ESTATICAS
+app.use(express.static(__dirname+'/public'))
+
 //MOTOR DE PLANTILLA
 app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname+'/views')
@@ -16,7 +19,6 @@ app.set('view engine', 'handlebars')
 //middl
 app.use(express.json()) 
 app.use(express.urlencoded({extended: true}))
-
 
 // CREACION API //ROUTES
 app.use('/api/carts', routerCart)
