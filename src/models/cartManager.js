@@ -1,5 +1,5 @@
 import {promises as fs} from 'fs'
-import { __dirname } from '../path';
+import { __dirname } from '../path.js';
 import { join, parse } from 'path';
 import { error } from 'console';
 
