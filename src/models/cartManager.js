@@ -2,8 +2,8 @@ import {promises as fs} from 'fs'
 import { __dirname } from '../path.js'
 import { join } from 'path';
 
-const pathcarrt = join(__dirname, 'carrito.json')
-const pathProd = join(__dirname, 'products.json')
+const pathcarrt = join(__dirname,'Json','carrito.json')
+const pathProd = join(__dirname, 'Json','productos.json')
 
 const cartFile = await fs.readFile(pathcarrt, "utf-8")
 

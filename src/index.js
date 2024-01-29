@@ -1,12 +1,12 @@
 import express from 'express'
 import { __dirname } from './path.js'
 import path from 'path'
+import handlebars from "express-handlebars"
 
 import routerProd from './routes/products.routes.js'
 import routerHome  from './routes/index.js'
 import routerCart from './routes/cart.routes.js'
 
-const handlebars = require('express-handlebars')
 const app = express()
 let PORT = 8080
 

@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { CartManager } from "../models/cartManager.js";
 
-const routerCart = Router ()
 const cartManager = new CartManager ()
+
+const routerCart = Router ()
 
 //-----CREACION DE CARRITO PARA PRODUCTOS -------
 
