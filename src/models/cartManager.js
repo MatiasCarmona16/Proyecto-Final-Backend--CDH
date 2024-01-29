@@ -1,11 +1,11 @@
 import {promises as fs} from 'fs'
-import { __dirname } from '../path.js';
-import { join, parse } from 'path';
-import { error } from 'console';
+import { __dirname } from '../path.js'
+import { join } from 'path';
 
 const pathcarrt = join(__dirname, 'carrito.json')
-const cartFile = await fs.readFile(pathcarrt, "utf-8")
 const pathProd = join(__dirname, 'products.json')
+
+const cartFile = await fs.readFile(pathcarrt, "utf-8")
 
 export class CartManager {
 
@@ -30,6 +30,11 @@ export class CartManager {
         return newId
     }
 
+    async getIdCart(cartId) {
+        const carts = await this.getCart()
+        return carts.find((cart) => cart.id === cartId)
+    }
+
     async addCart() {
         const cart = await this.getCart()
         const newIdCart = this.idRandom(cart)
@@ -41,22 +46,6 @@ export class CartManager {
         await fs.writeFile(pathcarrt, JSON.stringify(cart))
 
         return newCart
-    }
-
-    async getIdCart(cartId) {
-        const carts = await this.getCart()
-        return carts.find((cart) => cart.id === cartId)
-    }
-    
-    async getProducts() {
-        try {
-        const prodCont = await fs.readFile(pathProd, "utf-8")
-        return JSON.parse(prodCont)
-        } catch (error) {
-        console.error("No se pudo realizar la lectura", error)
-
-        return []
-        }
     }
 
     async addProductCart(cartId, productId, quantity) {
@@ -90,10 +79,21 @@ export class CartManager {
             await fs.writeFile(pathcarrt, JSON.stringify(carts, null, 2))
 
             return true
-        } catch {
+        } catch (error) {
             console.error('Error en la carga del producto', error)
 
             return false
+        }
+    }
+
+    async getProducts() {
+        try {
+        const prodCont = await fs.readFile(pathProd, "utf-8")
+        return JSON.parse(prodCont)
+        } catch (error) {
+        console.error("No se pudo realizar la lectura", error)
+
+        return []
         }
     }
 }
