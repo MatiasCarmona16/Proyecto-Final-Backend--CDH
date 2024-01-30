@@ -2,23 +2,34 @@ import express from 'express'
 import { __dirname } from './path.js'
 import path from 'path'
 import handlebars from "express-handlebars"
+import { createServer } from 'node:http'
+import { Server } from 'socket.io'
 
 import routerProd from './routes/products.routes.js'
 import routerHome  from './routes/index.js'
 import routerCart from './routes/cart.routes.js'
+import { Socket } from 'dgram'
 
 const app = express()
 let PORT = 8080
+const server = createServer (app)
+
+//SOCKET
+const io = new Server(server)
+io.on('connection', (socket)=> {
+    console.log('Usuario conectado')
+    socket.emit('mensaje', 'Bienvenido cliente')
+})
 
 //CARPETAS ESTATICAS
-app.use(express.static(__dirname+'/public'))
+app.use("/", express.static(path.join(__dirname, "/public")))
 
 //MOTOR DE PLANTILLA
 app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname+'/views')
 app.set('view engine', 'handlebars')
 
-//MIDDL
+//MIDDLEWARES
 app.use(express.json()) 
 app.use(express.urlencoded({extended: true}))
 
@@ -26,10 +37,8 @@ app.use(express.urlencoded({extended: true}))
 app.use('/api', routerHome)
 app.use('/api/carts', routerCart)
 app.use('/api/products', routerProd)
-app.use('/static', express.static(path.join(__dirname, 'public')))
-console.log(path.join(__dirname, '/public'))
 
-app.listen (PORT, () => {
+server.listen (PORT, () => {
     console.log(`Server ${PORT} ON`)
 })
 
