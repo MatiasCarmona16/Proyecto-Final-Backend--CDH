@@ -1,9 +1,3 @@
-import { Router } from "express";
-
-const routerHome = Router ()
-
-routerHome.get('/home', (req, res) => {
-    res.render('home', {})
-})
-
-export default routerHome
+export * from './cart.routes.js'
+export * from './home.routes.js'
+export * from './products.routes.js'

@@ -54,4 +54,4 @@ routerCart.post("/:cid/product/:pid", async (req, res) => {
 
 //----------------------------------------------------------
 
-export default routerCart;
+export {routerCart}
