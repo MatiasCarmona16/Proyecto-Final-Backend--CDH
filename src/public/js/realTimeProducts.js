@@ -3,7 +3,7 @@ const socket = io()
 socket.on('mensaje', (data)=> {
     console.log(data)
 
-    socket.emit('productos', 'Lista de productos')
+    socket.emit('productos', 'Lista de productos')//socket.emit: Enviar mensaje
 })
 
 const addProduct = () => {

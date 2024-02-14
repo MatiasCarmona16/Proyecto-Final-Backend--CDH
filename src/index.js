@@ -5,17 +5,22 @@ import handlebars from "express-handlebars"
 import { createServer } from 'node:http'
 import { Server } from 'socket.io'
 
+//ImportRoutes
 import {
     routerProd,
     routerHome,
     routerCart,
 } from './routes/index.js'
 
+//ImportClass
 import { ProductManager } from './models/productManager.js'
 
-const app = express()
+//PortDesignada
 let PORT = 8080 || process.env.PORT
+
+const app = express()
 const server = createServer (app)
+const io = new Server(server)
 
 const productManager = new ProductManager ()
 
@@ -41,11 +46,10 @@ server.listen (PORT, () => {
     console.log(`Server ${PORT} ON`)
 })
 
-//SOCKET
-const io = new Server(server)
+//SOCKET SERVER
 io.on('connection', (socket)=> {
     console.log('Usuario conectado')
-    socket.emit('mensaje', 'Bienvenido cliente')
+    socket.emit('mensaje', 'Bienvenido cliente') //emit: Enviar mensaje
 
     socket.on('productos', (data) => {
         console.log(data)
