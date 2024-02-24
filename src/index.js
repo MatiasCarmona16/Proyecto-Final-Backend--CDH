@@ -5,6 +5,9 @@ import handlebars from "express-handlebars"
 import { createServer } from 'node:http'
 import { Server } from 'socket.io'
 
+import { Database } from '../dao/mongoDB/index.js';
+
+
 //ImportRoutes
 import {
     routerProd,
@@ -13,7 +16,7 @@ import {
 } from './routes/index.js'
 
 //ImportClass
-import { ProductManager } from './models/productManager.js'
+import { ProductManager } from '../dao/fileSystem/models/productManager.js'
 
 //PortDesignada
 let PORT = 8080 || process.env.PORT
@@ -44,6 +47,7 @@ app.use('/api/products', routerProd)
 //APP LISTEN
 server.listen (PORT, () => {
     console.log(`Server ${PORT} ON`)
+    Database();
 })
 
 //SOCKET SERVER
