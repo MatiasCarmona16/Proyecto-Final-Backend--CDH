@@ -5,7 +5,7 @@ import handlebars from "express-handlebars"
 import { createServer } from 'node:http'
 import { Server } from 'socket.io'
 
-import { Database } from '../dao/mongoDB/index.js';
+import { Database } from '../dao/mongoDB/conexion.js';
 
 
 //ImportRoutes

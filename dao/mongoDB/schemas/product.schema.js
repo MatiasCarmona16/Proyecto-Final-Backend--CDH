@@ -1,33 +1,37 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 
 const ProductSchema = new mongoose.Schema({
     title: {
         type: String,
         unique: true, //Hace que los nombres de los prods sean unicos
-        require: true
+        required: true
     },
     description : {
         type: String,
-        require: true,
+        required: true,
     },
     thumbnail: {
         type: String,
     },
     price: {
         type: Number,
-        require: true
+        required: true
     },
     category: {
         type: String,
-        require: true,
+        required: true,
         enum: ['Televisores', 'Heladeras', 'Lavaropas', 'Celulares', 'Aires']
     },
     stock: {
         type: Number,
         default: 10
-    }
+    },
+    code: {
+        type: String,
+        required: true,
+        unique: true,
+    },
 })
 
-const Product = mongoose.model('Products', ProductSchema)
-
-module.exports = Product
+const Product = mongoose.model('products', ProductSchema)
+export default Product
