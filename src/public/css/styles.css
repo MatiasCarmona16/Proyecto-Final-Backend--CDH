@@ -13,3 +13,13 @@
 .bg-body-tertiary {
     box-shadow: 0px 13px 100px -30px rgba(0,0,0,0.1);
 }
+
+/*DIV BOXCHAT*/
+
+.chatbox {
+    width: 100%;
+    height: 75vh;
+    border: 1px solid rgb(145, 145, 145);
+    margin: 10px 0 20px 0;
+    overflow: auto;
+}

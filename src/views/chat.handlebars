@@ -1,0 +1,24 @@
+<div class="container">
+    <div>
+        <h1>Chat Coder Proyect</h1>
+    </div>
+    
+    <div id="chatbox" class="chatbox">
+        
+    </div>
+
+    <form onsubmit="return addMessage()">
+  <div class="mb-3">
+    <input type="text" class="form-control" id="username" placeholder="Nombre..." aria-describedby="emailHelp">
+  </div>
+
+  <div class="mb-3">
+    <textarea class="form-control" id="texto" placeholder="Mensaje..."></textarea>
+  </div>
+
+  <input type="submit" value="Enviar" class="btn btn-primary">
+</form>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/chat.js"></script>
