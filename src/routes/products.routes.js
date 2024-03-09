@@ -27,7 +27,7 @@ routerProd.get('/:id', async (req, res) => {
 
 //-----AGREGO UN NUEVO PRODUCTO MEDIANTE POST-----
 
-routerProd.post('/', async(req, res) => {
+routerProd.post('/create', async(req, res) => {
     try {
         const { title, description, thumbnail, price, category, stock, code } = req.body;
         const prod = await productManagerMongo.addProduct({

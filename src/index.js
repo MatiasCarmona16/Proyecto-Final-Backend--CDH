@@ -40,7 +40,7 @@ app.set('views', __dirname+'/views')
 // MIDDLEWARES
 app.use(cookieParser())
 app.use(express.json()) 
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({extended: true}))
 
 //MIDDLEWARE SESSION
 app.use(session({

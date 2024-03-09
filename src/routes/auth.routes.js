@@ -8,17 +8,16 @@ const routerAuth = Router ()
 let users = []
 
 routerAuth.post("/register", async (req, res) => {
-    const { first_name, last_name, email, age, password } = req.body;
-
     try {
-        await userManager.newUser({
+        const { first_name, last_name, email, age, password } = req.body;
+        const userd = await userManagerMongo.newUser({
         first_name,
         last_name,
         age,
         email,
         password,
     });
-    res.status(200).redirect("/view/login-view");
+    res.json(userd)
     } catch (error) {
     res.status(500).json(error);
     }
