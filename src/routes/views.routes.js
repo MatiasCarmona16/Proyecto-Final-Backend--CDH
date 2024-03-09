@@ -4,7 +4,7 @@ function auth(req, res, next) {
     req.session.user 
 }
 
-const routerView = Router ()
+const routerView = Router()
 
 routerView.get('/login-view', (req, res) => {
     res.render('login')

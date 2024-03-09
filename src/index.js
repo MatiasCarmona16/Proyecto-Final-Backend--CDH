@@ -63,7 +63,7 @@ io.on('connection', (socket)=> {
         io.sockets.emit('mensaje-all', arrymensaje)
 
         MessageSchema.create({
-            user : data.username ,
+            user : data.username,
             message: data.message
         })
     })

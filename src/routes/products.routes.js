@@ -1,8 +1,6 @@
 import { Router } from "express";
 import { ProductManagerMongo } from "../../dao/mongoDB/controllers/productManager.js";
-import { ProductManager } from "../../dao/fileSystem/models/productManager.js";
 
-const productManager = new ProductManager("dao/fileSystem/db/productos.json")
 const productManagerMongo = new ProductManagerMongo()
 
 const routerProd = Router ()
@@ -43,7 +41,7 @@ routerProd.post('/', async(req, res) => {
         });
         res.json(prod)
     } catch (error) {
-
+    return error
     }
 })
 

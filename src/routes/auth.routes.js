@@ -1,30 +1,63 @@
 import { Router } from "express"; 
+import { UserManagerMongo } from "../../dao/mongoDB/controllers/userManager.js";
+
+const userManagerMongo= new UserManagerMongo()
 
 const routerAuth = Router ()
 
 let users = []
 
-routerAuth.post('/register', (req, res)=> {
-    let userNew = req.body
-    userNew.id = Math.random()
-    users.push(userNew)
+routerAuth.post("/register", async (req, res) => {
+    const { first_name, last_name, email, age, password } = req.body;
 
-    res.redirect('/view/login-view')
+    try {
+        await userManager.newUser({
+        first_name,
+        last_name,
+        age,
+        email,
+        password,
+    });
+    res.status(200).redirect("/view/login-view");
+    } catch (error) {
+    res.status(500).json(error);
+    }
 })
 
-routerAuth.post('/login', (req, res) => {
-    let userNew = req.body
-    let userFound = users.find(user => {
-        return user.username == userNew.username && user.password == userNew.password
-    })
-    if(userFound){
-        req.session.user = userNew.username
-        req.session.password = userNew.password
+//     let userNew = req.body
+//     userNew.id = Math.random()
+//     users.push(userNew)
+//     res.redirect('/view/login-view')
+// })
 
-        res.redirect('/view/profile-view')
-        return
-    }
-    res.send('Incorrect user or password')
+routerAuth.post('/login', async (req, res) => {
+    const {email, password} = req.body
+    
+    try {
+        const user = await userManagerMongo.getUser(email,password)
+        if(user) {
+            req.session.user = user
+            res.status(200).redirect('/auth/profile-view')
+        }else {
+            res.status(401).json({ error: "Faltan Credenciales "})
+        }
+        } catch (error) {
+            res.status(500).json({ error: error.message })
+        }
+    
+    // let userNew = req.body
+    // let userFound = users.find(user => {
+    //     return user.username == userNew.username && user.password == userNew.password
+    // })
+    // if(userFound){
+    //     req.session.user = userNew.username
+    //     req.session.password = userNew.password
+    //     req.session.rol = 'usuario'
+
+    //     res.redirect('/view/profile-view')
+    //     return
+    // }
+    // res.send('Incorrect user or password')
 })
 
 routerAuth.get('/logout', (req, res) => {
@@ -34,8 +67,9 @@ routerAuth.get('/logout', (req, res) => {
     res.redirect('/view/login-view')
 })
 
-routerAuth.get('/user', (req, res) => {
-    res.send(users)
+routerAuth.get('/user', async (req, res) => {
+    const users = await userManagerMongo.getAllUsers()
+    res.status(200).send(users)
 })
 
 export { routerAuth }

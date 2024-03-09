@@ -1,15 +1,20 @@
 <div>
     <h1>Register</h1>
-
     <form action="/auth/register" method="post">
-        <label for="">Username: </label>
-        <input type="text" name="username">
+        <label for="">Nombre: </label>
+        <input type="text" name="first_name">
+
+        <label for="">Apellido: </label>
+        <input type="text" name="last_name">
+
+        <label for="">Email: </label>
+        <input type="email" name="email">
+
+        <label for="">Edad: </label>
+        <input type="number" name="age">
 
         <label for="">Password: </label>
         <input type="password" name="password">
-
-        <label for="">Tel: </label>
-        <input type="number" name="tel">
 
         <input type="submit" value="Enviar">
     </form>
