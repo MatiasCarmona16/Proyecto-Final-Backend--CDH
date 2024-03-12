@@ -3,16 +3,15 @@ import UserSchema from '../schemas/user.schema.js'
 export class UserManagerMongo {
     
     async newUser({ first_name, last_name, age, email, password }) {
-        
         try {
-            const newUser =  new UserSchema.create({
+            const newuserd = await UserSchema.create({
             first_name,
             last_name,
             age,
             email,
             password,
         })
-        return { newUser }
+        return { newuserd }
     }catch (error) {
         return res.status(500).json({ error: error.message })
     }
