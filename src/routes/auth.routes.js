@@ -44,10 +44,14 @@ routerAuth.post('/login', async (req, res) => {
 })
 
 routerAuth.get('/logout', (req, res) => {
-    req.session.destroy(err => {
-        if(err) res.send('Error en el Logout')
-    })
-    res.redirect('/view/login-view')
+    req.session.destroy((err) => {
+    if (err) {
+        console.log('Error en el Logout', err)
+        res.status(500).send('Error en el Logout')
+    }else {
+        res.redirect('/view/login-view')
+    }
+})
 })
 
 routerAuth.get('/user', async (req, res) => {
