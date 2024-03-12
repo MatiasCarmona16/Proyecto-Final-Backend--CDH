@@ -27,9 +27,9 @@ export class UserManagerMongo {
     }
     
 
-    async getUser (email, password) {
+    async getUser (email) {
         try {
-            const user = await UserSchema.findOne({ email, password })
+            const user = await UserSchema.findOne({ email })
             return user
         }catch (error){
             throw error

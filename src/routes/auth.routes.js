@@ -26,17 +26,30 @@ routerAuth.post("/register", async (req, res) => {
 
 routerAuth.post('/login', async (req, res) => {
     const {email, password} = req.body
-    if(!email || !password) return res.status(400)({status: "error", error: "Datos incompletos"})
 
-    // const user = await User.findOne({email:email},{email:1,first_name:1,last_name:1,password:1})
-    const user = await userManagerMongo.getUser(email,password)
-    if(!user) return res.status(400).send({status: "error", error: "Usuario no encontrado"})
+    try {
+        const user = await userManagerMongo.getUser(email)
+        if(user) {
+            if(!isValidatePassword(user, password)) {
+                res.status(401).send({ error: "Datos incorrectos" })
+            }
+            req.session.user = user
+            res.status(200).redirect('/view/profile-view')
+        }
+    }catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+    // if(!email || !password) return res.status(400)({status: "error", error: "Datos incompletos"})
 
-    if(!isValidatePassword(email, password)) return res.status(403).send({status:"error", error: "Clave incorrecta"})
+    // // const user = await User.findOne({email:email},{email:1,first_name:1,last_name:1,password:1})
+    // const user = await userManagerMongo.getUser(email,password)
+    // if(!user) return res.status(400).send({status: "error", error: "Usuario no encontrado"})
+
+    // if(!isValidatePassword(email, password)) return res.status(403).send({status:"error", error: "Clave incorrecta"})
     
-    delete user.password;
-    req.session.user = user;
-    return res.redirect('/view/profile-view')
+    // delete user.password;
+    // req.session.user = user;
+    // return res.redirect('/view/profile-view')
 
     
     // let userNew = req.body
