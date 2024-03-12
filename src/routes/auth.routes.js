@@ -29,42 +29,18 @@ routerAuth.post('/login', async (req, res) => {
 
     try {
         const user = await userManagerMongo.getUser(email)
-        if(user) {
-            if(!isValidatePassword(user, password)) {
-                res.status(401).send({ error: "Datos incorrectos" })
-            }
+        if(!user) {
+            return res.status(401).send({ error: "Usuario no encontrado" })
+        } 
+        
+        if(!isValidatePassword(user, password)) {
+            return res.status(401).send({ error: "Email o contraseña incorrecta" })
+        }
             req.session.user = user
             res.status(200).redirect('/view/profile-view')
-        }
     }catch (error) {
-        res.status(500).json({ error: error.message })
+        return res.status(500).json({ error: error.message })
     }
-    // if(!email || !password) return res.status(400)({status: "error", error: "Datos incompletos"})
-
-    // // const user = await User.findOne({email:email},{email:1,first_name:1,last_name:1,password:1})
-    // const user = await userManagerMongo.getUser(email,password)
-    // if(!user) return res.status(400).send({status: "error", error: "Usuario no encontrado"})
-
-    // if(!isValidatePassword(email, password)) return res.status(403).send({status:"error", error: "Clave incorrecta"})
-    
-    // delete user.password;
-    // req.session.user = user;
-    // return res.redirect('/view/profile-view')
-
-    
-    // let userNew = req.body
-    // let userFound = users.find(user => {
-    //     return user.username == userNew.username && user.password == userNew.password
-    // })
-    // if(userFound){
-    //     req.session.user = userNew.username
-    //     req.session.password = userNew.password
-    //     req.session.rol = 'usuario'
-
-    //     res.redirect('/view/profile-view')
-    //     return
-    // }
-    // res.send('Incorrect user or password')
 })
 
 routerAuth.get('/logout', (req, res) => {
