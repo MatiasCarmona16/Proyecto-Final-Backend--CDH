@@ -5,6 +5,9 @@ import { __dirname } from './path.js'
 import path from 'path'
 import handlebars from "express-handlebars"
 
+import passport from 'passport'
+import { initializePassport } from './passport/passport.js'
+
 import MongoStore from 'connect-mongo'
 import { createServer } from 'node:http'
 import { Server } from 'socket.io'
@@ -25,6 +28,7 @@ import {
 //PortDesignada
 let PORT = 8080 || process.env.PORT
 
+//Express
 const app = express()
 const server = createServer (app)
 const io = new Server(server)
@@ -51,6 +55,11 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
+
+//Passport
+initializePassport() 
+app.use(passport.initialize())
+app.use(passport.session())
 
 //SOCKET SERVER
 let arrymensaje = []

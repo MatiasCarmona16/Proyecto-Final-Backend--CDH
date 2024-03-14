@@ -18,4 +18,8 @@ routerView.get('/profile-view', (req, res) => {
     res.render('profile')
 })
 
+routerView.get('/failedregister-view', (req, res) => {
+    res.render('failedregister')
+})
+
 export { routerView }

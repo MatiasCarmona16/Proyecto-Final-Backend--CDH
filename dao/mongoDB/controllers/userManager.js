@@ -13,7 +13,7 @@ export class UserManagerMongo {
         })
         return { newuserd }
     }catch (error) {
-        return res.status(500).json({ error: error.message })
+        throw error
     }
 }
 
@@ -32,6 +32,15 @@ export class UserManagerMongo {
             const user = await UserSchema.findOne({ email })
             return user
         }catch (error){
+            throw error
+        }
+    }
+
+    async getUserId (id) {
+        try {
+            const user = await UserSchema.findById(id)
+            return user
+        } catch (error) {
             throw error
         }
     }

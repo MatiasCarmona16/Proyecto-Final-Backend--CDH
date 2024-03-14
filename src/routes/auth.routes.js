@@ -1,5 +1,6 @@
 import { Router } from "express"; 
 import { UserManagerMongo } from "../../dao/mongoDB/controllers/userManager.js";
+import passport from "passport";
 
 import { createHash, isValidatePassword } from '../utils/bcryps.js'
 
@@ -7,20 +8,11 @@ const userManagerMongo= new UserManagerMongo()
 
 const routerAuth = Router ()
 
-routerAuth.post("/register", async (req, res) => {
+routerAuth.post("/register", passport.authenticate('register', {failureRedirect: "/view/failedregister-view",}), async (req, res) => {
     try {
-        const { first_name, last_name, email, age, password } = req.body;
-        if (!first_name || !last_name || !email || !age) return res.status(400).json({ error: 'Todos los campos son obligatorios'})
-        const userd = await userManagerMongo.newUser({
-        first_name,
-        last_name,
-        age,
-        email,
-        password: createHash(password)
-    });
-    res.redirect('/view/login-view')
-    } catch (error) {
-    res.status(500).json(error);
+        res.status(200).redirect('/view/profile-view')
+    } catch(error) {
+        res.status(500).json(error)
     }
 })
 
@@ -42,6 +34,16 @@ routerAuth.post('/login', async (req, res) => {
         return res.status(500).json({ error: error.message })
     }
 })
+
+routerAuth.get('/github', passport.authenticate("github", {}), (req, res) => {})
+
+routerAuth.get('/callbackGithub', passport.authenticate("github", {failureRedirect:'/login'}), (req, res) => {
+    req.session.user = req.user
+
+    res.setHeader("Content-Type","application/json")
+    return res.status(200).redirect('/')
+})
+
 
 routerAuth.get('/logout', (req, res) => {
     req.session.destroy((err) => {
