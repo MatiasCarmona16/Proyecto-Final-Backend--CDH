@@ -35,13 +35,12 @@ routerAuth.post('/login', async (req, res) => {
     }
 })
 
-routerAuth.get('/github', passport.authenticate("github", {}), (req, res) => {})
+routerAuth.get('/github', passport.authenticate("github", {scope:['user:email']}), (req, res) => {})
 
 routerAuth.get('/callbackGithub', passport.authenticate("github", {failureRedirect:'/login'}), (req, res) => {
-    req.session.user = req.user
+    req.session.user = req.user;
 
-    res.setHeader("Content-Type","application/json")
-    return res.status(200).redirect('/')
+    res.redirect('/');
 })
 
 
