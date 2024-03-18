@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const CartSchema = new mongoose.Schema({
+const CartSchema = new Schema({
     products: [
         {
             id_prod: {
@@ -19,5 +19,4 @@ CartSchema.pre("findOne", function () {
     this.populate("products.id_prod")
 })
 
-const Carrito = mongoose.model('carts', CartSchema)
-export default Carrito
+export default model("Cart", CartSchema)

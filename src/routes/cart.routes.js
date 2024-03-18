@@ -1,57 +1,84 @@
 import { Router } from "express";
-import { CartManager } from "../../dao/fileSystem/models/cartManager.js";
+import { CartManagerMongo } from "../../dao/mongoDB/controllers/cartManager.js";
 
-const cartManager = new CartManager ()
+const cartManagerMongo = new CartManagerMongo ()
 
 const routerCart = Router ()
 
-//-----CREACION DE CARRITO PARA PRODUCTOS -------
-
 routerCart.post('/', async(req, res) => {
-    const confi = await cartManager.addCart()
-
-    if(confi) {
-        res.status(2001).send('Carrito creado')
-    }else {
-        res.status(400).send('Error en los datos del carrito')
+    try{
+        const cart = await cartManagerMongo.newCart()
+        res.status(200).json(cart)
+    }catch (error) {
+        console.error("ERROR_ NO SE PUDO CREAR EL CARRITO DE COMPRA")
+        res.status(500).json("INTERNAL_ERROR")
     }
 })
 
 //----------------------------------------------------
-// SOLICITAR PRODUCTOS QUE PERTENEZCAN AL CARRITO CON PARAMETRO CID
 
 routerCart.get("/:cid", async (req, res) => {
-    const cid = req.params.id
-    const cart = await cartManager.getIdCart(parseInt(cid))
-    
-    if (cart) {
-        res.status(200).send(cart)
-    } else {
-        res
-        .status(404)
-        .send(`No se encontro el carrito ${cid}`)
+    const { cid } = req.params.id
+
+    try{
+        const cart = await cartManagerMongo.getIdCart(cid)
+
+        if(!cart) {
+            res.status(404).json(`El carrito ${cid} no existe`)
+        } else {
+            res.status(200).json(cart)
+        }
+    }catch (error) {
+        console.error("ERROR_ EN LA BUSQUEDA DE CARRITO")
+        res.status(500).json("INTERNAL_ERROR")
     }
-    })
-    
+})
+
 //-------------------------------------------------------
-//AGREGAR EL PRODUCTO AL ARREGLO 'PRODUCTS' DEL CARRITO
 
 routerCart.post("/:cid/product/:pid", async (req, res) => {
     const { cid, pid } = req.params
     const { quantity } = req.body
     
-    const confi = await cartManager.addProductCart(parseInt(cid), parseInt(pid), quantity
-    )
-    
-    if (!confi) {
-        res.status(404).send("No se creo el Carrito");
-    } else {
-        res
-        .status(200)
-        .send(`Producto: ${pid} se agrego con exito al carrito: ${cid}`)
+    try {
+        await cartManagerMongo.addProductCart(cid, pid, quantity)
+        res.status(200).json(`Producto ${pid} agregado con exito al carrito`)
+    }catch (error) {
+        console.error("ERROR_ EN AGREGAR PRODUCTO")
+        res.status(500).json("INTERNAL_ERROR")
     }
 })
 
 //----------------------------------------------------------
+
+routerCart.delete("/:cid", async (req, res) => {
+    const { cid } = req.params
+    try {
+
+        const result = await cartManagerMongo.deleteallProdsCart(cid)
+
+        if(result.msg) {
+            return res.status(200).json(result.msg)
+        }
+        res.status(200).json(`Los productos del carrito ${cid} se eliminaron con exito`)
+    } catch (error) {
+        console.error("ERROR_ NO SE PUDO ELIMINAR PRODUCTOS DEL CARRITO")
+        res.status(500).json("INTERNAL_ERROR")
+    }
+})
+
+//-----------------------------------------------------------
+
+routerCart.delete("/:cid/products/:pid", async (req, res) => {
+    const { cid, pid } = req.params
+    try {
+
+        await cartManagerMongo.deletProductSpecificCart(cid, pid)
+        res.status(200).json(`Producto ${pid} se elimino del carrito ${cid}` )
+    } catch(error) {
+        console.error("ERROR_ NO SE PUDO ELIMINAR PRODUCTO ESPECIFICO DEL CARRITO")
+        res.status(500).json("INTERNAL_ERROR")
+    }
+})
 
 export {routerCart}
