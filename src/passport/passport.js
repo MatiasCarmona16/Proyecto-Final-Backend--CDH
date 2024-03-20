@@ -1,9 +1,9 @@
 import passport from "passport";
-import GitHubStretegy from "passport-github2"
-import LocalStrategy from "passport-local"
+import LocalStrategy from "passport-local";
+import github from "passport-github2";
+
 import { UserManagerMongo } from "../../dao/mongoDB/controllers/userManager.js";
-import { createHash, isValidatePassword } from "../utils/bcryps.js";
-import UserSchema from '../../dao/mongoDB/schemas/user.schema.js'
+import { createHash } from "../utils/bcryps.js";
 
 const userManagerMongo = new UserManagerMongo()
 
@@ -36,7 +36,7 @@ const initializePassport = () => {
         }) 
     )
 
-    passport.use("github", new GitHubStretegy(
+    passport.use("github", new github.Strategy(
         {
             clientID: "Iv1.bd005d86174cd177",
             clientSecret: "e2611401d59123e680127f038a2681367295b8b6",
@@ -44,22 +44,21 @@ const initializePassport = () => {
         },
         async ( accessToken, refreshToken, profile , done) => {
             try {
-                console.log(profile)
-                let user = await UserSchema.findOne({email:profile.email})
+                const { name: first_name, email, login } = profile._json
+            
+                let user = await userManagerMongo.getUser(email)
 
                 if(!user) {
-                    let newUser = {
-                            first_name: profile.name,
-                            last_name: '' ,
-                            email: profile.email,
-                            password: ''
-                        }
-                        let result = await UserSchema.create(newUser)
-                        done(null, result)
-                }
-                else{
-                    done(null, user)
-                }
+                    const newUser = await userManagerMongo.newUser({
+                        first_name,
+                        email,
+                        password: createHash(`${email + login}123`)
+                    })
+                    return done(null, newUser)
+                } 
+                
+                return done(null, user)
+
             } catch (error) {
                 return done(error)
             }
@@ -70,7 +69,7 @@ const initializePassport = () => {
         done(null, user._id)
     })
     passport.deserializeUser(async (id, done) => {
-        let user = await userManagerMongo.getUserId(id)
+        const user = await userManagerMongo.getUserId(id)
         done(null, user)
     })
 }

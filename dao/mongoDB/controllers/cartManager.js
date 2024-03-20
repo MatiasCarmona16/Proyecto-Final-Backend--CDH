@@ -1,6 +1,6 @@
 import CartSchema from "../schemas/cart.schema.js"
 
-export class CartManagerMongo {
+class CartManagerMongo {
 
     async getIdCart(cartId) {
         try {
@@ -103,3 +103,5 @@ export class CartManagerMongo {
             }
         }
     }
+
+    export { CartManagerMongo }

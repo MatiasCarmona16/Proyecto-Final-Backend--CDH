@@ -81,4 +81,20 @@ routerCart.delete("/:cid/products/:pid", async (req, res) => {
     }
 })
 
-export {routerCart}
+//-----------------------------------------------------------
+
+routerCart.post("/:cid/products/:pid", async (req, res) => {
+    const {cid, pid} = req.params
+    const {quantity} = req.body
+
+    try{
+        await cartManagerMongo.updtaeItemQuantity(cid, pid, quantity)
+        req.status(200).json(`Se actualizo la cantidad del producto ${pid} con exito`)
+
+    }catch(error){
+        console.error("ERROR_ NO SE ACTUALIZO LA CANTIDAD DEL PRODUCTO")
+        res.status(500).json("INTERNAL_ERROR")
+    }
+})
+
+export { routerCart }

@@ -1,17 +1,46 @@
 import ProductSchema  from "../schemas/product.schema.js"
 
 export class ProductManagerMongo {
-    constructor () {
-    }
 
-    async getProducts() {
+    async getProducts({ limit = 10, page = 1, sort, query}) {
         try {
-            const prdcs = await ProductSchema.find().lean()
-        return prdcs
+            const options = {
+                limit: parseInt(limit),
+                page: parseInt(page),
+                sort: sort ? { price: sort === "asc" ? 1 : -1} : {}
+            }
+            let filtr = {}
+            if (query) {
+                filtr = {category: query}
+            }
+
+            const prods = await ProductSchema.paginate(filter, options)
+            const payload = prods.docs.map((doc) => doc.toObjet())
+
+            const reply = {
+                status: "success",
+                payload: payload,
+                totalPages: prods.totalPages,
+                prevPage: prods.prevPage,
+                nextPage: prods.nextPage,
+                page: prods.page,
+                hasPrevPage: prods.hasPrevPage,
+                hasNextPage: prods.hasNextPage,
+                prevLink: prods.hasPrevPage
+                ? `/products?limit=${options.limit}&page=${prods.prevPage}&sort=${sort || ""}&query=${query || ""}` :null,
+                nextLink: prods.hasNextPage
+                ?`/products?limit=${optiones.limit}&page=${prods.nextPage}&sort=${sort || ""}&query=${query || ""}` :null,
+            }
+            console.log(prods)
+            return reply
+
         }catch (error) {
-            return (error)
+            throw {
+                statusCode: 500,
+                message: "ERROR_ NO EXISTEN PRODUCTOS",
+                error,
         }
-    }
+    }}
 
     async getProductsById (id) {
         try {
@@ -21,7 +50,11 @@ export class ProductManagerMongo {
         }
         return prdcs
         }catch (error) {
-            throw { error }
+            throw { 
+            statusCode: 500,
+            message: `ERROR_ NO SE PUDO ENCONTRAR EL PRODUCTO`,
+            error,
+            }
         }
     }
 
@@ -42,26 +75,49 @@ export class ProductManagerMongo {
         }
     }
 
-    async updateProduct (id, producto) {
+    async updateProduct (id, {title, description, thumbnail, price, category, stock, code}) {
         try {
-            const prod = await ProductSchema.findByIdAndUpdate({_id: id})
-            if (prod) {
-                return true;
-            } else {
-                return false;
-            }
+            const prod = await ProductSchema.findByIdAndUpdate(id,{title, description, thumbnail, price, category, stock, code},{new: true})
+            if (!prod) {
+                return {
+                    msg:`El producto ${id} no existe o no se ecuenta`,
+                    error: {
+                        statusCode: 404,
+                        message:`ERROR_ NO SE ENCUENTRA PRODUCTO CON ID: ${id}`,
+                    },
+                };
+            } 
+            return {msg: "El Producto se actualizo con exito", updateProduct}
         } catch (error) {
             console.error("Error al actualizar el producto:", error);
-            return false;
+            return {
+                msg:`Error en la actualizacion del producto`,
+                    error: {
+                        statusCode: 500,
+                        message:`ERROR_ NO SE REALIZO LA ACTUALIZACION`,
+            },
         }
+    }
     }
 
     async deleteProduct(id) {
         try {
-            await ProductSchema.deleteOne({_id:id})
-            return (`El producto ${id} se elimino`)
+            const prod = await ProductSchema.findByIdAndDelete(id)
+            if(!prod) {
+                return {
+                    error: {
+                        statusCode: 404,
+                        message: `El producto ${id} no existe o no se ecuenta`,
+                    }
+                }
+            }
+            return {msg: 'Producto eliminado con exito'}
         }catch (error){
-            return ('No se encuentra el producto')
+            return {
+                msg: 'Error en la eliminacion del producto',
+                statusCode: 500,
+                message: `ERROR_ NO SE REALIZO LA ELIMINACION`,
+            }
         }
     }
 

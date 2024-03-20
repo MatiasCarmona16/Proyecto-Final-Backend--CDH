@@ -1,7 +1,6 @@
-import UserSchema from '../schemas/user.schema.js'
+import { UserSchema }from '../schemas/user.schema.js'
 
-export class UserManagerMongo {
-    
+class UserManagerMongo {
     async newUser({ first_name, last_name, age, email, password }) {
         try {
             const newuserd = await UserSchema.create({
@@ -46,3 +45,4 @@ export class UserManagerMongo {
     }
 }
 
+export { UserManagerMongo }

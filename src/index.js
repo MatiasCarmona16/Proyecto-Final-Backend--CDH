@@ -6,7 +6,6 @@ import path from 'path'
 import handlebars from "express-handlebars"
 
 import passport from 'passport'
-import { initializePassport } from './passport/passport.js'
 
 import MongoStore from 'connect-mongo'
 import { createServer } from 'node:http'
@@ -14,6 +13,7 @@ import { Server } from 'socket.io'
 import MessageSchema from "../dao/mongoDB/schemas/chat.schema.js"
 
 import { Database } from '../dao/mongoDB/conexion.js';
+import { initializePassport } from './passport/passport.js';
 
 //ImportRoutes
 import {
@@ -23,6 +23,8 @@ import {
     chatRouter,
     routerView,
     routerAuth,
+    routerProdsViews,
+    routerRealTimeProdView,
 } from './routes/index.js'
 
 //PortDesignada
@@ -50,6 +52,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(session({
     store: MongoStore.create({
         mongoUrl:'mongodb+srv://matiascarmona2002:FR4GYOU6@eccomercecoder.un2azzy.mongodb.net/ecommerce',
+        ttl: 1000,
     }),
     secret: 'secretCoder',
     resave: true,
@@ -87,6 +90,8 @@ app.use('/chat', chatRouter)
 //ROUTES VIEWS
 app.use('/view', routerView)
 app.use('/auth', routerAuth)
+app.use('/realtimeproducts', routerRealTimeProdView)
+app.use('/productsview', routerProdsViews)
 
 //APP LISTEN
 server.listen (PORT, () => {
