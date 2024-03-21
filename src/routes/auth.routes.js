@@ -8,9 +8,9 @@ const userManagerMongo= new UserManagerMongo()
 
 const routerAuth = Router ()
 
-routerAuth.post("/register", passport.authenticate('register', {failureRedirect: "/view/failedregister-view",}), async (req, res) => {
+routerAuth.post("/register", passport.authenticate('register', {failureRedirect: "/auth/failedregister",}), async (req, res) => {
     try {
-        res.status(200).redirect('/view/profile-view')
+        res.status(200).redirect('profile')
     } catch(error) {
         res.status(500).json(error)
     }
@@ -29,7 +29,7 @@ routerAuth.post('/login', async (req, res) => {
             return res.status(401).send({ error: "Email o contraseña incorrecta" })
         }
             req.session.user = user
-            res.status(200).redirect('/view/profile-view')
+            res.status(200).redirect('/auth/profile')
     }catch (error) {
         return res.status(500).json({ error: error.message })
     }
@@ -40,7 +40,7 @@ routerAuth.get('/github', passport.authenticate("github", {scope:['user:email']}
 routerAuth.get('/callbackGithub', passport.authenticate("github", {}), async (req, res) => {
     req.session.user = req.user;
 
-    return res.status(200).redirect('/');
+    return res.status(200).redirect('/home');
 })
 
 
@@ -50,7 +50,7 @@ routerAuth.get('/logout', (req, res) => {
         console.log('Error en el Logout', err)
         res.status(500).send('Error en el Logout')
     }else {
-        res.redirect('/view/login-view')
+        res.redirect('/auth/login')
     }
 })
 })

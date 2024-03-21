@@ -9,13 +9,13 @@ export class ProductManagerMongo {
                 page: parseInt(page),
                 sort: sort ? { price: sort === "asc" ? 1 : -1} : {}
             }
-            let filtr = {}
+            let filter = {}
             if (query) {
-                filtr = {category: query}
+                filter = {category: query}
             }
 
             const prods = await ProductSchema.paginate(filter, options)
-            const payload = prods.docs.map((doc) => doc.toObjet())
+            const payload = prods.docs.map((doc) => doc.toObject())
 
             const reply = {
                 status: "success",
@@ -52,7 +52,7 @@ export class ProductManagerMongo {
         }catch (error) {
             throw { 
             statusCode: 500,
-            message: `ERROR_ NO SE PUDO ENCONTRAR EL PRODUCTO`,
+            message: `ERROR_ NO SE PUDO ENCONTRAR EL PRODUCTO SOLICITADO`,
             error,
             }
         }
@@ -71,7 +71,13 @@ export class ProductManagerMongo {
             }) 
             return { prod }
         }catch (error){
-            return(error)
+            return {
+                msg: "Error al añadir producto a la base de datos",
+                error: {
+                    statusCode: 500,
+                    message: "ERROR_ NO SE PUDO AGREGAR PRODUCTO A LA BD"
+                }
+            }
         }
     }
 
@@ -87,7 +93,7 @@ export class ProductManagerMongo {
                     },
                 };
             } 
-            return {msg: "El Producto se actualizo con exito", updateProduct}
+            return {msg: "El Producto se actualizo con exito", prod}
         } catch (error) {
             console.error("Error al actualizar el producto:", error);
             return {
