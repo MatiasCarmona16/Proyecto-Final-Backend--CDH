@@ -44,14 +44,14 @@ const initializePassport = () => {
         },
         async ( accessToken, refreshToken, profile , done) => {
             try {
-                const { name: first_name, email, login } = profile._json
+                const { name: first_name, username, login } = profile._json
             
-                let user = await userManagerMongo.getUser(email)
+                let user = await userManagerMongo.getUser(username)
 
                 if(!user) {
                     const newUser = await userManagerMongo.newUser({
                         first_name,
-                        email,
+                        email : username,
                         password: createHash(`${email + login}123`)
                     })
                     return done(null, newUser)

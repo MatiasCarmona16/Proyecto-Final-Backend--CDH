@@ -20,12 +20,15 @@ import {
     routerProd,
     routerHome,
     routerCart,
-    chatRouter,
-    routerView,
     routerAuth,
+} from './routes/index.js'
+
+import {
     routerProdsViews,
     routerRealTimeProdView,
-} from './routes/index.js'
+    chatRouter,
+    routerView,
+} from './routes/view-routes/index.js'
 
 //PortDesignada
 let PORT = 8080 || process.env.PORT

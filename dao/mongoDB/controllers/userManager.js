@@ -24,11 +24,20 @@ class UserManagerMongo {
             return (error)
         }
     }
-    
 
-    async getUser (email) {
+    async getUserEmail (email) {
         try {
             const user = await UserSchema.findOne({ email })
+            return user
+        } catch (error) {
+            throw error
+        }
+    }
+    
+
+    async getUser (username) {
+        try {
+            const user = await UserSchema.findOne({ username })
             return user
         }catch (error){
             throw error
