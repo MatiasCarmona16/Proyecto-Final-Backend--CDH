@@ -55,7 +55,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(session({
     store: MongoStore.create({
         mongoUrl:'mongodb+srv://matiascarmona2002:FR4GYOU6@eccomercecoder.un2azzy.mongodb.net/ecommerce',
-        ttl: 1000,
+        ttl: 50000,
     }),
     secret: 'secretCoder',
     resave: true,
@@ -66,6 +66,15 @@ app.use(session({
 initializePassport() 
 app.use(passport.initialize())
 app.use(passport.session())
+
+//Funcion autenticacion
+function requireLogin(req, res, next) {
+    if (req.session.user) {
+        next();
+    } else {
+        res.redirect("/view/login-view")
+    }
+}
 
 //SOCKET SERVER
 let arrymensaje = []
@@ -86,15 +95,15 @@ io.on('connection', (socket)=> {
 
 // ROUTES
 app.use('/', routerHome)
-app.use('/carts', routerCart)
-app.use('/products', routerProd)
-app.use('/chat', chatRouter)
+app.use('/carts',requireLogin, routerCart)
+app.use('/products',requireLogin, routerProd)
+app.use('/chat',requireLogin, chatRouter)
 
 //ROUTES VIEWS
 app.use('/view', routerView)
 app.use('/auth', routerAuth)
-app.use('/realtimeproducts', routerRealTimeProdView)
-app.use('/productsview', routerProdsViews)
+app.use('/realtimeproducts',requireLogin, routerRealTimeProdView)
+app.use('/productsview',requireLogin, routerProdsViews)
 
 //APP LISTEN
 server.listen (PORT, () => {
