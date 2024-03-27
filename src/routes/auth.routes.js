@@ -29,7 +29,7 @@ routerAuth.post('/login', async (req, res) => {
             return res.status(401).send({ error: "Email o contraseña incorrecta" })
         }
             req.session.user = user
-            res.status(200).redirect('/view/profile-view')
+            res.status(200).redirect('/productsview')
     }catch (error) {
         return res.status(500).json({ error: error.message })
     }

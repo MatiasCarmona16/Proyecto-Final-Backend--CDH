@@ -3,6 +3,11 @@
     margin: 0;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 /*NAVBAR*/
 .navbar-brand{
     font-size: 40px;
