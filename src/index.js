@@ -55,7 +55,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(session({
     store: MongoStore.create({
         mongoUrl:'mongodb+srv://matiascarmona2002:FR4GYOU6@eccomercecoder.un2azzy.mongodb.net/ecommerce',
-        ttl: 5000,
+        ttl: 3000,
     }),
     secret: 'secretCoder',
     resave: true,
