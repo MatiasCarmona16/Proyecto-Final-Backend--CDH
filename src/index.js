@@ -21,6 +21,7 @@ import {
     routerHome,
     routerCart,
     routerAuth,
+    routerSession,
 } from './routes/index.js'
 
 import {
@@ -93,6 +94,7 @@ app.use('/', routerHome)
 app.use('/carts',requireLogin, routerCart)
 app.use('/products',requireLogin, routerProd)
 app.use('/chat',requireLogin, chatRouter)
+app.use('/sessions', requireLogin, routerSession)
 
 //ROUTES VIEWS
 app.use('/view', routerView)
