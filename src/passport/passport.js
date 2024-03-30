@@ -26,7 +26,7 @@ const initializePassport = () => {
                     last_name: userData.last_name ,
                     age: parseInt(userData.age),
                     email: username,
-                    password:createHash(password),
+                    password: createHash(password),
                 })
                 
                 done(null, result)
@@ -43,16 +43,20 @@ const initializePassport = () => {
             callbackURL: "http://localhost:8080/auth/callbackGithub",
         },
         async ( accessToken, refreshToken, profile , done) => {
+            console.log(profile)
             try {
-                const { name: first_name, username, login } = profile._json
+                const { name, email, login } = profile._json
             
-                let user = await userManagerMongo.getUser(username)
+                if(!email) {
+                    return done("Hay problemas con GitHub, intentalo mas tarde")
+                }
+
+                let user = await userManagerMongo.getUserEmail(email)
 
                 if(!user) {
                     const newUser = await userManagerMongo.newUser({
-                        first_name,
-                        email : username,
-                        password: createHash(`${email + login}123`)
+                        first_name: name ? name : login,
+                        email : email,
                     })
                     return done(null, newUser)
                 } 
@@ -66,10 +70,9 @@ const initializePassport = () => {
     ))
 
     passport.serializeUser((user, done) => {
-        done(null, user._id)
+        done(null, user)
     })
-    passport.deserializeUser(async (id, done) => {
-        const user = await userManagerMongo.getUserId(id)
+    passport.deserializeUser((user, done) => {
         done(null, user)
     })
 }

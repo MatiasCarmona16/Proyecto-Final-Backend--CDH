@@ -9,7 +9,7 @@ routerProdsViews.get("/", async (req, res) => {
 
     const prods = await productManagerMongo.getProducts({ limit, page, sort, query })
     try {
-        res.status(200).render("products", {products: prods, userInfo: req.session.user, titulo: "Productos",error: null,})
+        res.status(200).render("products", {js:"/products.js", products: prods, userInfo: req.session.user, titulo: "Productos",error: null,})
     }catch(error) {
         console.log(error)
         res.status(500).render("products", {products: [], titulo: "Productos", error: "ERROR_"})

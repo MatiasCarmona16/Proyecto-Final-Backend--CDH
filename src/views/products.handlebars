@@ -12,11 +12,77 @@
     </nav>
 </header>
 
-<body>
+
     <div class="container">
     <h1>
-        Bienvenido {{userInfo.first_name}} !
+        Esperamos con ansias tu compra, <strong>{{userInfo.first_name}}</strong> !
     </h1>
 </div>
-</body>
+
+<div class="d-flex">
+{{#each products.payload}}
+<div class="card mt-5" style="width: 18rem;">
+    <img src={{this.thumbnail}} class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{this.title}}</h5>
+            <p class="card-subtitle">USD {{this.price}}</p>
+            <p class="card-text">{{this.description}}</p>
+            <div class="d-flex justify-content-center">
+                <button onclick="addToCart('{{this._id}}')" class="btn btn-primary" style="width: 90%;">Add to Cart</button>
+            </div>
+    </div>
+</div>
+{{/each}}
+</div>
+
+{{#if products.hasNextPage}}
+<div>
+    <a href="{{products.nextLink}}">Siguiente</a>
+</div>
+{{/if}}
+
+{{#if products.hasPrevPage}}
+<div>
+    <a href="{{products.prevLink}}">Anterior</a>
+</div>
+{{/if}}
+
+<script>
+async function addToCart(productId) {
+    try {
+    let cartId = localStorage.getItem("cartId");
+    
+    if (!cartId) {
+        const response = await fetch("/carts", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+        const data = await response.json();
+        localStorage.setItem("cartId", data._id);
+        cartId = data._id;
+    }
+
+    const response = await fetch(`/carts/${cartId}/productsview/${productId}`, {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        quantity: 1 
+    })
+    });
+
+    if (!response.ok) {
+        throw new Error("No se pudo agregar producto al Carrito");
+    }
+
+    const responseData = await response.json()
+    console.log("Producto agregado con exito al carrito:", responseData);
+    } catch (error) {
+    console.error(error);
+    }
+}
+</script>
 

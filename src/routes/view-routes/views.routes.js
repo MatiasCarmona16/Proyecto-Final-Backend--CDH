@@ -7,19 +7,27 @@ function auth(req, res, next) {
 const routerView = Router()
 
 routerView.get('/login-view', (req, res) => {
-    res.render('login')
+    res.status(200).render('login')
 })
 
 routerView.get('/register-view', (req, res) => {
-    res.render('register')
+    res.status(200).render('register')
 })
 
 routerView.get('/profile-view', (req, res) => {
-    res.render('profile')
+    if (req.session.user) {
+        const userInfo = req.session.user
+
+        res.status(200).render('profile', {
+            userInfo: userInfo,
+        })
+    } else {
+        res.redirect("/view/login-view")
+    }
 })
 
 routerView.get('/failedregister-view', (req, res) => {
-    res.render('failedregister')
+    res.status(200).render('failedregister')
 })
 
 export { routerView }

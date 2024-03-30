@@ -10,7 +10,7 @@ const routerAuth = Router ()
 
 routerAuth.post("/register", passport.authenticate('register', {failureRedirect: "/view/failedregister-view",}), async (req, res) => {
     try {
-        res.status(200).redirect('/view/profile-view')
+        res.status(200).redirect('/productsview')
     } catch(error) {
         res.status(500).json(error)
     }
@@ -40,7 +40,7 @@ routerAuth.get('/github', passport.authenticate("github", {scope:['user:email']}
 routerAuth.get('/callbackGithub', passport.authenticate("github", {}), async (req, res) => {
     req.session.user = req.user;
 
-    return res.status(200).render('home');
+    return res.status(200).redirect('/productsview');
 })
 
 

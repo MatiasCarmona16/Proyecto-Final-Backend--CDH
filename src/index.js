@@ -55,17 +55,12 @@ app.use(express.urlencoded({extended: true}))
 app.use(session({
     store: MongoStore.create({
         mongoUrl:'mongodb+srv://matiascarmona2002:FR4GYOU6@eccomercecoder.un2azzy.mongodb.net/ecommerce',
-        ttl: 3000,
+        ttl: 1000,
     }),
     secret: 'secretCoder',
     resave: true,
     saveUninitialized: true
 }))
-
-//Passport
-initializePassport() 
-app.use(passport.initialize())
-app.use(passport.session())
 
 //Funcion autenticacion
 function requireLogin(req, res, next) {
@@ -104,6 +99,11 @@ app.use('/view', routerView)
 app.use('/auth', routerAuth)
 app.use('/realtimeproducts',requireLogin, routerRealTimeProdView)
 app.use('/productsview',requireLogin, routerProdsViews)
+
+//Passport
+initializePassport() 
+app.use(passport.initialize())
+app.use(passport.session())
 
 //APP LISTEN
 server.listen (PORT, () => {
