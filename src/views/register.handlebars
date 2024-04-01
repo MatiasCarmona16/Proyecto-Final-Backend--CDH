@@ -1,37 +1,55 @@
 <header>
     <nav class="navbar bg-body-tertiary p-5 mt-2">
-        <div class="container">
-        <a href="http://localhost:8080" class="navbar-brand">Phones Company</a>
-        <a href="http://localhost:8080">Inicio</a>
-        <a href="/productsview">Productos</a>
+        <div class="container-navbar">
+        <a href="http://localhost:8080" class="navbar-brand">IPhone Store</a>
+
+            <div class="header-a">
+            <a href="http://localhost:8080">Inicio</a>
+            <a href="/productsview">Productos</a>
             <a href="/view/login-view"> Login</a>
             <a href="/view/register-view">Register</a>
-        <form class="d-flex" role="search">
-            <input class="form-control me-2 mt-4" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-info mt-4" type="submit">Search</button>
-        </form>
+            </div>
         </div>
     </nav>
 </header>
 
 <div class="container">
-    <h1>Register</h1>
-    <form action="/auth/register" method="post">
-        <label for="">Nombre: </label>
-        <input type="text" name="first_name">
-        <br>
-        <label for="">Apellido: </label>
-        <input type="text" name="last_name">
-        <br>
-        <label for="">Email: </label>
-        <input type="email" name="email">
-        <br>
-        <label for="">Edad: </label>
-        <input type="number" name="age">
-        <br>
-        <label for="">Password: </label>
-        <input type="password" name="password">
+    
+    <div class="form-contenedor-login">
+    <form action= "/auth/register" method="post" class="form">
+        <p class="form-title">Sign Up</p>
+        
+        <div class="input-container">
+            <input type="text" name="first_name" placeholder="Nombre">
+        </div>
 
-        <input type="submit" value="Enviar">
-    </form>
+        <div class="input-container">
+            <input type="text" name="last_name" placeholder="Apellido">
+        </div>
+
+        <div class="input-container">
+            <input type="number" name="age" placeholder="Edad">
+        </div>
+
+        <div class="input-container">
+            <input type="email" name="email" placeholder="Enter email">
+            <span>
+            </span>
+        </div>
+    
+        <div class="input-container">
+            <input type="password" name="password" placeholder="Enter password">
+        </div>
+
+            <input id="button-aut-send" type="submit" value="Sign up" class="submit">
+        </input>
+
+      <p class="signup-link">
+        Have an account?
+        <a href="/view/login-view">Log in</a>
+      </p>
+   </form>
+    </div>
+
 </div>
+

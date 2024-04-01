@@ -3,6 +3,16 @@ header {
     box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
 }
 
+.container-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container-navbar a {
+    padding: 0 20px 0 20px;
+}
+
 .navbar-brand{
     font-size: 40px;
     font-weight: 200;
@@ -11,4 +21,10 @@ header {
 
 .bg-body-tertiary {
     box-shadow: 0px 13px 100px -30px rgba(0,0,0,0.1);
+}
+
+.header-a {
+    display: flex;
+    justify-content: end;
+    margin: 0 0 0 50px;
 }
