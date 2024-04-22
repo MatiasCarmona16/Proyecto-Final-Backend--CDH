@@ -38,7 +38,7 @@ export const getUserEmail = async (req, res) => {
 
 export const authPassport = async (req, res) => {
     try {
-        passport.authenticate("register", { failureRedirect: "/view/failedregister-view",}) (req, res, () => {
+        passport.authenticate("register", { failureRedirect: "/auth/failedregister-view",}) (req, res, () => {
             res.status(200).json({ message: "Registered"});
         })
     }catch (error) {
@@ -63,7 +63,7 @@ export const logoutUser = async (req, res) => {
             console.error('No se pudo cerrar sesion:',err);
             return res.status(500).json({ error: "Falla en cerrar la sesion" });
         } else {
-            return res.status(200).redirect("/view/login-view")
+            return res.status(200).redirect("/auth/login-view")
         }
     });
 };

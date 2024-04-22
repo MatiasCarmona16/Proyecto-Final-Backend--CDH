@@ -38,7 +38,7 @@ const initializePassport = () => {
         {
             clientID: "Iv1.bd005d86174cd177",
             clientSecret: "e2611401d59123e680127f038a2681367295b8b6",
-            callbackURL: "http://localhost:8080/auth/callbackGithub",
+            callbackURL: "http://localhost:8080/api/auth/callbackGithub",
         },
         async ( accessToken, refreshToken, profile , done) => {
             console.log(profile)
