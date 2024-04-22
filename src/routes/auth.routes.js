@@ -1,63 +1,17 @@
 import { Router } from "express"; 
-import { UserManagerMongo } from "../../dao/mongoDB/controllers/userManager.js";
-import passport from "passport";
-
-import { createHash, isValidatePassword } from '../utils/bcryps.js'
-
-const userManagerMongo= new UserManagerMongo()
+import { 
+    getUserEmail,
+    authPassport, 
+    githubPassport, 
+    githubCallBackPassport, 
+    logoutUser } from "../controllers/user.manager.js"
 
 const routerAuth = Router ()
 
-routerAuth.post("/register", passport.authenticate('register', {failureRedirect: "/view/failedregister-view",}), async (req, res) => {
-    try {
-        res.status(200).redirect('/productsview')
-    } catch(error) {
-        res.status(500).json(error)
-    }
-})
-
-routerAuth.post('/login', async (req, res) => {
-    const {email, password} = req.body
-
-    try {
-        const user = await userManagerMongo.getUserEmail(email)
-        if(!user) {
-            return res.status(401).send({ error: "Usuario no encontrado" })
-        } 
-        
-        if(!isValidatePassword(user, password)) {
-            return res.status(401).send({ error: "Email o contraseña incorrecta" })
-        }
-            req.session.user = user
-            res.status(200).redirect('/productsview')
-    }catch (error) {
-        return res.status(500).json({ error: error.message })
-    }
-})
-
-routerAuth.get('/github', passport.authenticate("github", {scope:['user:email']}), async (req, res) => {})
-
-routerAuth.get('/callbackGithub', passport.authenticate("github", {}), async (req, res) => {
-    req.session.user = req.user;
-
-    return res.status(200).redirect('/productsview');
-})
-
-
-routerAuth.get('/logout', (req, res) => {
-    req.session.destroy((err) => {
-    if (err) {
-        console.log('Error en el Logout', err)
-        res.status(500).send('Error en el Logout')
-    }else {
-        res.redirect('/view/login-view')
-    }
-})
-})
-
-routerAuth.get('/user', async (req, res) => {
-    const users = await userManagerMongo.getAllUsers()
-    res.status(200).send(users)
-})
+routerAuth.post("/register", authPassport);
+routerAuth.post('/login', getUserEmail);
+routerAuth.get('/github', githubPassport);
+routerAuth.get('/callbackGithub', githubCallBackPassport);
+routerAuth.get('/logout', logoutUser);
 
 export { routerAuth }

@@ -1,7 +1,7 @@
-import mongoose from "mongoose"
-import paginate from "mongoose-paginate-v2"
+import { Schema, model } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2"
 
-const ProductSchema = new mongoose.Schema({
+const productSchema = new Schema({
     title: {
         type: String,
         unique: true, //Hace que los nombres de los prods sean unicos
@@ -35,7 +35,7 @@ const ProductSchema = new mongoose.Schema({
     },
 })
 
-ProductSchema.plugin(paginate);
+productSchema.plugin(mongoosePaginate);
 
-const Product = mongoose.model('products', ProductSchema)
-export default Product
+export const ProductSchema = model('products', productSchema)
+

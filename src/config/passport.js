@@ -2,10 +2,8 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import github from "passport-github2";
 
-import { UserManagerMongo } from "../../dao/mongoDB/controllers/userManager.js";
+import { createUser, findUserEmail, findUserId } from "../services/user.services.js";
 import { createHash } from "../utils/bcryps.js";
-
-const userManagerMongo = new UserManagerMongo()
 
 const initializePassport = () => {
 
@@ -15,13 +13,13 @@ const initializePassport = () => {
 
             try{
                 const userData = req.body
-                const user = await userManagerMongo.getUser(username)
+                const user = await findUserEmail(username);
                 
                 if(user){
                     done('ERROR - Usuario ya existente', false)
                 }
 
-                const result = await userManagerMongo.newUser({
+                const result = await createUser({
                     first_name: userData.first_name ,
                     last_name: userData.last_name ,
                     age: parseInt(userData.age),
@@ -51,17 +49,17 @@ const initializePassport = () => {
                     return done("Hay problemas con GitHub, intentalo mas tarde")
                 }
 
-                let user = await userManagerMongo.getUserEmail(email)
+                let user = await findUserEmail(email);
 
                 if(!user) {
-                    const newUser = await userManagerMongo.newUser({
+                    const newUser = await createUser({
                         first_name: name ? name : login,
                         email : email,
-                    })
-                    return done(null, newUser)
+                    });
+                    return done(null, newUser);
                 } 
                 
-                return done(null, user)
+                return done(null, user);
 
             } catch (error) {
                 return done(error)
