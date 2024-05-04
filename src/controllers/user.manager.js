@@ -21,11 +21,11 @@ export const getUserEmail = async (req, res) => {
     const { email, password } = req.body;
     try {
         const emailUser = await findUserEmail(email);
-        if (!emailUser) {
+        if (emailUser) {
             console.log(email, password);
 
             if(!isValidatePassword(emailUser, password)) {
-                return res.satus(401).json({ error: "Your account has not been found" });
+                return res.json({ error: "Your account has not been found" });
             }
 
             req.session.user = emailUser;
@@ -39,7 +39,7 @@ export const getUserEmail = async (req, res) => {
 export const authPassport = async (req, res) => {
     try {
         passport.authenticate("register", { failureRedirect: "/auth/failedregister-view",}) (req, res, () => {
-            res.status(200).json({ message: "Registered"});
+            res.status(200).redirect('/productsview');
         })
     }catch (error) {
         res.status(500).json(error);

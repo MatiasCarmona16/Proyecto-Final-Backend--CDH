@@ -22,7 +22,6 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
-        default: "usuario",
     },
     cart: {
         type: Schema.Types.ObjectId,

@@ -2,7 +2,7 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import github from "passport-github2";
 
-import { createUser, findUserEmail, findUserId } from "../services/user.services.js";
+import { createUser, findUserEmail, findUserUsername, findUserId } from "../services/user.services.js";
 import { createHash } from "../utils/bcryps.js";
 
 const initializePassport = () => {
@@ -13,7 +13,7 @@ const initializePassport = () => {
 
             try{
                 const userData = req.body
-                const user = await findUserEmail(username);
+                const user = await findUserUsername(username);
                 
                 if(user){
                     done('ERROR - Usuario ya existente', false)
@@ -37,7 +37,7 @@ const initializePassport = () => {
     passport.use("github", new github.Strategy(
         {
             clientID: "Iv1.bd005d86174cd177",
-            clientSecret: "e2611401d59123e680127f038a2681367295b8b6",
+            clientSecret: "7be438900a55d616148dd8c1de35636be10dce99",
             callbackURL: "http://localhost:8080/api/auth/callbackGithub",
         },
         async ( accessToken, refreshToken, profile , done) => {

@@ -9,9 +9,9 @@ export async function createUser ({ first_name, last_name, age, email, password 
             last_name,
             age,
             email,
-            password: createHash(password),
+            password,
         })
-        return newUser;
+        return { newUser };
     } catch (error) {
         throw new Error (error);
     }
@@ -22,6 +22,16 @@ export async function findUserEmail (email) {
     try {
         const userEmail = await UserSchema.findOne({email});
         return userEmail;
+    } catch (error) {
+        throw new Error (error);
+    }
+}
+
+//Obtener usuario (username)
+export async function findUserUsername (username) {
+    try {
+        const userUsername = await UserSchema.findOne( {username} );
+        return userUsername;
     } catch (error) {
         throw new Error (error);
     }

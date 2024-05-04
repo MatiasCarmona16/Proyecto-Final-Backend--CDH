@@ -9,6 +9,9 @@ import { initializePassport } from "../config/passport.js";
 //MIDDLEWARE SESSION
 export const initialGlobalsMiddleware = (app) => {
     app.use(cors());
+
+    
+
     app.use(session({
         store: MongoStore.create({
             mongoUrl: process.env.MONGO_URL,
@@ -24,7 +27,7 @@ export const initialGlobalsMiddleware = (app) => {
     app.use(express.json());
     app.use(express.urlencoded({extended: true}));
 
-    //Passport
+     //Passport
     initializePassport(); 
     app.use(passport.initialize());
     app.use(passport.session());
