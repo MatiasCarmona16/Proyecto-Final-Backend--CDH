@@ -24,6 +24,7 @@ const initializePassport = () => {
                     last_name: userData.last_name ,
                     age: parseInt(userData.age),
                     email: username,
+                    role: userData.role,
                     password: createHash(password),
                 })
                 

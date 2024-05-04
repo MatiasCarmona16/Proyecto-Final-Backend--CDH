@@ -2,13 +2,14 @@ import { UserSchema } from "../models/MongoDB/user.schema.js";
 import { createHash } from "../utils/bcryps.js";
 
 //Crear Usuario
-export async function createUser ({ first_name, last_name, age, email, password }) {
+export async function createUser ({ first_name, last_name, age, email,role, password }) {
     try {
         const newUser = await UserSchema.create({
             first_name,
             last_name,
             age,
             email,
+            role,
             password,
         })
         return { newUser };

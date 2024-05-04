@@ -8,9 +8,11 @@ const userSchema = new Schema({
     },
     last_name: {
         type: String,
+        required: false,
     },
     age: {
         type: Number,
+        required: false,
     },
     email: {
         type: String,
@@ -22,6 +24,7 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
+        default: "usuario",
     },
     cart: {
         type: Schema.Types.ObjectId,
