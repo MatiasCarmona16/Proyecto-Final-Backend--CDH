@@ -49,7 +49,7 @@ async function addToCart(productId) {
     let cartId = localStorage.getItem("cartId");
     
     if (!cartId) {
-        const response = await fetch("/carts", {
+        const response = await fetch("/api/cart/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -60,7 +60,7 @@ async function addToCart(productId) {
         cartId = data._id;
     }
 
-    const response = await fetch(`/carts/${cartId}/productsview/${productId}`, {
+    const response = await fetch(`/api/cart/${cartId}/product/${productId}`, {
         method: "POST",
         headers: {
         "Content-Type": "application/json"
@@ -74,7 +74,7 @@ async function addToCart(productId) {
         throw new Error("No se pudo agregar producto al Carrito");
     }
 
-    const responseData = await response.json()
+    const responseData = await response.json();
     console.log("Producto agregado con exito al carrito:", responseData);
     } catch (error) {
     console.error(error);

@@ -1,0 +1,26 @@
+<h1>Codigo de Ticket: {{ticket.code}}</h1>
+
+<div class="ticket">
+    <div class="card" style="width: 18rem;">
+        <p class="card-hora">Hora de compra: {{ticket.purchase_datetime}}</p>
+        <p class="card-total">Total: ${{ticket.amount}}</p>
+        <p class="card-email">Email: {{ticket.purchaser}}</p>
+    </div>
+</div>
+
+<h2>Los siguientes productos no pudieron comprarse debido a la falta de stock de los mismos</h2>
+
+<div class="products">
+    {{#each array}}
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{this.product.title}}</h5>
+                <p class="card-text">Descripción: {{this.product.description}}</p>
+                <p class="card-category">Categoría: {{this.product.category}}</p>
+                <p class="card-price">Precio por unidad: ${{this.product.price}}</p>
+                <p class="card-category">Cantidad: {{this.quantity}}</p>
+                <p class="card-price">Precio total: ${{this.priceTot}}</p>
+            </div>
+        </div>
+    {{/each}}
+</div>

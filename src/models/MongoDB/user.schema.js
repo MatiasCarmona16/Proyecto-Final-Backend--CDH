@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { createCart } from "../../services/cart.services.js";
 // import { CartManagerMongo } from "../controllers/cartManager.js";
 
 const userSchema = new Schema({
@@ -37,20 +38,19 @@ const userSchema = new Schema({
     }
     );
 
-    // userSchema.pre('save', async function(next){
-    //     if(!this.cart) {
-    //         try {
-    //             const cartManagerMongo = new CartManagerMongo()
-    //             const newCart = await cartManagerMongo.newCart()
-    //             this.cart = newCart._id
+    userSchema.pre('save', async function(next){
+        if(!this.cart) {
+            try {
+                const newCart = await createCart()
+                this.cart = newCart._id
 
-    //             next()
-    //         }catch (error){
-    //             next(error)
-    //         }
-    //     }else {
-    //         next()
-    //     }
-    // })
+                next()
+            }catch (error){
+                next(error)
+            }
+        }else {
+            next()
+        }
+    })
 
 export const UserSchema = model('users', userSchema);

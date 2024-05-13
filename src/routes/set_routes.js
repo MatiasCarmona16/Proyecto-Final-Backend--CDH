@@ -5,10 +5,12 @@ import {
     routerView,
     routerSession,
     routerProdsViews,
+    routerCart
 } from "./index.js";
 
 const setRoutApi = async (app, requireLogin, passAdmin) => {
     app.use("/api/products", requireLogin, passAdmin, routerProds);
+    app.use("/api/cart",  routerCart)
     app.use("/api/auth", routerAuth);
     app.use("/api/sessions", requireLogin, routerSession);
 };

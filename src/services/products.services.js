@@ -1,4 +1,4 @@
-import { ProductSchema } from "../models/index.js";
+import { ProductSchema } from "../models/MongoDB/product.schema.js";
 
 //Crear Producto
 export const createProducts = async (productData) => {

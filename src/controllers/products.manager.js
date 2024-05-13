@@ -12,7 +12,7 @@ export async function addProduct (req, res) {
     const dataProd = req.body;
     try {
         const newProd = await createProducts(dataProd);
-        res.satatus(201).json(newProd);
+        res.status(201).json(newProd);
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
