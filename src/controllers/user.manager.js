@@ -22,10 +22,9 @@ export const getUserEmail = async (req, res) => {
     try {
         const emailUser = await findUserEmail(email);
         if (emailUser) {
-            console.log(email, password);
 
             if(!isValidatePassword(emailUser, password)) {
-                return res.json({ error: "Your account has not been found" });
+                return res.status(200).redirect("/auth/login-view");
             }
 
             req.session.user = emailUser;

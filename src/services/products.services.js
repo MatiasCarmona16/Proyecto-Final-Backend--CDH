@@ -40,7 +40,6 @@ export const findProducts = async ({ limit = 10, page = 1, sort, query}) => {
             nextLink: prods.hasNextPage
             ?`/products?limit=${optiones.limit}&page=${prods.nextPage}&sort=${sort || ""}&query=${query || ""}` :null,
         }
-        console.log(prods)
         return reply
 
     } catch (error) {

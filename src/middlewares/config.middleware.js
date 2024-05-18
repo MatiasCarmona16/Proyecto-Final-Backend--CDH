@@ -4,13 +4,17 @@ import MongoStore from "connect-mongo";
 import cors from "cors";
 import passport from "passport";
 import cookieParser from "cookie-parser";
+import compression from "express-compression";
 import { initializePassport } from "../config/passport.js";
 
 //MIDDLEWARE SESSION
 export const initialGlobalsMiddleware = (app) => {
     app.use(cors());
 
-    
+    //Express-Compression Brotli
+    app.use(compression({
+    brotli:{enabled: true,zlib: {}}
+    }));
 
     app.use(session({
         store: MongoStore.create({

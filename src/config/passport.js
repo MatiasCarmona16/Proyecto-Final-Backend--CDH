@@ -2,8 +2,11 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import github from "passport-github2";
 
-import { createUser, findUserEmail, findUserUsername, findUserId } from "../services/user.services.js";
+import { createUser, findUserEmail, findUserUsername } from "../services/user.services.js";
 import { createHash } from "../utils/bcryps.js";
+import CustomError from "../services/errors/custom.error.js";
+import { generateErrorUserInfo } from "../services/errors/info.js";
+import EErrors from "../services/errors/enums.js";
 
 const initializePassport = () => {
 
@@ -11,10 +14,21 @@ const initializePassport = () => {
         {usernameField:'email', passReqToCallback:true },
         async (req, username, password, done) => {
 
-            try{
+            // try{
                 const userData = req.body
                 const user = await findUserUsername(username);
-                
+
+                //CustomError
+                if (!userData.first_name || !userData.last_name || !userData.email) {
+                    
+                    CustomError.createError({
+                        name: 'User creation Error',
+                        cause: generateErrorUserInfo( userData ),
+                        message: 'Error al crear un usuario',
+                        code: EErrors.INVALID_TYPES_ERROR
+                    })
+                }
+
                 if(user){
                     done('ERROR - Usuario ya existente', false)
                 }
@@ -29,9 +43,9 @@ const initializePassport = () => {
                 })
                 
                 done(null, result)
-            }catch(error){
-                done(`ERROR en la creacion de usuario ${error}`, false)
-            }
+            // }catch(error){
+            //     done(`ERROR en la creacion de usuario ${error}`, false)
+            // }
         }) 
     )
 

@@ -12,6 +12,7 @@ import { requireLogin } from './middlewares/auth.js';
 import { passAdmin} from './middlewares/admin.js';
 
 import nodemailer from 'nodemailer';
+import errorHandler from './middlewares/error.js'
 
 dotenv.config({ path: ".env.dev",});
 
@@ -30,6 +31,9 @@ app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'handlebars');
 app.set('views', __dirname+'/views');
 
+app.use(errorHandler);
+
+//Routes
 setRoutApi(app, requireLogin, passAdmin);
 setRoutViews(app, requireLogin);
 
@@ -41,12 +45,12 @@ const transporter = nodemailer.createTransport({
         user: "matias2002carmona@gmail.com",
         pass: "rkegkuxgiqczfygv", //pass Gmail
     },
-  });
+});
 
 app.use('/mail', async(req, res) => {
     let result = await transporter.sendMail({
-        from: 'Testeo Coder <matias2002carmona@gmail.com>',
-        to: 'mati2002carmona@gmail.com, cathy2015mansilla@gmail.com',
+        from: 'matias2002carmona@gmail.com',
+        to: 'mati2002carmona@gmail.com, cathy2015mansilla@gmail.com, urielroodriguez26@gmail.com',
         subject: 'Soy un correo perdido :(',
         text: 'hola',
         html: 
