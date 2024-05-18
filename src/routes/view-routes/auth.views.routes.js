@@ -1,4 +1,5 @@
 import { Router } from "express";
+import errorHandler from "../../middlewares/error.js"
 
 function auth(req, res, next) {
     req.session.user 
@@ -29,5 +30,7 @@ routerView.get('/profile-view', (req, res) => {
 routerView.get('/failedregister-view', (req, res) => {
     res.status(200).render('failedregister')
 })
+
+routerView.use(errorHandler)
 
 export { routerView }

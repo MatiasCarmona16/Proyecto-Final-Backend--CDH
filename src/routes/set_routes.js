@@ -5,7 +5,8 @@ import {
     routerView,
     routerSession,
     routerProdsViews,
-    routerCart
+    routerCart,
+    routerMocks
 } from "./index.js";
 
 const setRoutApi = async (app, requireLogin, passAdmin) => {
@@ -13,6 +14,7 @@ const setRoutApi = async (app, requireLogin, passAdmin) => {
     app.use("/api/cart",  routerCart)
     app.use("/api/auth", routerAuth);
     app.use("/api/sessions", requireLogin, routerSession);
+    app.use("/mockingproducts", routerMocks);
 };
 
 const setRoutViews = async (app, requireLogin) => {

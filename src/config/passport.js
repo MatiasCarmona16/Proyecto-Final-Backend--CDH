@@ -19,7 +19,7 @@ const initializePassport = () => {
                 const user = await findUserUsername(username);
 
                 //CustomError
-                if (!userData.first_name || !userData.last_name || !userData.email) {
+                if (!userData.first_name || !userData.last_name || !userData.email || !userData.password) {
                     
                     CustomError.createError({
                         name: 'User creation Error',

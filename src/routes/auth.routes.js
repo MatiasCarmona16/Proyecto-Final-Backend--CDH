@@ -6,7 +6,7 @@ import {
     githubCallBackPassport, 
     logoutUser } from "../controllers/user.manager.js";
 
-    import errorHandler from '../middlewares/error.js';
+import errorHandler from '../middlewares/error.js';
 
 const routerAuth = Router ()
 

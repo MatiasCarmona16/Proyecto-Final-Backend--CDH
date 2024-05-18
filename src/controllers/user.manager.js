@@ -36,13 +36,13 @@ export const getUserEmail = async (req, res) => {
 };
 
 export const authPassport = async (req, res) => {
-    try {
+    // try {
         passport.authenticate("register", { failureRedirect: "/auth/failedregister-view",}) (req, res, () => {
             res.status(200).redirect('/productsview');
         })
-    }catch (error) {
-        res.status(500).json(error);
-    }
+    // }catch (error) {
+    //     res.status(500).json(error);
+    // }
 };
 
 export const githubPassport = async (req, res) => {

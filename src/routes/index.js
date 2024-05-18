@@ -7,4 +7,5 @@ export * from './home.routes.js'
 export * from './products.routes.js'
 export * from './auth.routes.js'
 export * from './sessions.routes.js'
+export * from './mocks.routes.js'
 export * from "./set_routes.js"
