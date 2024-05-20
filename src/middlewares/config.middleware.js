@@ -28,6 +28,8 @@ export const initialGlobalsMiddleware = (app) => {
 
     // MIDDLEWARES
     app.use(cookieParser());
+    
+    //Para poder user PostMan
     app.use(express.json());
     app.use(express.urlencoded({extended: true}));
 

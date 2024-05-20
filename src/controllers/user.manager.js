@@ -37,7 +37,7 @@ export const getUserEmail = async (req, res) => {
 
 export const authPassport = async (req, res) => {
     // try {
-        passport.authenticate("register", { failureRedirect: "/auth/failedregister-view",}) (req, res, () => {
+        passport.authenticate("register", { failureRedirect: "/auth/register-view",}) (req, res, () => {
             res.status(200).redirect('/productsview');
         })
     // }catch (error) {

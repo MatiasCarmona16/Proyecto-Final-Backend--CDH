@@ -21,12 +21,15 @@ const initializePassport = () => {
                 //CustomError
                 if (!userData.first_name || !userData.last_name || !userData.email || !userData.password) {
                     
-                    CustomError.createError({
+                    const error = CustomError.createError({
                         name: 'User creation Error',
                         cause: generateErrorUserInfo( userData ),
                         message: 'Error al crear un usuario',
                         code: EErrors.INVALID_TYPES_ERROR
                     })
+
+                    console.log(error);
+                    return done(error, false);
                 }
 
                 if(user){
@@ -61,7 +64,7 @@ const initializePassport = () => {
                 const { name, email, login } = profile._json
             
                 if(!email) {
-                    return done("Hay problemas con GitHub, intentalo mas tarde")
+                    return done(null, false, { message: "No se pudo obtener el email de GitHub. Por favor, intenta más tarde." });
                 }
 
                 let user = await findUserEmail(email);
@@ -73,7 +76,7 @@ const initializePassport = () => {
                     });
                     return done(null, newUser);
                 } 
-                
+
                 return done(null, user);
 
             } catch (error) {

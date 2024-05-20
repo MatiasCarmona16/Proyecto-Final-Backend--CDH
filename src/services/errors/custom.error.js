@@ -4,6 +4,6 @@ export default class CustomError {
         error.name = name;
         error.code = code;
 
-        throw error;
+        return error;
     }
 }
