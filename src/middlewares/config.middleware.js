@@ -6,6 +6,7 @@ import passport from "passport";
 import cookieParser from "cookie-parser";
 import compression from "express-compression";
 import { initializePassport } from "../config/passport.js";
+import {addLogger} from '../config/logger_Base.js'
 
 //MIDDLEWARE SESSION
 export const initialGlobalsMiddleware = (app) => {
@@ -32,6 +33,9 @@ export const initialGlobalsMiddleware = (app) => {
     //Para poder user PostMan
     app.use(express.json());
     app.use(express.urlencoded({extended: true}));
+
+    //logger
+    app.use(addLogger);
 
      //Passport
     initializePassport(); 
