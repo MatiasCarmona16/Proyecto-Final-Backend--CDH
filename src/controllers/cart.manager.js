@@ -1,3 +1,7 @@
+import CustomError from '../services/errors/custom.error.js';
+import EErrors from '../services/errors/enums.js';
+import { generateErrorQuantityCartInfo } from '../services/errors/info.js';
+
 import { 
     findIdCart,
     createCart,
@@ -38,13 +42,26 @@ export async function addProductCart (req, res) {
     const { cid, pid } = req.params;
     const { quantity } = req.body;
 
-    try {
+    //CustomError 
+    if(!quantity){
+
+        const error = CustomError.createError({
+            name: 'Product Quantity Error',
+            cause: generateErrorQuantityCartInfo( quantity ),
+            code: EErrors.INVALID_TYPES_ERROR
+        })
+
+        console.log(error);
+        return res.status(400).json({error})
+
+    }
+    // try {
         await addProductInCart(cid, pid, quantity)
         res.status(200).json(`Producto ${pid} agregado con exito al carrito`)
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: error.message });
-    }
+//     } catch (error) {
+//         console.log(error);
+//         return res.status(500).json({ message: error.message });
+//     }
 }; 
 
 //Borrar productos del carrito

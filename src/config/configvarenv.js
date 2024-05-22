@@ -6,7 +6,7 @@ const program = new Command();
 
 program
         .option('-p <port>', 'Puerto del servidor', 8080)
-        .option('--mode <mode>', 'Modo de trabajo', 'develop')
+        .option('--mode <mode>', 'Modo de trabajo', 'develop') //production o develop
     program.parse();
 
 console.log('Mode option:', program.opts().mode);

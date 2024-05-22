@@ -14,7 +14,7 @@ const initializePassport = () => {
         {usernameField:'email', passReqToCallback:true },
         async (req, username, password, done) => {
 
-            // try{
+            try{
                 const userData = req.body
                 const user = await findUserUsername(username);
 
@@ -29,7 +29,7 @@ const initializePassport = () => {
                     })
 
                     console.log(error);
-                    return done(error, false);
+                    return done(null, false, { message: error.message, details: error.cause });
                 }
 
                 if(user){
@@ -45,12 +45,13 @@ const initializePassport = () => {
                     password: createHash(password),
                 })
                 
-                done(null, result)
-            // }catch(error){
-            //     done(`ERROR en la creacion de usuario ${error}`, false)
-            // }
-        }) 
-    )
+                return done(null, result);
+        } catch (err) {
+            req.logger.error(err);
+            return done(err, false);
+        }
+    }
+));
 
     passport.use("github", new github.Strategy(
         {

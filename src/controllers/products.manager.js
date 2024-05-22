@@ -1,3 +1,7 @@
+import CustomError from "../services/errors/custom.error.js";
+import EErrors from "../services/errors/enums.js";
+import { generateErrorProductsInfo } from "../services/errors/info.js";
+
 import {
     createProducts,
     findProducts,
@@ -10,12 +14,22 @@ import {
 //Crear un nuevo producto en la BD con "createProducts"
 export async function addProduct (req, res) {
     const dataProd = req.body;
-    try {
+
+        //CustomError
+        if (!dataProd.title || !dataProd.description || !dataProd.price || !dataProd.category || !dataProd.stock || !dataProd.code ) {
+
+            const error = CustomError.createError({
+                name: 'Product creation Error',
+                cause: generateErrorProductsInfo( dataProd ),
+                code: EErrors.INVALID_TYPES_ERROR
+            })
+            
+            console.log(error);
+            return res.status(400).json({error})
+        }
+
         const newProd = await createProducts(dataProd);
         res.status(201).json(newProd);
-    } catch (error) {
-        return res.status(500).json({ message: error.message });
-    }
 }
 
 //Buscar todos los productos con "findProducts"

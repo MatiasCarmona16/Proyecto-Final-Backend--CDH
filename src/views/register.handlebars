@@ -19,36 +19,37 @@
     <form action= "/api/auth/register" method="post" class="form">
         <p class="form-title">Sign Up</p>
         
+        
         <div class="input-container">
-            <input type="text" name="first_name" placeholder="Nombre">
+            <input  type="text" name="first_name" placeholder="Nombre" required>
         </div>
 
         <div class="input-container">
-            <input type="text" name="last_name" placeholder="Apellido">
+            <input type="text" name="last_name" placeholder="Apellido" required>
         </div>
 
         <div class="input-container">
-            <input type="number" name="age" placeholder="Edad">
+            <input type="number" name="age" placeholder="Edad" required>
         </div>
 
         <div class="input-container">
-            <input type="email" name="email" placeholder="Enter email">
+            <input type="email" name="email" placeholder="Enter email" required>
             <span>
             </span>
         </div>
     
         <div class="input-container">
-            <input type="password" name="password" placeholder="Enter password">
+            <input type="password" name="password" placeholder="Enter password" required>
         </div>
 
             <input id="button-aut-send" type="submit" value="Sign up" class="submit">
         </input>
 
-      <p class="signup-link">
+    <p class="signup-link">
         Have an account?
         <a href="/auth/login-view">Log in</a>
-      </p>
-   </form>
+    </p>
+    </form>
     </div>
 
 </div>
