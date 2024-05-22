@@ -12,6 +12,8 @@ export const addUser = async (req, res) => {
         const addedUser = await createUser(dataUser);
         res.status(200).json(addedUser);
     } catch (error) {
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
         res.status(500).json({ message: error.message })
     }
 };
@@ -31,18 +33,22 @@ export const getUserEmail = async (req, res) => {
             return res.status(200).redirect("/productsview");
         }
     } catch (error) {
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
         res.status(500).json({ message: error.message });
     }
 };
 
 export const authPassport = async (req, res) => {
-    // try {
+    try {
         passport.authenticate("register", { failureRedirect: "/auth/register-view",}) (req, res, () => {
             res.status(200).redirect('/productsview');
         })
-    // }catch (error) {
-    //     res.status(500).json(error);
-    // }
+    }catch (error) {
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
+        res.status(500).json(error);
+    }
 };
 
 export const githubPassport = async (req, res) => {

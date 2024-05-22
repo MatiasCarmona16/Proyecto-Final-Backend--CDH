@@ -38,6 +38,8 @@ export async function getProducts (req, res) {
         const products = await findProducts();
         return res.status(200).json(products);
     } catch (error) {
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
         return res.status(500).json({ message: error.message });
     }
 }
@@ -48,11 +50,13 @@ export async function getProductsId (req, res) {
     try {
         const product = await findProductsId(id);
         if(!product) {
-            return res.status(404).json({ message: 'Product not found' });
+            return res.status(404)
         }
         res.json(product);
     } catch (error) {
-        return res.status(500).json({ message: error.message });
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
+        return res.status(500).json({ message: 'Product not found' });
     }
 }
 
@@ -64,6 +68,8 @@ export async function updtProduct (req, res) {
         const productUpdated = await updateProduct(id, productDat);
         res.json(productUpdated);
     } catch (error) {
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
         res.status(500).json({ message: error. message });
     }
 }
@@ -75,6 +81,8 @@ export async function dlteProduct (req, res) {
         await deleteProducts(id);
         res.status(204).end();
     } catch (error) {
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
         res.status(500).json({ message: error.message });
     }
 }
@@ -86,6 +94,8 @@ export async function paginationProducts (req, res) {
         const pagesProds = await paginateProducts( limit, page, sort );
         res.json(pagesProds);
     } catch (error) {
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
         res.status(500).json({ message: error.message });
     }
 }

@@ -17,6 +17,8 @@ export async function newCart (req, res) {
         const cart = await createCart();
         res.status(200).json(cart)
     } catch (error) {
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
         return res.status(500).json({ message: error.message });
     }
 };
@@ -33,6 +35,8 @@ export async function getCartId (req, res) {
             res.status(200).json(cart)
         }
     } catch (error) {
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
         return res.status(500).json({ message: error.message });
     }
 };
@@ -86,6 +90,8 @@ export async function deleteSpecificProductCart (req, res) {
         await deleteSpecificProduct(cid, pid);
         res.status(200).json(`Producto ${pid} se elimino del carrito ${cid}`)
     } catch(error) {
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
         return res.status(500).json({ message: error.message });
     }
 };
@@ -99,6 +105,8 @@ export async function updateQuantityItemCart (req, res) {
         await updateQuantityItem(cid, pid, quantity);
         req.status(200).json(`Se actualizo la cantidad del producto ${pid} con exito`)
     } catch (error) {
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
         return res.status(500).json({ message: error.message });
     }
 };
