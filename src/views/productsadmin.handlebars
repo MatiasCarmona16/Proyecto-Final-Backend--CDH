@@ -1,0 +1,51 @@
+<header>
+    <nav class="navbar bg-body-tertiary p-5 mt-2">
+        <div class="container">
+        <a href="http://localhost:8080" class="navbar-brand">IPhone Store</a>
+        <a href="http://localhost:8080">Inicio</a>
+        <a href="/api/auth/logout">Cerrar sesion</a>
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+
+    <h2 class="title-adm-prod">Agregar Productos por "ADMIN"</h2>
+    <div class="form-contenedor-prodsadmin">
+    <form action= "/api/products/" method="post" class="form">
+        <p>Agregar Producto:</p>
+        
+        <div class="input-container">
+            <input  type="text" name="title" placeholder="Nombre del producto" >
+        </div>
+
+        <div class="input-container">
+            <input type="text" name="description" placeholder="Descripcion del producto" >
+        </div>
+
+        <div class="input-container">
+            <input type="text" name="thumbnail" placeholder="Url de la imagen" >
+        </div>
+
+        <div class="input-container">
+            <input type="number" name="price" placeholder="Precio del producto" >
+        </div>
+
+        <div class="input-container">
+            <input type="text" name="category" placeholder="Categoria del producto" >
+        </div>
+    
+        <div class="input-container">
+            <input type="number" name="stock" placeholder="Stock del producto" >
+        </div>
+
+        <div class="input-container">
+            <input type="text" name="code" placeholder="Codigo del producto" >
+        </div>
+            
+            
+            <input id="button-aut-send" type="submit" value="Agregar producto a la BD" class="submit">
+        </input>
+        </form>
+    </div>
+</div>

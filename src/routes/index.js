@@ -1,6 +1,7 @@
 export * from "./view-routes/products.view.routes.js"
 export * from "./view-routes/auth.views.routes.js"
 export * from "./view-routes/realTimeProducts.view.routes.js"
+export * from "./view-routes/productsadmin.views.routes.js"
 
 export * from './cart.routes.js'
 export * from './home.routes.js'

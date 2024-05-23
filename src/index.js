@@ -32,7 +32,7 @@ app.use(errorHandler);
 
 //Routes
 setRoutApi(app, requireLogin, passAdmin);
-setRoutViews(app, requireLogin);
+setRoutViews(app, requireLogin, passAdmin);
 
 //APP LISTEN
 const SERVER_PORT = configvarenv.port;

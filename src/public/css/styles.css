@@ -166,4 +166,18 @@ header {
   height: 1.5rem;
 }
 
+
+
+.title-adm-prod {
+  margin: 20px 0 0 0 ;
+  text-align: center;
+}
+
+.form-contenedor-prodsadmin {
+  margin: 10px 0 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /*# sourceMappingURL=styles.css.map */

@@ -76,6 +76,20 @@ async function addToCart(productId) {
 
     const responseData = await response.json();
     console.log("Producto agregado con exito al carrito:", responseData);
+
+    Toastify({
+
+        text: `Producto agregado al carrito`,
+        
+        duration: 2200,
+        gravity: "bottom",
+        style: {
+            background: "rgb(22,22,22)",
+            background: "radial-gradient(circle, rgba(22,22,22,1) 18%, rgba(8,8,8,1) 86%)",
+        },
+        
+        }).showToast();
+
     } catch (error) {
     console.error(error);
     }
