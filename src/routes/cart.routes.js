@@ -18,6 +18,6 @@ routerCart.post("/:cid/product/:pid", addProductCart)
 routerCart.delete("/:cid", deleteProdCart)
 routerCart.delete("/:cid/products/:pid", deleteSpecificProductCart)
 routerCart.post("/:cid/products/:pid", updateQuantityItemCart)
-routerCart.get("/:cid/purchase", newTicket)
+routerCart.post("/:cid/purchase", newTicket)
 
 export { routerCart }

@@ -8,9 +8,16 @@
     </div>
 </div>
 
-<h2>Los siguientes productos no pudieron comprarse debido a la falta de stock de los mismos</h2>
+<form action= "/api/cart/664fd1740d3e0d0c60a3c616/purchase" method="post" class="form">
 
-<div class="products">
+    <input id="button-aut-send" type="submit" value="Cargar ticket" class="submit">
+        </input>
+
+</form>
+
+
+
+{{!-- <div class="products">
     {{#each array}}
         <div class="card" style="width: 18rem;">
             <div class="card-body">
@@ -23,4 +30,4 @@
             </div>
         </div>
     {{/each}}
-</div>
+</div> --}}

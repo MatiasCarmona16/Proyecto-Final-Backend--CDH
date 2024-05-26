@@ -8,7 +8,7 @@ const ticketShchema = new Schema ({
     },
     purchase_datetime: {
         type: Date,
-        required: true,
+        default: Date.now,
     },
     amount: {
         type: Number,
@@ -17,7 +17,7 @@ const ticketShchema = new Schema ({
     purchaser: {
         type: String,
         required: true,
-    },
+    }, //Correo del susuario
 });
 
 export const TicketSchema = model('ticket', ticketShchema);

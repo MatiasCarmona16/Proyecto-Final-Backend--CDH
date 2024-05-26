@@ -3,7 +3,7 @@ import CartSchema from "../models/MongoDB/cart.schema.js";
 //Funcion buscar carrito a traves de ID
 export const findIdCart = async (cartId) => {
     try{
-        const cart = await CartSchema.findById(cartId)
+        const cart = await CartSchema.findById(cartId).populate('products.id_prod');
         return cart;
     } catch (error) {
         throw new Error(error);

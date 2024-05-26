@@ -1,14 +1,13 @@
-import { findIdCart } from "./cart.services.js";
+import { TicketSchema } from "../models/MongoDB/ticket.schema.js";
 
-export const generateTicket = async (cid, email) => {
-    try{
-        const productsCart = await findIdCart(cid)
-
-
+export const createTicket = async () => {
+    try {
+        const newTicket = await TicketSchema.create()
+        return newTicket;
     } catch (error) {
-
+        throw new Error (error);
     }
-}
+};
 
 // export const generateTicket = async (cid, email) => {
 //     try{
