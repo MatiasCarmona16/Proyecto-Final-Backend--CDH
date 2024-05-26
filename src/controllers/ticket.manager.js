@@ -1,17 +1,19 @@
 import { findIdCart } from "../services/cart.services.js";
 import { createTicket } from "../services/ticket.services.js";
-import { findUserEmail } from "../services/user.services.js";
 import {v4 as uuidv4} from 'uuid';
 
 //Crear un ticket
 
 export async function newTicket (req, res) {
     const { cid } = req.params;
+    
 
     try{
         const cart = await findIdCart(cid);
-        const emailUser = await findUserEmail(email);
+        const userInfo = req.session.user
+        const emailUser = userInfo.email
 
+        console.log(emailUser)
 
         let totalAmount = 0;
         let purchasedProducts = [];
@@ -28,12 +30,10 @@ export async function newTicket (req, res) {
             }
         }
 
-        req.session.user = emailUser
-
         const ticketCreated = await createTicket({
-            code: uuidv4,
+            code: uuidv4(),
             amount: totalAmount,
-            purchaser: req.session.user,
+            purchaser: emailUser,
         })
 
         return res.status(200).json(ticketCreated)
@@ -44,7 +44,6 @@ export async function newTicket (req, res) {
         req.logger.error(`error log - ${error}`)
         res.status(500).json({ message: error.message });
     }
-
     
 }
 

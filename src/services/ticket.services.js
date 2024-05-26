@@ -1,8 +1,8 @@
 import { TicketSchema } from "../models/MongoDB/ticket.schema.js";
 
-export const createTicket = async () => {
+export const createTicket = async ({ code, amount, purchaser }) => {
     try {
-        const newTicket = await TicketSchema.create()
+        const newTicket = await TicketSchema.create({ code, amount, purchaser })
         return newTicket;
     } catch (error) {
         throw new Error (error);
