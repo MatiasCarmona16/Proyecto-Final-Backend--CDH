@@ -46,3 +46,12 @@ export async function findUserId (id) {
         throw new Error (error);
     }
 }
+
+export async function findCartIdbyUser(cartId) {
+    try {
+        const user = await UserSchema.findOne({ cart: cartId }).populate('cart')
+        return user ? user.cart : null;
+    } catch (error) {
+        throw new Error(error);
+    }
+}

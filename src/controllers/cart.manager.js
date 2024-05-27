@@ -11,11 +11,28 @@ import {
     updateQuantityItem
 } from '../services/cart.services.js'
 
+import {
+    findCartIdbyUser
+} from '../services/user.services.js'
+
 //Crear nuevo carrito en la BD
 export async function newCart (req, res) {
     try {
-        const cart = await createCart();
+        const userInfo = req.session.user
+        
+        if(!userInfo || !userInfo.cart) {
+            return res.status(400).json({ message: 'Usuario o carrito no encontrado en la session'})
+        }
+        
+        const cartUser = userInfo.cart;
+        const cart = await findCartIdbyUser(cartUser);
+
+        if(!cart) {
+            return res.status(404).json({message: 'Carrito no encontrado'})
+        }
+        
         res.status(200).json(cart)
+        console.log(cart)
     } catch (error) {
         req.logger.warning(`warning log - ${error}`)
         req.logger.error(`error log - ${error}`)

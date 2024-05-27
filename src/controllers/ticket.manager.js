@@ -1,3 +1,4 @@
+import cartSchema from "../models/MongoDB/cart.schema.js";
 import { findIdCart } from "../services/cart.services.js";
 import { createTicket } from "../services/ticket.services.js";
 import {v4 as uuidv4} from 'uuid';
@@ -12,9 +13,7 @@ export async function newTicket (req, res) {
         const cart = await findIdCart(cid);
         const userInfo = req.session.user
         const emailUser = userInfo.email
-
-        console.log(emailUser)
-
+        
         let totalAmount = 0;
         let purchasedProducts = [];
         let failedProducts = [];
