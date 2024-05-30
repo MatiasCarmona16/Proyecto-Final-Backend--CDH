@@ -1,4 +1,3 @@
-import cartSchema from "../models/MongoDB/cart.schema.js";
 import { findIdCart } from "../services/cart.services.js";
 import { createTicket } from "../services/ticket.services.js";
 import {v4 as uuidv4} from 'uuid';

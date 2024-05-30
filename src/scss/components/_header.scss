@@ -3,20 +3,27 @@ header {
     box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
 }
 
+.marca-nav {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+}
+
 .container-navbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
+    width: 100%;
 }
 
 .container-navbar a {
     padding: 0 20px 0 20px;
+    justify-content: flex-start;
 }
 
 .navbar-brand{
     font-size: 40px;
-    font-weight: 200;
-    font-style: italic;
+    font-weight: 400;
 }
 
 .bg-body-tertiary {

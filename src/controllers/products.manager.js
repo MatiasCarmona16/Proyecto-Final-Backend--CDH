@@ -16,7 +16,7 @@ export async function addProduct (req, res) {
     const dataProd = req.body;
 
         //CustomError
-        if (!dataProd.title || !dataProd.description || !dataProd.price || !dataProd.category || !dataProd.stock || !dataProd.code ) {
+        if (!dataProd.title || !dataProd.description || !dataProd.price || !dataProd.category || !dataProd.stock) {
 
             const error = CustomError.createError({
                 name: 'Product creation Error',

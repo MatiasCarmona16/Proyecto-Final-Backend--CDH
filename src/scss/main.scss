@@ -1,8 +1,11 @@
 //COMPONENTES IMPORT
 @import "./base";
 @import "./components/header";
+@import "./components/imgs";
 
 //PAGES IMPORT
 @import "./pages/chat";
 @import "./pages/home";
 @import "./pages/login";
+@import "./pages/seccion.admin";
+@import "./pages/productos";

@@ -1,11 +1,23 @@
 <header>
+    <div class="container">
     <nav class="navbar bg-body-tertiary p-5 mt-2">
-        <div class="container">
-        <a href="http://localhost:8080" class="navbar-brand">IPhone Store</a>
-        <a href="http://localhost:8080">Inicio</a>
-        <a href="/api/auth/logout">Cerrar sesion</a>
+        <div class="container-navbar">
+            <div class="marca-nav">
+                <a href="http://localhost:8080" class="navbar-brand">IPhone Store</a>
+            </div>
+            
+
+            <div class="header-a">
+            <a href="http://localhost:8080">Inicio</a>
+            <a href="/productsview">Productos</a>
+            <a href="/auth/login-view"> Login</a>
+            <a href="/auth/register-view">Register</a>
+            <a id="deslog" href="/api/auth/logout">Logout</a>
+            </div>
+
         </div>
     </nav>
+    </div>
 </header>
 
 <div class="container">

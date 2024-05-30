@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
-import mongoosePaginate from "mongoose-paginate-v2"
+import mongoosePaginate from "mongoose-paginate-v2";
+import {v4 as uuidv4} from 'uuid';
 
 const productSchema = new Schema({
     title: {
@@ -21,7 +22,7 @@ const productSchema = new Schema({
     category: {
         type: String,
         required: true,
-        enum: ['Televisores', 'Heladeras', 'Lavaropas', 'Celulares', 'Aires'],
+        enum: ['Celulares'],
         index: true
     },
     stock: {
@@ -30,8 +31,8 @@ const productSchema = new Schema({
     },
     code: {
         type: String,
-        required: true,
         unique: true,
+        default: uuidv4,
     },
 })
 
