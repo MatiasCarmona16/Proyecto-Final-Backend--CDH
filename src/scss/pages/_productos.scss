@@ -2,44 +2,92 @@
 .card-flex {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 40px;
     flex-wrap: wrap;
 }
 
 .card {
     margin: 0.5rem 0.5rem 0.5rem 0.5rem;
     width: 100%;   
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
-.button_compra {
+.card-body {
+    padding: 1rem 1rem 1rem 1rem;
+}
+
+.card-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.CartBtn {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    background: rgb(246,246,246);
+background: linear-gradient(180deg, rgba(246,246,246,1) 9%, rgba(244,244,244,1) 53%, rgba(246,246,246,1) 94%);
     display: flex;
-  align-items: center;
-  justify-content: center;
-  outline: none;
-  cursor: pointer;
-  width: 150px;
-  height: 40px;
-  background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
-  border-radius: 20px;
-  border: 1px solid #8F9092;
-  transition: all 0.2s ease;
-  font-size: 14px;
-  font-weight: 600;
-  color: #3b3b3b;
-  text-shadow: 0 1px #fff;
-}
-
-.button_compra:hover {
-    box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 3px #CECFD1;
-}
-
-.button_compra:active {
-    box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
-}
-
-.button_compra:focus {
-    box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
-}
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition-duration: .5s;
+    overflow: hidden;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.103);
+    position: relative;
+    border: 1px solid rgb(209, 209, 209)
+  }
+  
+  .IconContainer {
+    position: absolute;
+    left: -50px;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 2;
+    transition-duration: .5s;
+  }
+  
+  .icon {
+    border-radius: 1px;
+  }
+  
+  .text {
+    height: 100%;
+    width: fit-content;
+    padding: 14px 0 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(17, 17, 17);
+    z-index: 1;
+    transition-duration: .5s;
+    font-size: 0.9em;
+    font-weight: 500;
+  }
+  
+  .CartBtn:hover .IconContainer {
+    transform: translateX(58px);
+    border-radius: 40px;
+    transition-duration: .5s;
+  }
+  
+  .CartBtn:hover .text {
+    transform: translate(10px,0px);
+    transition-duration: .5s;
+  }
+  
+  .CartBtn:active {
+    transform: scale(0.95);
+    transition-duration: .5s;
+  }
 
 .img_portada {
     background-image: url("https://www.apple.com/v/iphone-15/c/images/overview/welcome/hero_endframe__e0ajd2ayxqc2_large.jpg");
@@ -47,4 +95,12 @@
     background-repeat: no-repeat;
     width: 100%;
     height: 85vh;
+    opacity: 0;
+    animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
 }

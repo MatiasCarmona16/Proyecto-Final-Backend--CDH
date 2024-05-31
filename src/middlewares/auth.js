@@ -6,4 +6,3 @@ export function requireLogin (req, res, next) {
         res.redirect("/auth/login-view");
     }
 };
-
