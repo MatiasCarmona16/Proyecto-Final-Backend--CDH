@@ -10,9 +10,12 @@
             <div class="header-a">
             <a href="http://localhost:8080">Inicio</a>
             <a href="/productsview">Productos</a>
-            <a href="/auth/login-view"> Login</a>
-            <a href="/auth/register-view">Register</a>
-            <a id="deslog" href="/api/auth/logout">Logout</a>
+            {{#if userInfo}}
+                        <a id="deslog" href="/api/auth/logout">Logout</a>
+                    {{else}}
+                        <a href="/auth/login-view">Login</a>
+                        <a href="/auth/register-view">Register</a>
+                    {{/if}}
             </div>
 
         </div>

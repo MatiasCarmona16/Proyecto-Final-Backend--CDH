@@ -3,16 +3,19 @@
     <nav class="navbar p-5 mt-2">
         <div class="container-navbar">
             <div class="marca-nav">
-                <a href="http://localhost:8080" class="navbar-brand"><img src="" alt="">IPhone Store</a>
+                <a href="http://localhost:8080" class="navbar-brand">iPhone Store</a>
             </div>
             
 
             <div class="header-a">
-            <a href="http://localhost:8080">Inicio</a>
-            <a href="/productsview">Productos</a>
-            <a href="/auth/login-view"> Login</a>
-            <a href="/auth/register-view">Register</a>
-            <a id="deslog" href="/api/auth/logout">Logout</a>
+            <a href="http://localhost:8080" class="btn-dec">Home</a>
+            <a href="/productsview" class="btn-dec" onclick="getToCart(event)">iStore</a>
+            {{#if userInfo}}
+                        <a id="deslog" href="/api/auth/logout" class="btn-dec">Logout</a>
+                    {{else}}
+                        <a href="/auth/login-view" class="btn-dec">Login</a>
+                        <a href="/auth/register-view" class="btn-dec">Register</a>
+                    {{/if}}
             </div>
 
         </div>
@@ -23,17 +26,41 @@
 <main>
 <div class="container">
     <div class="titulo-home">
-        <h1>Bienvenido/a {{userInfo.first_name}}!</h1>    
+        <h1>Welcome {{userInfo.first_name}}!</h1>    
     </div>
 </div>
 
 </main>
 
 <script>
+    //Traer el carrito desde el evento click en la etiqueta a(productsview)
+    async function getToCart(event) {
+    event.preventDefault();
+    try {
+        let cartId = localStorage.getItem("cartId");
+        
+        if (!cartId) {
+            const response = await fetch(`/api/cart/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            const data = await response.json();
+            localStorage.setItem("cartId", data._id);
+            cartId = data._id;
+        }
+        
+        window.location.href = "/productsview";
+    } catch (error) {
+        console.error(error);
+    }
+}
 
     document.getElementById('deslog').addEventListener('click',logout)
 
     function logout() {
         localStorage.removeItem('cartId');
     }
+
 </script>

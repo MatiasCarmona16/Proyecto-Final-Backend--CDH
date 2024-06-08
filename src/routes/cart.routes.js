@@ -17,7 +17,7 @@ routerCart.get("/:cid", getCartId)
 routerCart.post("/:cid/product/:pid", addProductCart)
 routerCart.delete("/:cid", deleteProdCart)
 routerCart.delete("/:cid/products/:pid", deleteSpecificProductCart)
-routerCart.post("/:cid/products/:pid", updateQuantityItemCart)
+routerCart.put("/:cid/products/:pid", updateQuantityItemCart)
 routerCart.post("/:cid/purchase", newTicket)
 
 export { routerCart }

@@ -120,7 +120,7 @@ export async function updateQuantityItemCart (req, res) {
 
     try {
         await updateQuantityItem(cid, pid, quantity);
-        req.status(200).json(`Se actualizo la cantidad del producto ${pid} con exito`)
+        res.status(200).json(`Se actualizo la cantidad del producto ${pid} con exito`)
     } catch (error) {
         req.logger.warning(`warning log - ${error}`)
         req.logger.error(`error log - ${error}`)

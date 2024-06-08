@@ -2,6 +2,7 @@
 @import "./base";
 @import "./components/header";
 @import "./components/imgs";
+@import "./components/dropdown";
 
 //PAGES IMPORT
 @import "./pages/chat";
@@ -9,3 +10,5 @@
 @import "./pages/login";
 @import "./pages/seccion.admin";
 @import "./pages/productos";
+@import "./pages/cart";
+@import "./pages/ticket";

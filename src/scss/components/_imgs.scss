@@ -1,4 +1,21 @@
+.img-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
 .card-img-top {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    transition: transform .5s;
+}
+
+.img-container:hover .card-img-top {
+    transform: scale(1.2);
+}
+
+svg {
+    padding: 0 0 2px 0;
 }

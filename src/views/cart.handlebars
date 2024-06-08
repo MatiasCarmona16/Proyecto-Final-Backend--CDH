@@ -1,0 +1,327 @@
+<header>
+    <div class="container">
+    <nav class="navbar p-5 mt-2">
+        <div class="container-navbar">
+            <div class="marca-nav">
+                <a href="http://localhost:8080" class="navbar-brand">iPhone Store</a>
+            </div>
+            
+
+            <div class="header-a">
+            <a href="http://localhost:8080" class="btn-dec">Home</a>
+            <a href="/productsview" class="btn-dec">iStore</a>
+            {{#if userInfo}}
+                        <p>Hi {{userInfo.first_name}}!</p>
+                        <a id="deslog" href="/api/auth/logout" class="btn-dec">Logout</a>
+                        <p>|</p>
+                        <a href=""><svg xmlns="http://www.w3.org/2000/svg" height="16" width="12.45" viewBox="0 0 448 512"><path d="M160 112c0-35.3 28.7-64 64-64s64 28.7 64 64v48H160V112zm-48 48H48c-26.5 0-48 21.5-48 48V416c0 53 43 96 96 96H352c53 0 96-43 96-96V208c0-26.5-21.5-48-48-48H336V112C336 50.1 285.9 0 224 0S112 50.1 112 112v48zm24 48a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm152 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"/></svg></svg></a>
+                    {{else}}
+                        <a href="/auth/login-view" class="btn-dec">Login</a>
+                        <a href="/auth/register-view" class="btn-dec">Register</a>
+                    {{/if}}
+            </div>
+
+        </div>
+    </nav>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <h2 class="title-cart">Cart </h2>
+        <hr>
+
+        <div class="contenedor-cartItms-cartTlItms">
+            <div id="cartItems"></div>
+            <div class="cartTotalItemsClass" id="cartTotalItems"></div>
+        <div>
+    </div>
+</main>
+
+<script>
+        document.addEventListener('DOMContentLoaded', async (event) => {
+            async function getToCart() {
+                try {
+                    const cartId = localStorage.getItem("cartId");
+
+                    if (!cartId) {
+                        console.log("No se encontró CartId en el LocalStorage");
+                        return;
+                    }
+
+                    const response = await fetch(`/api/cart/${cartId}`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                    });
+
+                    if (!response.ok) {
+                        console.log("No se encuentra el carrito en la BD");
+                        return;
+                    }
+
+                    const data = await response.json();
+
+                    renderCart(data);
+
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
+            await getToCart();
+
+            // Funcion renderizar carrito
+            function renderCart(cart) {
+                const cartItemsContainer = document.getElementById('cartItems');
+                const cartTotalItemsContainer = document.getElementById('cartTotalItems');
+                cartItemsContainer.innerHTML = ''; 
+
+                if (!cart.products || cart.products.length === 0) {
+                    cartItemsContainer.innerHTML = '<p>No hay productos en el carrito.<a class="button-retrn-store" href="/productsview"> Return to the store</a></p>';
+                    cartTotalItemsContainer.innerHTML = `
+                <div class="titulo-item-price">
+                    <h3>Purchase summary</h3>
+                    <hr>
+                </div>
+                <div class="total-item-price">
+                <p>Products (0)</p> <p>$ 0</p>
+                </div>
+                <div class="total-final">
+                <p>Total</p> <p>$ 0</p>
+                </div>
+                <div class="button-compra-final">
+                <button>Purchase</button>
+                </div>
+                `;
+                    return;
+                }
+
+                let totalItems = 0;
+                let totalPrice = 0;
+
+                cart.products.forEach(product => {
+
+                    const productElement = document.createElement('div');
+                    productElement.className = 'cart-item';
+
+                    // Verifica la estructura de cada producto
+                    const productId = product.id_prod?._id ;
+                    const productName = product.id_prod?.title || 'Nombre no disponible';
+                    const productDescription = product.id_prod?.description || 'Descripcion no disponible';
+                    const productThumbnail = product.id_prod?.thumbnail || "Imagen no disponible";
+                    const productPrice = product.id_prod?.price || 0;
+                    const productQuantity = product.quantity || 0;
+                    const productPrecioTotal = productPrice * productQuantity;
+
+                    totalItems += productQuantity;
+                    totalPrice += productPrecioTotal;
+
+                    productElement.innerHTML = `
+                        <div class="contenedor-carrito">
+                        <img src= ${productThumbnail}>
+                        
+                        <div class="contenedor-title-description">
+                            <p>${productName} - ${productDescription}</p>
+                        </div>
+
+                        <div class="quantity-controls">
+                            <div class="container-buttons-quantity">
+                                <button onclick="updateQuantity('${productId}', ${productQuantity - 1})" ${productQuantity <= 1 ? 'disabled' : ''}>-</button>
+                                <span>${productQuantity}</span>
+                                <button onclick="updateQuantity('${productId}', ${productQuantity + 1})">+</button>
+                            </div>
+                            <span class="remove-button" onclick="removeProduct('${productId}')"><button class="button">
+<svg
+xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 69 14"
+    class="svgIcon bin-top">
+    <g clip-path="url(#clip0_35_24)">
+      <path
+        fill="black"
+        d="M20.8232 2.62734L19.9948 4.21304C19.8224 4.54309 19.4808 4.75 19.1085 4.75H4.92857C2.20246 4.75 0 6.87266 0 9.5C0 12.1273 2.20246 14.25 4.92857 14.25H64.0714C66.7975 14.25 69 12.1273 69 9.5C69 6.87266 66.7975 4.75 64.0714 4.75H49.8915C49.5192 4.75 49.1776 4.54309 49.0052 4.21305L48.1768 2.62734C47.3451 1.00938 45.6355 0 43.7719 0H25.2281C23.3645 0 21.6549 1.00938 20.8232 2.62734ZM64.0023 20.0648C64.0397 19.4882 63.5822 19 63.0044 19H5.99556C5.4178 19 4.96025 19.4882 4.99766 20.0648L8.19375 69.3203C8.44018 73.0758 11.6746 76 15.5712 76H53.4288C57.3254 76 60.5598 73.0758 60.8062 69.3203L64.0023 20.0648Z"
+      ></path>
+    </g>
+    <defs>
+      <clipPath id="clip0_35_24">
+        <rect fill="white" height="14" width="69"></rect>
+      </clipPath>
+    </defs>
+  </svg>
+
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 69 57"
+    class="svgIcon bin-bottom"
+  >
+    <g clip-path="url(#clip0_35_22)">
+      <path
+        fill="black"
+        d="M20.8232 -16.3727L19.9948 -14.787C19.8224 -14.4569 19.4808 -14.25 19.1085 -14.25H4.92857C2.20246 -14.25 0 -12.1273 0 -9.5C0 -6.8727 2.20246 -4.75 4.92857 -4.75H64.0714C66.7975 -4.75 69 -6.8727 69 -9.5C69 -12.1273 66.7975 -14.25 64.0714 -14.25H49.8915C49.5192 -14.25 49.1776 -14.4569 49.0052 -14.787L48.1768 -16.3727C47.3451 -17.9906 45.6355 -19 43.7719 -19H25.2281C23.3645 -19 21.6549 -17.9906 20.8232 -16.3727ZM64.0023 1.0648C64.0397 0.4882 63.5822 0 63.0044 0H5.99556C5.4178 0 4.96025 0.4882 4.99766 1.0648L8.19375 50.3203C8.44018 54.0758 11.6746 57 15.5712 57H53.4288C57.3254 57 60.5598 54.0758 60.8062 50.3203L64.0023 1.0648Z"
+      ></path>
+    </g>
+    <defs>
+      <clipPath id="clip0_35_22">
+        <rect fill="white" height="57" width="69"></rect>
+      </clipPath>
+    </defs>
+  </svg>
+</button></span>
+                    <span>$${productPrecioTotal.toFixed(2)}</span>
+                        </div>
+                        </div>
+                    `;
+                    cartItemsContainer.appendChild(productElement);
+                });
+                
+                cartTotalItemsContainer.innerHTML = `
+                <div class="titulo-item-price">
+                    <h3>Purchase summary</h3>
+                    <hr>
+                </div>
+                <div class="total-item-price">
+                <p>Products (${totalItems})</p> <p>$ ${totalPrice.toFixed(2)}</p>
+                </div>
+                <div class="total-final">
+                <p>Total</p> <p>$ ${totalPrice.toFixed(2)}</p>
+                </div>
+                <div class="button-compra-final">
+                <button onclick="generateTicket()">Purchase</button>
+                </div>
+                `;
+            }
+
+            // Funcion para agregar producto al carrito
+            window.updateQuantity = async function(productId, newQuantity) {
+                if (newQuantity < 1) {
+                    alert("La cantidad no puede ser menor que 1");
+                    return;
+                }
+
+                try {
+                    const cartId = localStorage.getItem("cartId");
+
+                    if (!cartId) {
+                        console.log("No se encontró CartId en el LocalStorage");
+                        return;
+                    }
+
+                    const response = await fetch(`/api/cart/${cartId}/products/${productId}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ quantity: newQuantity })
+                    });
+
+                    if (!response.ok) {
+                        console.log("Error actualizando la cantidad en el servidor");
+                        return;
+                    }
+
+                    await getToCart();
+
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
+        //Funcion para remover producto del carrito
+        window.removeProduct = async function (productId) {
+                try {
+                    const cartId = localStorage.getItem("cartId");
+
+                    if (!cartId) {
+                        console.log("No se encontró CartId en el LocalStorage");
+                        return;
+                    }
+
+                    const response = await fetch(`/api/cart/${cartId}/products/${productId}`, {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        console.log("Error eliminando el producto del carrito:", errorText);
+                        return;
+                    }
+
+                    await getToCart();
+
+                } catch (error) {
+                    console.error("Error en la solicitud de eliminación:", error);
+                }
+            }
+
+            // Función para vaciar el carrito
+            async function clearCart() {
+                try {
+                    const cartId = localStorage.getItem("cartId");
+
+                    if (!cartId) {
+                        console.log("No se encontró CartId en el LocalStorage");
+                        return;
+                    }
+
+                    const response = await fetch(`/api/cart/${cartId}`, {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+
+                    if (!response.ok) {
+                        console.log("Error al vaciar el carrito:", response.statusText);
+                        return;
+                    }
+
+                    renderCart({ products: [] });
+
+                } catch (error) {
+                    console.error("Error al vaciar el carrito:", error);
+                }
+            }
+
+            //Funcion generar el ticket de compra
+            window.generateTicket = async function () {
+                try {
+                    const cartId = localStorage.getItem("cartId");
+
+                    if (!cartId) {
+                        console.log("No se encontró CartId en el LocalStorage");
+                        return;
+                    }
+
+                    const response = await fetch(`/api/cart/${cartId}/purchase`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+
+                    if (response.ok) {
+                    console.log("Compra realizada con éxito");
+                    window.location.href = '/ticket';
+                    
+                    await clearCart();
+                } else {
+                    console.error("Error en la compra:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Error en generar ticket", error);
+            }
+            }
+        });
+
+        document.getElementById('deslog').addEventListener('click',logout)
+
+    function logout() {
+        localStorage.removeItem('cartId');
+    }
+    </script>

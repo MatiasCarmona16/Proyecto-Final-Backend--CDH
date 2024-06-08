@@ -6,7 +6,8 @@ import passport from "passport";
 import cookieParser from "cookie-parser";
 import compression from "express-compression";
 import { initializePassport } from "../config/passport.js";
-import {addLogger} from '../config/logger_Base.js'
+import {addLogger} from '../config/logger_Base.js';
+import flash from 'connect-flash';
 
 //MIDDLEWARE SESSION
 export const initialGlobalsMiddleware = (app) => {
@@ -26,6 +27,14 @@ export const initialGlobalsMiddleware = (app) => {
         resave: true,
         saveUninitialized: true
     }));
+
+    app.use(flash());
+
+    app.use((req, res, next) => {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    next();
+    });
 
     // MIDDLEWARES
     app.use(cookieParser());

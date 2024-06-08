@@ -23,15 +23,20 @@ export const getUserEmail = async (req, res) => {
     const { email, password } = req.body;
     try {
         const emailUser = await findUserEmail(email);
-        if (emailUser) {
-
-            if(!isValidatePassword(emailUser, password)) {
-                return res.status(200).redirect("/auth/login-view");
-            }
-
-            req.session.user = emailUser;
-            return res.status(200).redirect("/productsview");
+        
+        if (!emailUser) {
+            req.flash('error_msg', 'The email is incorrect. Try again.');
+            return res.redirect("/auth/login-view");
         }
+
+        if (!isValidatePassword(emailUser, password)) {
+            req.flash('error_msg', 'The password is incorrect. Try again.');
+            return res.redirect("/auth/login-view");
+        }
+
+        // Si el usuario y la contraseña son válidos, iniciar sesión
+        req.session.user = emailUser;
+        return res.status(200).redirect('/');
     } catch (error) {
         req.logger.warning(`warning log - ${error}`)
         req.logger.error(`error log - ${error}`)
@@ -42,24 +47,13 @@ export const getUserEmail = async (req, res) => {
 export const authPassport = async (req, res) => {
     try {
         passport.authenticate("register", { failureRedirect: "/auth/register-view",}) (req, res, () => {
-            res.status(200).redirect('/productsview');
+            res.status(200).redirect('/auth/login-view');
         })
     }catch (error) {
         req.logger.warning(`warning log - ${error}`)
         req.logger.error(`error log - ${error}`)
         res.status(500).json(error);
     }
-};
-
-export const githubPassport = async (req, res) => {
-    passport.authenticate("github", {scope:["user:email"]}), async (req, res) => {}
-};
-
-export const githubCallBackPassport = async (req, res) => {
-    passport.authenticate("github", {}), async (req, res) => {
-        req.session.user = req.user;
-        return res.status(200).redirect('/productsview');
-    };
 };
 
 export const logoutUser = async (req, res) => {

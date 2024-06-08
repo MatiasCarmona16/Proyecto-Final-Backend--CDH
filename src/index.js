@@ -22,7 +22,12 @@ initialGlobalsMiddleware(app);
 app.use("/", express.static(path.join(__dirname, "/public")));
 
 //MOTOR DE PLANTILLA
-app.engine('handlebars', handlebars.engine());
+app.engine('handlebars', handlebars.engine({
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true,
+    }
+}));
 app.set('view engine', 'handlebars');
 app.set('views', __dirname+'/views');
 
