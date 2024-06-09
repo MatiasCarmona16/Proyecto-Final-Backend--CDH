@@ -1,17 +1,63 @@
+.titulo-comprador {
+    text-align: center;
+    margin: 55px 0 0 0;
+}
+
+.tipo-factura {
+    text-align: start;
+}
+
+.titulo-comprador h2 {
+    font-weight: 400;
+    text-shadow: 1px 5px 7px rgba(0,0,0,0.66);
+}
+
+.container-ticket {
+    display: flex;
+    justify-content: center;
+}
+
 .ticket {
+    text-align: center;
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-    max-width: 600px;
+    max-width: 300px;
+    height: 470px;
     padding: 20px;
+    margin: 5px 0 0 0 ;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
+.ticket h3 {
+    font-style: italic;
 }
-li {
-    margin-bottom: 10px;
+
+.url-page-p {
+    font-style: italic;
+}
+
+.button-atras-a {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0 40px 0 ;
+}
+
+.button-atras-a button {
+    display: block;
+    padding-top: 0.60rem;
+    padding-bottom: 0.60rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    background-color: #181818;
+    color: #ffffff;
+    font-size: 0.900rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    width: 300px;
+    border-radius: 0.5rem;
+}
+
+.button-atras-a button:hover {
+    background-color: #1f1f1f;
 }

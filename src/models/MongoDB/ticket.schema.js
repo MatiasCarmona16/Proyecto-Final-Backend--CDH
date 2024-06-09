@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import dayjs from "dayjs";
 
 const ticketShchema = new Schema ({
     code: {
@@ -8,7 +9,7 @@ const ticketShchema = new Schema ({
     },
     purchase_datetime: {
         type: Date,
-        default: Date.now,
+        default: () => dayjs().toDate(),
     },
     amount: {
         type: Number,

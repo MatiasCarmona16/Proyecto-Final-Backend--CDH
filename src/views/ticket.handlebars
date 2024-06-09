@@ -27,25 +27,34 @@
 </header>
 
 <div class="container">
-    <h1>Ticket de compre de {{userInfo.first_name}}</h1>
-    <h2>Codigo de Ticket: {{ticket.code}}</h2>
-</div>
+    <div class="titulo-comprador">
+            <h2>Thank you for your purchase, {{userInfo.first_name}}!</h2>
+    </div>
+    <hr>
 
-
+<div class="container-ticket">
 <div class="ticket">
-    <h1>Detalles del Ticket</h1>
+    <p class="tipo-factura">Invoice type <strong>B</strong></p>
+    <h3>iPhone Store</h3>
+    <p>TIN: 987-65-4321</p>
     {{#if ticket}}
-    <ul>
-        <li><strong>Código:</strong> {{ticket.code}}</li>
-        <li><strong>Total:</strong> $ {{ticket.amount}}</li>
-        <li><strong>Comprador:</strong> {{ticket.purchaser}}</li>
-        <li><strong>Fecha de Compra:</strong> {{ticket.purchase_datetime}}</li>
-    </ul>
+        <p><strong>Ticket code:</strong> <br>#{{ticket.code}}</p>
+        <p><strong>{{ticket.purchase_datetime}}</strong></p>
+        <p>Purchaser: {{ticket.purchaser}}</p>
+        <hr>
+        <p><strong>Total: $ {{ticket.amount}}.00</strong></p>
+        <p>Thank you for choosing us!</p>
+        <p class="url-page-p">www.iPhoneStore.com</p>
     {{else}}
-    <p>No se encontró el ticket</p>
+    <p>Error in generating the ticket</p>
     {{/if}}
     {{#if error}}
     <p>Error: {{error}}</p>
     {{/if}}
-    <a href="/productsview">Return to iStore</a>
+</div>
+</div>
+<hr>
+    <div class="button-atras-a">
+        <button><a href="/productsview">Return to iStore</a></button>
+    </div>
 </div>
