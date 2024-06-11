@@ -83,12 +83,10 @@
             if (!response.ok) {
                 throw new Error('Error al eliminar el producto');
             }
-            // Producto eliminado exitosamente
+            
             console.log('Producto eliminado con éxito');
-            // Puedes manejar cualquier lógica adicional aquí después de eliminar el producto
         } catch (error) {
             console.error('Error al eliminar el producto:', error.message);
-            // Puedes manejar el error aquí, como mostrar un mensaje de error al usuario
         }
     };
 
