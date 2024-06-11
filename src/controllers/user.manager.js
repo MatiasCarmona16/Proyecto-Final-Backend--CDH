@@ -2,6 +2,7 @@ import passport from "passport";
 import { 
     createUser,
     findUserEmail,
+    findUserId,
     getUserByResetToken,
 } from "../services/user.services.js"
 import { isValidatePassword } from "../utils/bcryps.js";
@@ -152,3 +153,35 @@ export const restorePassword = async (req, res) => {
         
     }
 };
+
+//Logica para que cambie de rol el usuario
+
+export const changeUserRole = async (req, res) => {
+    const { uid } = req.params;
+    
+    try {
+        const user = await findUserId(uid);
+
+        if(!user) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+
+        if (user.role === "usuario") {
+            user.role = "premium";
+        } else if (user.role === "premium") {
+            user.role = "usuario";
+        } else {
+            return res.status(400).json({ message: "Rol no válido" });
+        }
+
+        await user.save();
+        res.status(200).json({ 
+            message: `Rol cambiado a ${user.role}`,
+            userInfo: user 
+        });
+    }catch(error) {
+        req.logger.warning(`warning log - ${error}`);
+        req.logger.error(`error log - ${error}`);
+        res.status(500).json({ message: error.message });
+}
+}

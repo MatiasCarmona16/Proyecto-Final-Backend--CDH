@@ -8,6 +8,7 @@ import {
     dlteProduct,
 } from "../controllers/products.manager.js";
 
+import { checkProductOwnerShip } from "../middlewares/checkproductowner.js";
 import errorHandler from '../middlewares/error.js'
 
 const routerProds = Router ();
@@ -15,8 +16,8 @@ const routerProds = Router ();
 routerProds.post("/", addProduct);
 routerProds.get("/", getProducts);
 routerProds.get("/:id", getProductsId);
-routerProds.put("/:id", updtProduct);
-routerProds.delete("/:id", dlteProduct);
+routerProds.put("/:id",checkProductOwnerShip, updtProduct);
+routerProds.delete("/:id",checkProductOwnerShip, dlteProduct);
 
 routerProds.use(errorHandler)
 

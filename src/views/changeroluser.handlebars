@@ -1,0 +1,75 @@
+<header>
+    <div class="container">
+    <nav class="navbar p-5 mt-2">
+        <div class="container-navbar">
+            <div class="marca-nav">
+                <a href="http://localhost:8080" class="navbar-brand">iPhone Store</a>
+            </div>
+            
+
+            <div class="header-a">
+            <a href="http://localhost:8080" class="btn-dec">Home</a>
+            <a href="/productsview" class="btn-dec">iStore</a>
+            {{#if userInfo}}
+                        <p><a href="/auth/change-rol-user">Hi {{userInfo.first_name}}!</a></p>
+                        <a id="deslog" href="/api/auth/logout" class="btn-dec">Logout</a>
+                        <p>|</p>
+                        <a href="/cart"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="12.45" viewBox="0 0 448 512"><path d="M160 112c0-35.3 28.7-64 64-64s64 28.7 64 64v48H160V112zm-48 48H48c-26.5 0-48 21.5-48 48V416c0 53 43 96 96 96H352c53 0 96-43 96-96V208c0-26.5-21.5-48-48-48H336V112C336 50.1 285.9 0 224 0S112 50.1 112 112v48zm24 48a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm152 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"/></svg></svg></a>
+                    {{else}}
+                        <a href="/auth/login-view" class="btn-dec">Login</a>
+                        <a href="/auth/register-view" class="btn-dec">Register</a>
+                    {{/if}}
+            </div>
+
+        </div>
+    </nav>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <h1>Cambiar Rol del Usuario</h1>
+        {{#if error_msg}}
+            <div style="color: red; font-size: 12px">{{error_msg}}</div>
+        {{/if}}
+        {{#if success_msg}}
+            <div style="color: green; font-size: 12px">{{success_msg}}</div>
+        {{/if}}
+        <div id="currentRole">
+            <p>Rol actual: {{userInfo.role}}</p>
+        </div>
+        <form id="changeRoleForm">
+            <label for="role">Nuevo Rol:</label>
+            <select name="role" id="newRole" required>
+                <option value="usuario">User</option>
+                <option value="premium">Premium</option>
+            </select>
+            <input type="submit" value="Cambiar Rol">
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('changeRoleForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            
+            const newRole = document.getElementById('newRole').value;
+            
+            // Enviar la solicitud POST al servidor
+            fetch(`/api/auth/users/premium/{{userInfo._id}}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ role: newRole })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const currentRoleElement = document.getElementById('currentRole');
+                currentRoleElement.innerHTML = `<p>Rol actual: ${data.userInfo.role}</p>`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</main>

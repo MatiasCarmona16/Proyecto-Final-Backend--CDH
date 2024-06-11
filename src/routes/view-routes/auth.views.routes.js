@@ -44,6 +44,10 @@ routerView.get('/restore-password-view', (req, res) => {
     res.status(200).render('restorepass', { token });
 });
 
+routerView.get('/change-rol-user', (req, res) => {
+    res.status(200).render('changeroluser', { userInfo: req.session.user })
+})
+
 routerView.use(errorHandler)
 
 export { routerView }

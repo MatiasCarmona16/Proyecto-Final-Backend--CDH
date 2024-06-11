@@ -5,7 +5,7 @@ import {v4 as uuidv4} from 'uuid';
 const productSchema = new Schema({
     title: {
         type: String,
-        unique: true, //Hace que los nombres de los prods sean unicos
+        unique: true, 
         required: true
     },
     description : {
@@ -33,6 +33,10 @@ const productSchema = new Schema({
         type: String,
         unique: true,
         default: uuidv4,
+    },
+    owner: {
+        type: String,
+        default: "admin",
     },
 })
 

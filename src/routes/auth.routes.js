@@ -4,7 +4,10 @@ import {
     authPassport,
     recoverPassword, 
     restorePassword,
-    logoutUser } from "../controllers/user.manager.js";
+    logoutUser,
+    changeUserRole,
+
+} from "../controllers/user.manager.js";
 
 import errorHandler from '../middlewares/error.js';
 
@@ -17,6 +20,8 @@ routerAuth.post('/login', getUserEmail);
 routerAuth.get('/logout', logoutUser);
 routerAuth.post('/recover-password', recoverPassword);
 routerAuth.post('/restore-password', restorePassword);
+
+routerAuth.post('/users/premium/:uid', changeUserRole);
 
 routerAuth.get('/github', passport.authenticate("github", {scope:["user:email"]}), async (req, res) => {});
 routerAuth.get('/callbackGithub', passport.authenticate("github", {}), async (req, res) => {
