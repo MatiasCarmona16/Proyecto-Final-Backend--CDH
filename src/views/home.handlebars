@@ -10,6 +10,7 @@
             <div class="header-a">
             <a href="http://localhost:8080" class="btn-dec">Home</a>
             <a href="/productsview" class="btn-dec" onclick="getToCart(event)">iStore</a>
+            <p><a href="/auth/change-rol-user" class="btn-dec">Profile</a></p>
             {{#if userInfo}}
                         <a id="deslog" href="/api/auth/logout" class="btn-dec">Logout</a>
                     {{else}}

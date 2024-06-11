@@ -142,6 +142,11 @@ svg {
   padding: 0 0 2px 0;
 }
 
+.contenedor-create-prod-prem {
+  margin: 10px 0 0 0;
+  width: 200px;
+}
+
 /*DIV BOXCHAT*/
 .chatbox {
   width: 100%;

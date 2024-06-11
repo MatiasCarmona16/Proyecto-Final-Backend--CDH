@@ -3,6 +3,7 @@ export * from "./view-routes/auth.views.routes.js"
 export * from "./view-routes/productsadmin.views.routes.js"
 export * from "./view-routes/ticket.views.routes.js"
 export * from "./view-routes/cart.views.routes.js"
+export * from "./view-routes/productspremium.views.routes.js"
 
 export * from './cart.routes.js'
 export * from './home.routes.js'

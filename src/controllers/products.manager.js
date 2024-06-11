@@ -14,6 +14,7 @@ import {
 //Crear un nuevo producto en la BD con "createProducts"
 export async function addProduct (req, res) {
     const dataProd = req.body;
+    const user = req.session.user;
 
         //CustomError
         if (!dataProd.title || !dataProd.description || !dataProd.price || !dataProd.category || !dataProd.stock) {
@@ -27,6 +28,14 @@ export async function addProduct (req, res) {
             console.log(error);
             return res.status(400).json({error})
         }
+
+        let owner = "admin";
+
+        if (user.role === "premium") {
+            owner = user.email; 
+        }
+
+        dataProd.owner = owner;
 
         const newProd = await createProducts(dataProd);
         res.status(201).json(newProd);

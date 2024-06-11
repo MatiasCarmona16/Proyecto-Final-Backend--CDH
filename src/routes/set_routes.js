@@ -10,7 +10,8 @@ import {
     routerLoggerTest,
     routerProdsAdmin,
     routerViewTicket,
-    routerCartView
+    routerCartView,
+    routerProdsPremium
 } from "./index.js";
 
 const setRoutApi = async (app, requireLogin, passAdmin) => {
@@ -26,6 +27,7 @@ const setRoutViews = async (app, requireLogin, passAdmin) => {
     app.use("/", routerHome);
     app.use("/auth", routerView);
     app.use('/productsview', requireLogin, routerProdsViews);
+    app.use('/productaccesspremium',requireLogin ,passAdmin ,routerProdsPremium)
     app.use('/productsaccesadmin',requireLogin, passAdmin, routerProdsAdmin)
     app.use('/ticket', requireLogin, routerViewTicket);
     app.use('/cart', requireLogin, routerCartView);

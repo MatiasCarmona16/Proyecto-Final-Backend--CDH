@@ -10,24 +10,28 @@ export const checkProductOwnerShip = async (req, res, next) => {
         const product = await findProductsId(productId);
 
         if(!product) {
-            return res.status(400).json({ message: "Producto no encontrado" });
+            req.flash('error_msg', 'Producto no encontrado');
+            return res.redirect('/productaccesspremium');
         }
 
         if(user.role === "admin" || (user.role === "premium" && product.owner === user.email)) {
             return next()
         }
 
-        return res.status(403).json({ message: "No tienes permiso para realizar esta accion" });
+        
+        req.flash('error_msg', 'No tienes permiso para realizar esta acción');
+        return res.redirect('/productaccesspremium');
     }catch(error) {
-        return res.status(500).json({ message: error.message });
+        req.flash('error_msg', error.message);
+        return res.redirect('/productaccesspremium');
     }
 };
 
 export const checkProductOwnerShipInCart = async (req, res, next) => {
     const user = req.session.user;
-    const productId = req.body.productId;
+    const productId = req.params.pid;
 
-    try {
+    try { 
 
         const product = await findProductsId(productId);
 

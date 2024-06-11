@@ -1,0 +1,105 @@
+<header>
+    <div class="container">
+    <nav class="navbar p-5 mt-2">
+        <div class="container-navbar">
+            <div class="marca-nav">
+                <a href="http://localhost:8080" class="navbar-brand">iPhone Store</a>
+            </div>
+            
+
+            <div class="header-a">
+            <a href="http://localhost:8080" class="btn-dec">Home</a>
+            <a href="/productsview" class="btn-dec">iStore</a>
+            {{#if userInfo}}
+                        <p><a href="/auth/change-rol-user" class="btn-dec">Hi {{userInfo.first_name}}!</a></p>
+                        <a id="deslog" href="/api/auth/logout" class="btn-dec">Logout</a>
+                        <p>|</p>
+                        <a href="/cart"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="12.45" viewBox="0 0 448 512"><path d="M160 112c0-35.3 28.7-64 64-64s64 28.7 64 64v48H160V112zm-48 48H48c-26.5 0-48 21.5-48 48V416c0 53 43 96 96 96H352c53 0 96-43 96-96V208c0-26.5-21.5-48-48-48H336V112C336 50.1 285.9 0 224 0S112 50.1 112 112v48zm24 48a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm152 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"/></svg></svg></a>
+                    {{else}}
+                        <a href="/auth/login-view" class="btn-dec">Login</a>
+                        <a href="/auth/register-view" class="btn-dec">Register</a>
+                    {{/if}}
+            </div>
+
+        </div>
+    </nav>
+    </div>
+</header>
+
+
+    <main>
+    <div class="container">
+        <h1>Create Product</h1>
+        <div class="contenedor-create-prod-prem">
+        <form action="/api/products" method="post">
+        
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+            
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+            
+            <label for="thumbnail">Thumbnail URL:</label>
+            <input type="text" id="thumbnail" name="thumbnail">
+            
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" required>
+            
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+                <option value="Celulares">Celulares</option>
+            </select>
+            
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" name="stock" value="10">
+            
+            <button type="submit">Create</button>
+        
+        </form>
+
+        
+        <h2>Eliminar Producto</h2>
+        
+        <form id="delete-product-form">
+            {{#if error_msg}}
+            <div style="color: red; font-size: 12px">{{error_msg}}</div>
+        {{/if}}
+            <label for="productId">ID del producto a eliminar:</label>
+            <input type="text" id="productId" name="productId" required>
+            <button type="button" id="delete-product-btn">Eliminar</button>
+        </form>
+
+        
+        </div>
+    </div>
+</main>
+
+<script>
+    const deleteProduct = async (productId) => {
+        try {
+            const response = await fetch(`/api/products/${productId}`, {
+                method: 'DELETE'
+            });
+            if (!response.ok) {
+                throw new Error('Error al eliminar el producto');
+            }
+            // Producto eliminado exitosamente
+            console.log('Producto eliminado con éxito');
+            // Puedes manejar cualquier lógica adicional aquí después de eliminar el producto
+        } catch (error) {
+            console.error('Error al eliminar el producto:', error.message);
+            // Puedes manejar el error aquí, como mostrar un mensaje de error al usuario
+        }
+    };
+
+    // Escucha el evento click en el botón de eliminar producto
+    document.getElementById('delete-product-btn').addEventListener('click', async () => {
+        const productId = document.getElementById('productId').value;
+        await deleteProduct(productId);
+    });
+
+    // Evita que el formulario se envíe automáticamente al presionar enter
+    document.getElementById('delete-product-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+    });
+</script>
