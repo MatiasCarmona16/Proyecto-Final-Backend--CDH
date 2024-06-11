@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 import { createCart } from "../../services/cart.services.js";
-// import { CartManagerMongo } from "../controllers/cartManager.js";
 
 const userSchema = new Schema({
     first_name: {
@@ -30,6 +29,12 @@ const userSchema = new Schema({
     cart: {
         type: Schema.Types.ObjectId,
         ref: "Cart"
+    },
+    resetToken: {
+        type: String,
+    },
+    resetTokenExpiration: {
+        type: Date,
     }
 },
     {

@@ -1,8 +1,3 @@
-//H1 LOGIN
-.container h1 {
-    text-align: center;
-    margin: 40px 0 0 0;
-}
 
 //CONTENEDOR FORM LOGIN
 .form-contenedor-login {
@@ -90,8 +85,21 @@
     text-align: center;
     margin: 10px 0 0 0;
   }
+
+  .signup-link-recover{
+    color: #6B7280;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    text-align: center;
+    margin: 10px 0 0 0;
+    text-decoration: none;
+  }
+
+  .signup-link-recover:hover {
+    text-decoration: underline;
+  }
   
-  .signup-link a {
+  .signup-link a:hover {
     text-decoration: underline;
   }
 

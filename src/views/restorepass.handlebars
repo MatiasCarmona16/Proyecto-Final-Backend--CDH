@@ -1,0 +1,52 @@
+<header>
+    <div class="container">
+    <nav class="navbar p-5 mt-2">
+        <div class="container-navbar">
+            <div class="marca-nav">
+                <a href="http://localhost:8080" class="navbar-brand">iPhone Store</a>
+            </div>
+            
+
+            <div class="header-a">
+            <a href="http://localhost:8080" class="btn-dec">Inicio</a>
+            <a href="/productsview" class="btn-dec">iStore</a>
+            <a href="/auth/login-view" class="btn-dec"> Login</a>
+            <a href="/auth/register-view" class="btn-dec">Register</a>
+            </div>
+
+        </div>
+    </nav>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <h1>Restaurar contraseña</h1>
+        <p>Por favor, ingresa tu nueva contraseña y confírmala.</p>
+        
+        {{#if error_msg}}
+            <div style="color: red; font-size: 12px">{{error_msg}}</div>
+        {{/if}}
+
+        <form action="/api/auth/restore-password" method="post">
+            <input type="hidden" name="token" value="{{token}}">
+            <div>
+                <label for="newPassword">Nueva contraseña:</label>
+                <input type="password" id="newPassword" name="newPassword" required placeholder="Nueva contraseña">
+            </div>
+            <div>
+                <label for="confirmPassword">Confirmar nueva contraseña:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirmar nueva contraseña">
+            </div>
+            <div>
+                <input type="submit" value="Restablecer contraseña">
+            </div>
+        </form>
+    </div>
+</main>
+
+<script>
+
+
+
+</script>

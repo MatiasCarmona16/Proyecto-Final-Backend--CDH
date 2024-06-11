@@ -47,6 +47,7 @@ export async function findUserId (id) {
     }
 }
 
+//Obtener el carrito de usuario
 export async function findCartIdbyUser(cartId) {
     try {
         const user = await UserSchema.findOne({ cart: cartId }).populate('cart')
@@ -55,3 +56,13 @@ export async function findCartIdbyUser(cartId) {
         throw new Error(error);
     }
 }
+
+//Obtener el token del usuario
+export async function getUserByResetToken(token) {
+    try {
+        const userData = await UserSchema.findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } });
+        return userData;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
