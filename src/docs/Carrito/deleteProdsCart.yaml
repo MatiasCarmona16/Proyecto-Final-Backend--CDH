@@ -1,0 +1,62 @@
+paths:
+  /api/cart/{cid}:
+    delete:
+      summary: Eliminar un carrito en especifico.
+      tags:
+        - Carrito
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Id del carrito que se desea eliminar.
+          schema: 
+            $type: String
+      responses:
+        "200":
+          description: Carrito eliminado con exito.
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Cart'
+        "500":
+          description: Error interno del servidor.
+
+
+components:
+  schemas:
+    Cart:
+      type: object
+      required:
+        - id
+        - products
+      properties: 
+        _id:
+          type: ObjectId
+          description: Id autogenerado de Mongo.
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              id_prod:
+                type: string
+                description: Id del producto asociado al carrito
+              quantity: 
+                type: integer
+                description: Cantidad del producto en el carrito
+        
+      example: 
+        _id: "666788ec4179257613165853"
+        products: 
+          - id_prod: "66588684dff438566f463a50"
+            quantity: 1
+            owner: "admin"
+            title: "IPhone 15 Plus"
+            description: "128GB Black"
+            thumbnail: "https://cdn-ipoint.waugi.com.ar/26696-thickbox_default/iphone-14-128gb-midnight.jpg"
+            price: 3200
+            category: "Celulares"
+            stock: 80
+            code: "5ad42153-36d6-4a0c-a5ca-cb513d141290"

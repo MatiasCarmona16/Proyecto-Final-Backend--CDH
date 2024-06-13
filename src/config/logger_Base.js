@@ -24,7 +24,6 @@ const customLevelOpts = {
 
 winston.addColors(customLevelOpts.colors);
 
-
 const developmentLogger = winston.createLogger({
     levels: customLevelOpts.levels,
     

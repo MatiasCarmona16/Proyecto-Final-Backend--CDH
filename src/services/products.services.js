@@ -38,7 +38,7 @@ export const findProducts = async ({ limit = 10, page = 1, sort, query}) => {
             prevLink: prods.hasPrevPage
             ? `/products?limit=${options.limit}&page=${prods.prevPage}&sort=${sort || ""}&query=${query || ""}` :null,
             nextLink: prods.hasNextPage
-            ?`/products?limit=${optiones.limit}&page=${prods.nextPage}&sort=${sort || ""}&query=${query || ""}` :null,
+            ?`/products?limit=${options.limit}&page=${prods.nextPage}&sort=${sort || ""}&query=${query || ""}` :null,
         }
         return reply
 

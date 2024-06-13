@@ -1,0 +1,74 @@
+paths:
+  /api/products/{id}:
+    get:
+      summary: Trae todos los productos de la base de datos.
+      tags:
+        - Productos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id del producto que se desea buscar.
+          schema: 
+            $type: String
+      responses:
+        "200":
+          description: Producto especifico de la base de datos.
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Product'
+        "500":
+          description: Error interno del servidor.
+
+
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - price
+        - category
+      properties: 
+        _id:
+          type: ObjectId
+          description: Id autogenerado de Mongo.
+        title:
+          type: String
+          description: Nombre del producto.
+        description:
+          type: String
+          description: Descripcion dle producto.
+        thumbnail:
+          type: String
+          description: Link de la imagen del producto.
+        price:
+          type: Number
+          description: Precio del producto.
+        category:
+          type: String
+          description: Categoria del producto.
+        stock:
+          type: Number
+          description: Stock del producto.
+        code:
+          type: String
+          description: Codigo del producto.
+        owner:
+          type: String
+          description: Creador del producto.
+      example: 
+        _id: ObjectId("66588a5bdff438566f463a5c"),
+        title: IPhone 14 Pro Max,
+        description: 256GB Silver,
+        thumbnail: https://cdn-ipoint.waugi.com.ar/26717-thickbox_default/iphone-14-pro-max-512gb-deep-purple.jpg,
+        price: 3300,
+        category: Celulares,
+        stock: 90,
+        code: 2377c3c2-3856-4b1d-879e-656fa894c0a9
+        owner: admin,

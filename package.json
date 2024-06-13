@@ -35,6 +35,8 @@
     "sass": "^1.77.2",
     "session-file-store": "^1.5.0",
     "socket.io": "^4.7.4",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "twilio": "^5.0.4",
     "uuid": "^9.0.1",
     "winston": "^3.13.0"

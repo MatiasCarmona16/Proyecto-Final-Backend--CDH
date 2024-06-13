@@ -4,7 +4,6 @@ import { generateErrorQuantityCartInfo } from '../services/errors/info.js';
 
 import { 
     findIdCart,
-    createCart,
     addProductInCart,
     deleteSpecificProduct,
     deleteAllProductsCart,
@@ -72,17 +71,11 @@ export async function addProductCart (req, res) {
             code: EErrors.INVALID_TYPES_ERROR
         })
 
-        console.log(error);
-        return res.status(400).json({error})
+        return res.status(404).json({error})
 
     }
-    // try {
         await addProductInCart(cid, pid, quantity)
         res.status(200).json(`Producto ${pid} agregado con exito al carrito`)
-//     } catch (error) {
-//         console.log(error);
-//         return res.status(500).json({ message: error.message });
-//     }
 }; 
 
 //Borrar productos del carrito

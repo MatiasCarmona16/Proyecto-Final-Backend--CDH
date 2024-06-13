@@ -7,6 +7,6 @@ export default (error,req,res,next) => {
             res.status(400).send({ status:"error",error: error.name})
             break;
         default:
-            res.status(500).send({ status:"error" ,error: "Unhandled error"});
+            res.status(500).send({ status:"error" ,error: "Internal Error"});
     }
 }

@@ -44,7 +44,8 @@ export async function addProduct (req, res) {
 //Buscar todos los productos con "findProducts"
 export async function getProducts (req, res) {
     try {
-        const products = await findProducts();
+        const { limit = 10, page = 1, sort, query } = req.query;
+        const products = await findProducts({ limit, page, sort, query });
         return res.status(200).json(products);
     } catch (error) {
         req.logger.warning(`warning log - ${error}`)
@@ -75,7 +76,7 @@ export async function updtProduct (req, res) {
     const productDat = req.body;
     try {
         const productUpdated = await updateProduct(id, productDat);
-        res.json(productUpdated);
+        res.status(201).json(productUpdated);
     } catch (error) {
         req.logger.warning(`warning log - ${error}`)
         req.logger.error(`error log - ${error}`)

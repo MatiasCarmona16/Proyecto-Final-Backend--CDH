@@ -8,6 +8,10 @@ import compression from "express-compression";
 import { initializePassport } from "../config/passport.js";
 import {addLogger} from '../config/logger_Base.js';
 import flash from 'connect-flash';
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUIExpress from "swagger-ui-express"
+
+import { swaggerOptions } from "../config/swaggerconfig.js";
 
 //MIDDLEWARE SESSION
 export const initialGlobalsMiddleware = (app) => {
@@ -28,6 +32,11 @@ export const initialGlobalsMiddleware = (app) => {
         saveUninitialized: true
     }));
 
+    //SWAGGER
+    const specs = swaggerJSDoc(swaggerOptions)
+    app.use("/apidocs", swaggerUIExpress.serve, swaggerUIExpress.setup(specs))
+
+    //REQ.FLASH
     app.use(flash());
 
     app.use((req, res, next) => {
