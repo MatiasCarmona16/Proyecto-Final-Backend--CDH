@@ -1,17 +1,18 @@
-import { findIdCart } from "../services/cart.services.js";
-import { 
-    createTicket,
-} from "../services/ticket.services.js";
+import { CartService } from "../services/cart.services.js";
+import { TicketService } from "../services/ticket.services.js";
+
 import {v4 as uuidv4} from 'uuid';
+
+const cartService = new CartService()
+const ticketService = new TicketService()
 
 //Crear un ticket
 
 export async function newTicket (req, res) {
     const { cid } = req.params;
     
-
     try{
-        const cart = await findIdCart(cid);
+        const cart = await cartService.findIdCartService(cid);
         const userInfo = req.session.user
         const emailUser = userInfo.email
         
@@ -30,7 +31,7 @@ export async function newTicket (req, res) {
             }
         }
 
-        const ticketCreated = await createTicket({
+        const ticketCreated = await ticketService.createTicketService({
             code: uuidv4(),
             amount: totalAmount,
             purchaser: emailUser,

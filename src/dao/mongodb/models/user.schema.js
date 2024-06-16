@@ -1,5 +1,7 @@
 import { Schema, model } from "mongoose";
-import { createCart } from "../../services/cart.services.js";
+import { CartService } from "../../../services/cart.services.js";
+
+const cartService = new CartService()
 
 const userSchema = new Schema({
     first_name: {
@@ -47,7 +49,7 @@ const userSchema = new Schema({
     userSchema.pre('save', async function(next){
         if(!this.cart) {
             try {
-                const newCart = await createCart()
+                const newCart = await cartService.createCartService()
                 this.cart = newCart._id
 
                 next()

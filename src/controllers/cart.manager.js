@@ -1,18 +1,12 @@
+import { CartService } from '../services/cart.services.js';
+import { UserService } from '../services/user.services.js';
+
 import CustomError from '../services/errors/custom.error.js';
 import EErrors from '../services/errors/enums.js';
 import { generateErrorQuantityCartInfo } from '../services/errors/info.js';
 
-import { 
-    findIdCart,
-    addProductInCart,
-    deleteSpecificProduct,
-    deleteAllProductsCart,
-    updateQuantityItem
-} from '../services/cart.services.js'
-
-import {
-    findCartIdbyUser
-} from '../services/user.services.js'
+const userService = new UserService()
+const cartService = new CartService()
 
 //Crear nuevo carrito en la BD
 export async function newCart (req, res) {
@@ -24,14 +18,13 @@ export async function newCart (req, res) {
         }
         
         const cartUser = userInfo.cart;
-        const cart = await findCartIdbyUser(cartUser);
+        const cart = await userService.findCartIdbyUserService(cartUser);
 
         if(!cart) {
             return res.status(404).json({message: 'Carrito no encontrado'})
         }
         
         res.status(200).json(cart)
-        console.log(cart)
     } catch (error) {
         req.logger.warning(`warning log - ${error}`)
         req.logger.error(`error log - ${error}`)
@@ -43,7 +36,7 @@ export async function newCart (req, res) {
 export async function getCartId (req, res) {
         const { cid } = req.params
     try {
-        const cart = await findIdCart(cid)
+        const cart = await cartService.findIdCartService(cid)
 
         if(!cart) {
             res.status(404).json(`El carrito ${cid} no existe`)
@@ -74,7 +67,7 @@ export async function addProductCart (req, res) {
         return res.status(404).json({error})
 
     }
-        await addProductInCart(cid, pid, quantity)
+        await cartService.addProductInCartService(cid, pid, quantity)
         res.status(200).json(`Producto ${pid} agregado con exito al carrito`)
 }; 
 
@@ -82,7 +75,7 @@ export async function addProductCart (req, res) {
 export async function deleteProdCart (req, res) {
     const { cid } = req.params;
     try {
-        const result = await deleteAllProductsCart(cid);
+        const result = await cartService.deleteAllProductsCartService(cid);
 
         if(result){
             return res.status(200).json(result)
@@ -97,7 +90,7 @@ export async function deleteProdCart (req, res) {
 export async function deleteSpecificProductCart (req, res) {
     const { cid, pid } = req.params;
     try {
-        await deleteSpecificProduct(cid, pid);
+        await cartService.deleteSpecificProductService(cid, pid);
         res.status(200).json(`Producto ${pid} se elimino del carrito ${cid}`)
     } catch(error) {
         req.logger.warning(`warning log - ${error}`)
@@ -112,7 +105,7 @@ export async function updateQuantityItemCart (req, res) {
     const { quantity } = req.body;
 
     try {
-        await updateQuantityItem(cid, pid, quantity);
+        await cartService.updateQuantityItemService(cid, pid, quantity);
         res.status(200).json(`Se actualizo la cantidad del producto ${pid} con exito`)
     } catch (error) {
         req.logger.warning(`warning log - ${error}`)

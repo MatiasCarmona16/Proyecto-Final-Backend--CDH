@@ -1,4 +1,6 @@
-import { findProductsId } from "../services/products.services.js";
+import { ProductsService } from "../services/products.services.js";
+
+const productsService = new ProductsService()
 
 //Middlewate para validar permisos de owner productos
 export const checkProductOwnerShip = async (req, res, next) => {
@@ -7,7 +9,7 @@ export const checkProductOwnerShip = async (req, res, next) => {
 
     try{
 
-        const product = await findProductsId(productId);
+        const product = await productsService.getProductsIdService(productId);
 
         if(!product) {
             req.flash('error_msg', 'Producto no encontrado');
@@ -33,7 +35,7 @@ export const checkProductOwnerShipInCart = async (req, res, next) => {
 
     try { 
 
-        const product = await findProductsId(productId);
+        const product = await productsService.getProductsIdService(productId);
 
         if(!product){
             return res.status(404).json({ message: "Producto no encontrado" });

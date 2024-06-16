@@ -1,68 +1,29 @@
-import { UserSchema } from "../models/MongoDB/user.schema.js";
+import { UserManager } from "../dao/mongodb/managers/user.managerDB.js";
 
-//Crear Usuario
-export async function createUser ({ first_name, last_name, age, email,role, password }) {
-    try {
-        const newUser = await UserSchema.create({
-            first_name,
-            last_name,
-            age,
-            email,
-            role,
-            password,
-        })
-        return { newUser };
-    } catch (error) {
-        throw new Error (error);
+const userc = new UserManager()
+
+export class UserService {
+    async createUserService({ first_name, last_name, age, email,role, password }){
+        return await userc.createUser({ first_name, last_name, age, email,role, password })
+    }
+
+    async findUserEmailService(email){
+        return await userc.findUserEmail(email)
+    }
+
+    async findUserUsernameService(username){
+        return await userc.findUserUsername(username)
+    }
+
+    async findUserIdService(id){
+        return await userc.findUserId(id)
+    }
+
+    async findCartIdbyUserService(cartId){
+        return await userc.findCartIdbyUser(cartId)
+    }
+
+    async getUserByResetTokenService(token){
+        return await userc.getUserByResetToken(token)
     }
 }
-
-//Obtener email de usuario
-export async function findUserEmail (email) {
-    try {
-        const userEmail = await UserSchema.findOne({email});
-        return userEmail;
-    } catch (error) {
-        throw new Error (error);
-    }
-}
-
-//Obtener usuario (username)
-export async function findUserUsername (username) {
-    try {
-        const userUsername = await UserSchema.findOne( {username} );
-        return userUsername;
-    } catch (error) {
-        throw new Error (error);
-    }
-}
-
-//Obtener ID de usuario
-export async function findUserId (id) {
-    try {
-        const userId = await UserSchema.findById(id);
-        return userId;
-    } catch (error) {
-        throw new Error (error);
-    }
-}
-
-//Obtener el carrito de usuario
-export async function findCartIdbyUser(cartId) {
-    try {
-        const user = await UserSchema.findOne({ cart: cartId }).populate('cart')
-        return user ? user.cart : null;
-    } catch (error) {
-        throw new Error(error);
-    }
-}
-
-//Obtener el token del usuario
-export async function getUserByResetToken(token) {
-    try {
-        const userData = await UserSchema.findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } });
-        return userData;
-    } catch (error) {
-        throw new Error(error);
-    }
-};

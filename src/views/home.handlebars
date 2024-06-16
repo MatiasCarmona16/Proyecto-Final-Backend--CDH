@@ -10,8 +10,9 @@
             <div class="header-a">
             <a href="http://localhost:8080" class="btn-dec">Home</a>
             <a href="/productsview" class="btn-dec" onclick="getToCart(event)">iStore</a>
-            <p><a href="/auth/change-rol-user" class="btn-dec">Profile</a></p>
+            
             {{#if userInfo}}
+                        <p><a href="/auth/change-rol-user" class="btn-dec">Profile</a></p>
                         <a id="deslog" href="/api/auth/logout" class="btn-dec">Logout</a>
                     {{else}}
                         <a href="/auth/login-view" class="btn-dec">Login</a>
@@ -30,6 +31,26 @@
         <h1>Welcome {{userInfo.first_name}}!</h1>    
     </div>
 </div>
+
+<div id="chat-button" onclick="toggleChat()">
+        💬 Chat en Vivo
+    </div>
+
+    <!-- Ventana del chat -->
+    <div id="chat-window">
+        <div id="chat-header">
+            <span>Chat en Vivo</span>
+            <button onclick="toggleChat()">✖</button>
+        </div>
+        <div id="chat-content">
+            <!-- Aquí iría el contenido del chat -->
+            <p>Hola! ¿En qué puedo ayudarte?</p>
+        </div>
+        <div id="chat-input">
+            <input type="text" placeholder="Escribe tu mensaje...">
+            <button>Enviar</button>
+        </div>
+    </div>
 
 </main>
 
@@ -63,5 +84,10 @@
     function logout() {
         localStorage.removeItem('cartId');
     }
+
+    function toggleChat() {
+    const chatWindow = document.getElementById('chat-window');
+    chatWindow.style.display = chatWindow.style.display === 'none' || chatWindow.style.display === '' ? 'flex' : 'none';
+}
 
 </script>

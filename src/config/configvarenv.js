@@ -21,5 +21,8 @@ export default {
     mongoUrl: process.env.MONGO_URL,
     adminEmail: process.env.EMAIL_ADMIN,
     adminPassword: process.env.PASSWRD_ADMIN,
+    clientid: process.env.CLIENTID,
+    clientsecret: process.env.CLIENTSECRET,
+    callbackurl: process.env.CALLBACKURL,
     environment: environment
 }

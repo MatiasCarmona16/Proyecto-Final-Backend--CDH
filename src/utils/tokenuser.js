@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { UserSchema } from "../models/MongoDB/user.schema.js";
+import { UserSchema } from "../dao/mongodb/models/user.schema.js";
 
 export const generateResetToken = () => {
     return crypto.randomBytes(32).toString('hex');

@@ -24,11 +24,12 @@
         <h1>Restaurar contraseña</h1>
         <p>Por favor, ingresa tu nueva contraseña y confírmala.</p>
         
-        {{#if error_msg}}
-            <div style="color: red; font-size: 12px">{{error_msg}}</div>
-        {{/if}}
+        
 
         <form action="/api/auth/restore-password" method="post">
+            {{#if error_msg}}
+            <div style="color: red; font-size: 12px">{{error_msg}}</div>
+        {{/if}}
             <input type="hidden" name="token" value="{{token}}">
             <div>
                 <label for="newPassword">Nueva contraseña:</label>

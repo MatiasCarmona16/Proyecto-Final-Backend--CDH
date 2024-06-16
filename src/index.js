@@ -4,7 +4,7 @@ import handlebars from "express-handlebars";
 import configvarenv from './config/configvarenv.js';
 
 import { __dirname } from './path.js';
-import  MongoSingleton from './config/connectionDB.js';
+import  MongoSingleton from './dao/mongodb/connectionDB.js';
 import { initialGlobalsMiddleware } from './middlewares/config.middleware.js'; 
 import { setRoutApi, setRoutViews } from './routes/index.js';
 import { requireLogin } from './middlewares/auth.js';

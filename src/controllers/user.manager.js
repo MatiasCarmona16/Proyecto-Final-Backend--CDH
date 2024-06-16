@@ -1,20 +1,18 @@
+import { UserService } from "../services/user.services.js";
 import passport from "passport";
-import { 
-    createUser,
-    findUserEmail,
-    findUserId,
-    getUserByResetToken,
-} from "../services/user.services.js"
+
 import { isValidatePassword } from "../utils/bcryps.js";
 import { transporter } from "../config/mail.js";
 import { generateResetToken, saveResetToken } from "../utils/tokenuser.js";
 import { createHash } from "../utils/bcryps.js";
 
+const userService = new UserService()
+
 //Crear un usuario con "createUser"
 export const addUser = async (req, res) => {
     const dataUser = req.body;
     try {
-        const addedUser = await createUser(dataUser);
+        const addedUser = await userService.createUserService(dataUser);
         res.status(200).json(addedUser);
     } catch (error) {
         req.logger.warning(`warning log - ${error}`)
@@ -27,7 +25,7 @@ export const addUser = async (req, res) => {
 export const getUserEmail = async (req, res) => {
     const { email, password } = req.body;
     try {
-        const emailUser = await findUserEmail(email);
+        const emailUser = await userService.findUserEmailService(email);
         
         if (!emailUser) {
             req.flash('error_msg', 'The email is incorrect. Try again.');
@@ -78,7 +76,7 @@ export const recoverPassword = async (req, res) => {
     const { email } = req.body;
 
     try {
-        const userData = await findUserEmail(email);
+        const userData = await userService.findUserEmailService(email);
         
     if(!userData) {
         req.flash('error_msg', 'The email is incorrect. Try again.');
@@ -125,7 +123,7 @@ export const restorePassword = async (req, res) => {
     }
 
     try {
-        const userData = await getUserByResetToken(token);
+        const userData = await userService.getUserByResetTokenService(token);
 
         if (!userData) {
             req.flash('error_msg', 'El enlace de restablecimiento es inválido o ha expirado.');
@@ -144,7 +142,6 @@ export const restorePassword = async (req, res) => {
         userData.resetTokenExpiration = undefined;
         await userData.save();
 
-        req.flash('success_msg', 'Contraseña restablecida con éxito.');
         return res.redirect("/auth/login-view");
     } catch (error) {
         req.logger.warning(`warning log - ${error}`);
@@ -160,7 +157,7 @@ export const changeUserRole = async (req, res) => {
     const { uid } = req.params;
     
     try {
-        const user = await findUserId(uid);
+        const user = await userService.findUserIdService(uid);
 
         if(!user) {
             return res.status(404).json({ message: "Usuario no encontrado" });

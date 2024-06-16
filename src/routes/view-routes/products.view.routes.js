@@ -1,15 +1,13 @@
 import { Router } from "express";
+import { ProductsService } from "../../services/products.services.js";
 
+const productsService = new ProductsService()
 const routerProdsViews = Router() 
 
-import {
-    findProducts,
-} from "../../services/products.services.js"; 
-
 routerProdsViews.get("/", async (req, res) => {
-    const { limit = 10, page = 1,sort, query } = req.query
+    const { limit = 12, page = 1,sort, query } = req.query
 
-    const prods = await findProducts({ limit, page, sort, query })
+    const prods = await productsService.getProductsService({ limit, page, sort, query })
     try {
         res.status(200).render("products", {
             js:"/products.js", 

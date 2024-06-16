@@ -1,15 +1,10 @@
+import {ProductsService} from "../services/products.services.js"
+
 import CustomError from "../services/errors/custom.error.js";
 import EErrors from "../services/errors/enums.js";
 import { generateErrorProductsInfo } from "../services/errors/info.js";
 
-import {
-    createProducts,
-    findProducts,
-    findProductsId,
-    updateProduct,
-    deleteProducts,
-    paginateProducts,
-} from "../services/products.services.js"; 
+const productsService = new ProductsService()
 
 //Crear un nuevo producto en la BD con "createProducts"
 export async function addProduct (req, res) {
@@ -25,7 +20,6 @@ export async function addProduct (req, res) {
                 code: EErrors.INVALID_TYPES_ERROR
             })
             
-            console.log(error);
             return res.status(400).json({error})
         }
 
@@ -37,15 +31,15 @@ export async function addProduct (req, res) {
 
         dataProd.owner = owner;
 
-        const newProd = await createProducts(dataProd);
+        const newProd = await productsService.addProductService(dataProd);
         res.status(201).json(newProd);
 }
 
 //Buscar todos los productos con "findProducts"
 export async function getProducts (req, res) {
     try {
-        const { limit = 10, page = 1, sort, query } = req.query;
-        const products = await findProducts({ limit, page, sort, query });
+        const { limit = 12, page = 1, sort, query } = req.query;
+        const products = await productsService.getProductsService({ limit, page, sort, query });
         return res.status(200).json(products);
     } catch (error) {
         req.logger.warning(`warning log - ${error}`)
@@ -58,7 +52,7 @@ export async function getProducts (req, res) {
 export async function getProductsId (req, res) {
     const {id} = req.params;
     try {
-        const product = await findProductsId(id);
+        const product = await productsService.getProductsIdService(id);
         if(!product) {
             return res.status(404)
         }
@@ -75,7 +69,7 @@ export async function updtProduct (req, res) {
     const {id} = req.params;
     const productDat = req.body;
     try {
-        const productUpdated = await updateProduct(id, productDat);
+        const productUpdated = await productsService.updtProductService(id, productDat);
         res.status(201).json(productUpdated);
     } catch (error) {
         req.logger.warning(`warning log - ${error}`)
@@ -88,7 +82,7 @@ export async function updtProduct (req, res) {
 export async function dlteProduct (req, res) {
     const {id} = req.params;
     try {
-        await deleteProducts(id);
+        await productsService.dlteProductService(id);
         res.status(204).end();
     } catch (error) {
         req.logger.warning(`warning log - ${error}`)
@@ -101,7 +95,7 @@ export async function dlteProduct (req, res) {
 export async function paginationProducts (req, res) {
     const { limit, page, sort } = req.query;
     try {
-        const pagesProds = await paginateProducts( limit, page, sort );
+        const pagesProds = await productsService.paginationProducts( limit, page, sort );
         res.json(pagesProds);
     } catch (error) {
         req.logger.warning(`warning log - ${error}`)
