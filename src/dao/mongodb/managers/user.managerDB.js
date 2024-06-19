@@ -12,7 +12,7 @@ export class UserManager {
                 role,
                 password,
             })
-            return { newUser };
+            return newUser ;
         } catch (error) {
             return { success: false, message: `Error al crear un usuario.`, error: error }
         }
