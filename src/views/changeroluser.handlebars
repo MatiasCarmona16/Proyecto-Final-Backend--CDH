@@ -29,24 +29,50 @@
 <main>
     <div class="container">
         <h1>Cambiar Rol del Usuario</h1>
-        {{#if error_msg}}
-            <div style="color: red; font-size: 12px">{{error_msg}}</div>
-        {{/if}}
-        {{#if success_msg}}
-            <div style="color: green; font-size: 12px">{{success_msg}}</div>
-        {{/if}}
+        <div id="messages">
+            {{#if error_msg}}
+                <div style="color: red; font-size: 12px">{{error_msg}}</div>
+            {{/if}}
+            {{#if success_msg}}
+                <div style="color: green; font-size: 12px">{{success_msg}}</div>
+            {{/if}}
+        </div>
         <div id="currentRole">
             <p>Rol actual: {{userInfo.role}}</p>
         </div>
         <form id="changeRoleForm">
             <label for="role">Nuevo Rol:</label>
             <select name="role" id="newRole" required>
-                <option value="usuario">User</option>
+                <option value="usuario">Usuario</option>
                 <option value="premium">Premium</option>
             </select>
             <input type="submit" value="Cambiar Rol">
         </form>
+        <hr>
     </div>
+
+    <div class="container">
+        <h2>Subir Documentos</h2>
+        {{#if error_msg}}
+            <div style="color: red; font-size: 12px">{{error_msg}}</div>
+        {{/if}}
+        {{#if success_msg}}
+            <div style="color: green; font-size: 12px">{{success_msg}}</div>
+        {{/if}}
+        <form id="uploadDocumentsForm" enctype="multipart/form-data">
+            <label for="profile">Perfil:</label>
+            <input type="file" name="profiles" id="profiles" >
+            <br>
+            <label for="product">Producto:</label>
+            <input type="file" name="products" id="products" >
+            <br>
+            <label for="documents">Otros Documentos:</label>
+            <input type="file" name="documents" id="documents" multiple >
+            <br>
+            <input type="submit" value="Subir Documentos">
+        </form>
+    </div>
+
 
     <script>
         document.getElementById('changeRoleForm').addEventListener('submit', function(event) {
@@ -65,12 +91,45 @@
             .then(response => response.json())
             .then(data => {
                 
+                const messagesElement = document.getElementById('messages');
                 const currentRoleElement = document.getElementById('currentRole');
-                currentRoleElement.innerHTML = `<p>Rol actual: ${data.userInfo.role}</p>`;
+                
+                if (data.message) {
+                    if (data.message.includes('cambiado a')) {
+                        messagesElement.innerHTML = `<div style="color: green; font-size: 12px">${data.message}</div>`;
+                    } else {
+                        messagesElement.innerHTML = `<div style="color: red; font-size: 12px">${data.message}</div>`;
+                    }
+                    currentRoleElement.innerHTML = `<p>Rol actual: ${data.userInfo.role}</p>`;
+                } else {
+                    messagesElement.innerHTML = `<div style="color: red; font-size: 12px">Error al cambiar el rol del usuario</div>`;
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
+                document.getElementById('messages').innerHTML = `<div style="color: red; font-size: 12px">Error al cambiar el rol del usuario</div>`;
             });
         });
+
+
+        //script upload documents:
+
+        document.getElementById('uploadDocumentsForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch(`/api/auth/users/{{userInfo._id}}/documents`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message)
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
     </script>
 </main>

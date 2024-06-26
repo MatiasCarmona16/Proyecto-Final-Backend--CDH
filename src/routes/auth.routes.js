@@ -6,12 +6,13 @@ import {
     restorePassword,
     logoutUser,
     changeUserRole,
+    uploadDocuments,
 
 } from "../controllers/user.manager.js";
 
 import errorHandler from '../middlewares/error.js';
-
 import passport from "passport";
+import { uploader } from "../middlewares/multerConfig.js";
 
 const routerAuth = Router ()
 
@@ -20,6 +21,12 @@ routerAuth.post('/login', getUserEmail);
 routerAuth.get('/logout', logoutUser);
 routerAuth.post('/recover-password', recoverPassword);
 routerAuth.post('/restore-password', restorePassword);
+
+routerAuth.post('/users/:uid/documents', uploader.fields([
+    { name: 'profiles', maxCount: 1 },
+    { name: 'products', maxCount: 1 },
+    { name: 'documents', maxCount: 10 }
+]), uploadDocuments); 
 
 routerAuth.post('/users/premium/:uid', changeUserRole);
 

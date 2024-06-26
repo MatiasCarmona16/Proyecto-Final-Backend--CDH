@@ -1,5 +1,6 @@
 import { UserService } from "../services/user.services.js";
 import passport from "passport";
+import path from 'path';
 
 import { isValidatePassword } from "../utils/bcryps.js";
 import { transporter } from "../config/mail.js";
@@ -38,6 +39,10 @@ export const getUserEmail = async (req, res) => {
         }
 
         // Si el usuario y la contraseña son válidos, iniciar sesión
+
+        emailUser.last_connection = new Date();
+        await emailUser.save();
+
         req.session.user = emailUser;
         return res.status(200).redirect('/');
     } catch (error) {
@@ -61,14 +66,28 @@ export const authPassport = async (req, res) => {
 
 //Deslogue al usuario
 export const logoutUser = async (req, res) => {
-    req.session.destroy((err) => {
-        if(err) {
-            console.error('No se pudo cerrar sesion:',err);
-            return res.status(500).json({ error: "Falla en cerrar la sesion" });
-        } else {
-            return res.status(200).redirect("/auth/login-view")
+    try{
+        const userEmail = req.session.user.email;
+        const user = await userService.findUserEmailService(userEmail)
+
+        if (user) {
+            user.last_connection = new Date();
+            await user.save();
         }
-    });
+
+        req.session.destroy((err) => {
+            if(err) {
+                console.error('No se pudo cerrar sesion:',err);
+                return res.status(500).json({ error: "Falla en cerrar la sesion" });
+            } else {
+                return res.status(200).redirect("/auth/login-view")
+            }
+        });
+    }catch (error) {
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
+        res.status(500).json(error);
+    }
 };
 
 //Recuperar la mediante el mail de restauracion
@@ -164,6 +183,14 @@ export const changeUserRole = async (req, res) => {
         }
 
         if (user.role === "usuario") {
+            const requiredDocuments = ['Identificacion', 'Comprobante de domicilio', 'Comprobante de estado de cuenta'];
+            const uploadedDocuments = user.documents.map(doc => doc.name);
+            const hasAllDocuments = requiredDocuments.every(doc => uploadedDocuments.includes(doc));
+
+            if (!hasAllDocuments) {
+                return res.status(400).json({ message: "El usuario no ha completado la documentación requerida" });
+            }
+
             user.role = "premium";
         } else if (user.role === "premium") {
             user.role = "usuario";
@@ -182,3 +209,43 @@ export const changeUserRole = async (req, res) => {
         res.status(500).json({ message: error.message });
 }
 }
+
+//Logica para cargar los documentos
+export const uploadDocuments = async (req, res) => {
+    const { uid } = req.params;
+
+    try {
+        const user = await userService.findUserIdService(uid);
+
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        console.log('req.files:', req.files);
+
+        
+
+        if (req.files) {
+            const files = [].concat(req.files.profiles, req.files.products, req.files.documents).filter(Boolean);
+
+            files.forEach(file => {
+                
+                const originalFileName = path.basename(file.originalname, path.extname(file.originalname));
+
+                user.documents.push({
+                    name: originalFileName,
+                    reference: path.join('uploads', file.destination.split('uploads')[1], file.filename)
+                });
+            });
+            
+            await user.save();
+            return res.status(200).json({ message: 'Documentos subidos con éxito' });
+        } else {
+            return res.status(400).json({ message: 'No se subieron archivos' });
+        }
+    } catch (error) {
+        console.log('hola :p')
+        console.error('Error al subir documentos:', error);
+        return res.status(500).json({ message: error.message,  });
+    }
+};

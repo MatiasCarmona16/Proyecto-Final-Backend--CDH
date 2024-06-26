@@ -67,6 +67,16 @@ export class UserManager {
             return { success: false, message: `Error, no se encontro token de usuario.`, error: error }
         }
     }
+
+    //Metodo para obtener todos los usuarios
+    async getUsersFilter(){
+        try {
+            const usersData = await UserSchema.find({}, 'first_name last_name email role');
+            return usersData;
+        } catch (error) {
+            return { success: false, message: `Error, no se encontraron los usuarios.`, error: error }
+        }
+    }
 }
 
 export default { UserManager }
