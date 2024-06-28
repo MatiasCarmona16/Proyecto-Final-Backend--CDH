@@ -26,4 +26,12 @@ export class UserService {
     async getUserByResetTokenService(token){
         return await userc.getUserByResetToken(token)
     }
+
+    async getUsersService(){
+        return await userc.getUsersFilter()
+    }
+
+    async deleteUsersInactiveService(){
+        return await userc.deleteUsersInactive()
+    }
 }

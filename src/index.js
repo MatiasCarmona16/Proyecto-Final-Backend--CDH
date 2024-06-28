@@ -21,7 +21,7 @@ initialGlobalsMiddleware(app);
 //Carpeta Public
 app.use("/", express.static(path.join(__dirname, "/public")));
 
-//MOTOR DE PLANTILLA
+//Motor de plantilla
 app.engine('handlebars', handlebars.engine({
     runtimeOptions: {
         allowProtoPropertiesByDefault: true,
@@ -39,7 +39,7 @@ app.use(errorHandler);
 setRoutApi(app, requireLogin, passAdmin);
 setRoutViews(app, requireLogin, passAdmin);
 
-//APP LISTEN
+//App listen
 const SERVER_PORT = configvarenv.port;
 
 app.listen (SERVER_PORT, () => {

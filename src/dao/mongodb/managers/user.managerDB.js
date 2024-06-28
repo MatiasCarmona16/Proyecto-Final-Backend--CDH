@@ -77,6 +77,19 @@ export class UserManager {
             return { success: false, message: `Error, no se encontraron los usuarios.`, error: error }
         }
     }
+
+    //Metodo para eliminar los usuarios inactivos
+    async deleteUsersInactive(){
+        const cutOffDate = new Date();
+        cutOffDate.setDate(cutOffDate.getDate() - 2); //2 dias
+
+        try {
+            const deletedUsers = await UserSchema.deleteMany({ last_connection: { $lte: cutOffDate } })
+            return deletedUsers;
+        } catch (error) {
+            return { success: false, message: `Error, no se eliminaron los usuarios.`, error: error }
+        }
+    }
 }
 
 export default { UserManager }

@@ -221,9 +221,6 @@ export const uploadDocuments = async (req, res) => {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        console.log('req.files:', req.files);
-
-        
 
         if (req.files) {
             const files = [].concat(req.files.profiles, req.files.products, req.files.documents).filter(Boolean);
@@ -244,8 +241,31 @@ export const uploadDocuments = async (req, res) => {
             return res.status(400).json({ message: 'No se subieron archivos' });
         }
     } catch (error) {
-        console.log('hola :p')
         console.error('Error al subir documentos:', error);
         return res.status(500).json({ message: error.message,  });
     }
 };
+
+//Logica para mostrar todos los usuarios
+export const getUsers = async (req, res) => {
+    try {
+        const usersInfo = await userService.getUsersService()
+        res.status(200).json(usersInfo)
+    } catch (error) {
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
+        res.status(500).json({ message: error.message });
+    }
+}
+
+//Logica para la eliminaciond de usuarios
+export const deleteUsersInactive = async (req, res) => {
+    try {
+        const deletUser = await userService.deleteUsersInactiveService()
+        res.status(200).json(deletUser)
+    } catch (error) {
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
+        res.status(500).json({ message: error.message });
+    }
+}
