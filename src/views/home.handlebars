@@ -32,60 +32,33 @@
     </div>
 </div>
 
+{{#if userInfo}}
 <div id="chat-button" onclick="toggleChat()">
-        💬 Chat en Vivo
+        💬 Live chat
     </div>
 
     <div id="chat-window">
         <div id="chat-header">
-            <span>Chat en Vivo</span>
+            <span>Live chat 🟢</span>
             <button onclick="toggleChat()">✖</button>
         </div>
-        <div id="chat-content">
-            <p>Hola! ¿En qué puedo ayudarte?</p>
-        </div>
-        <div id="chat-input">
-            <input type="text" placeholder="Escribe tu mensaje...">
-            <button>Enviar</button>
-        </div>
+
+            <div id="chat-content">
+                <p>Hello, dare to write!</p>
+            </div>
+            <div id="chat-input">
+                <div id="chat-input">
+                    <input type="text" placeholder="Escribe tu mensaje...">
+                    <button>Send</button>
+            </div>
     </div>
+{{/if}}
 
 </main>
 
+<script src="/socket.io/socket.io.js"></script>
 <script>
-    //Traer el carrito desde el evento click en la etiqueta a(productsview)
-    async function getToCart(event) {
-    event.preventDefault();
-    try {
-        let cartId = localStorage.getItem("cartId");
-        
-        if (!cartId) {
-            const response = await fetch(`/api/cart/`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
-            const data = await response.json();
-            localStorage.setItem("cartId", data._id);
-            cartId = data._id;
-        }
-        
-        window.location.href = "/productsview";
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-    document.getElementById('deslog').addEventListener('click',logout)
-
-    function logout() {
-        localStorage.removeItem('cartId');
-    }
-
-    function toggleChat() {
-    const chatWindow = document.getElementById('chat-window');
-    chatWindow.style.display = chatWindow.style.display === 'none' || chatWindow.style.display === '' ? 'flex' : 'none';
-}
-
+    const user = "{{userInfo.first_name}}"; 
 </script>
+<script src="/js/home.js"></script>
+<script src="/js/chat.js"></script>

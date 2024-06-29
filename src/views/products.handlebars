@@ -71,81 +71,83 @@
 </div>
 
 <script>
+
     document.addEventListener("DOMContentLoaded", function() {
-            const cards = document.querySelectorAll('.card');
+    const cards = document.querySelectorAll('.card');
 
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('card-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.5
-            });
-
-            cards.forEach(card => {
-                observer.observe(card);
-            });
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('card-visible');
+                observer.unobserve(entry.target);
+            }
         });
+    }, {
+        threshold: 0.5
+    });
+
+    cards.forEach(card => {
+        observer.observe(card);
+    });
+});
 
 
-    //Funcion agregar al carrito
+//Funcion agregar al carrito
 async function addToCart(productId) {
-    try {
-    let cartId = localStorage.getItem("cartId");
-    
-    if (!cartId) {
-        const response = await fetch("/api/cart/", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
-        const data = await response.json();
-        localStorage.setItem("cartId", data._id);
-        cartId = data._id;
-    }
+try {
+let cartId = localStorage.getItem("cartId");
 
-    const response = await fetch(`/api/cart/${cartId}/product/${productId}`, {
-        method: "POST",
-        headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        quantity: 1 
-    })
-    });
+if (!cartId) {
+const response = await fetch("/api/cart/", {
+method: "POST",
+headers: {
+    "Content-Type": "application/json"
+}
+});
+const data = await response.json();
+localStorage.setItem("cartId", data._id);
+cartId = data._id;
+}
 
-    if (!response.ok) {
-        throw new Error("No se pudo agregar producto al Carrito");
-    }
+const response = await fetch(`/api/cart/${cartId}/product/${productId}`, {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({
+quantity: 1 
+})
+});
 
-    const responseData = await response.json();
-    console.log("Producto agregado con exito al carrito:", responseData);
+if (!response.ok) {
+throw new Error("No se pudo agregar producto al Carrito");
+}
 
-    Toastify({
+const responseData = await response.json();
+console.log("Producto agregado con exito al carrito:", responseData);
 
-        text: `Product added to cart`,
-        
-        duration: 2200,
-        gravity: "bottom",
-        style: {
-            background: "rgb(22,22,22)",
-            background: "radial-gradient(circle, rgba(22,22,22,1) 18%, rgba(8,8,8,1) 86%)",
-        },
-        
-        }).showToast();
+Toastify({
 
-    } catch (error) {
-    console.error(error);
-    }
+text: `Product added to cart`,
+
+duration: 2200,
+gravity: "bottom",
+style: {
+    background: "rgb(22,22,22)",
+    background: "radial-gradient(circle, rgba(22,22,22,1) 18%, rgba(8,8,8,1) 86%)",
+},
+
+}).showToast();
+
+} catch (error) {
+console.error(error);
+}
 }
 
 document.getElementById('deslog').addEventListener('click',logout)
-    function logout() {
-        localStorage.removeItem('cartId');
-    }
+function logout() {
+localStorage.removeItem('cartId');
+}
+
 </script>
 

@@ -1,30 +1,28 @@
-// const socket = io ();
+const socket = io();
 
-// socket.on ('mensaje-all', (data) => {
-//     console.log(data)
-//     render(data) //funcion render
-//     let chat = document.getElementById('chatbox')
-//     chat.scrollTop = chat.scrollHeight //mantiene el chat scroleado mostrando lo ultimo
-// })
+document.querySelector('#chat-input button').addEventListener('click', () => {
+    const input = document.querySelector('#chat-input input');
+    const message = input.value;
+    socket.emit('chat message', { user, message });
+    input.value = '';
+});
 
-// const render = (data) => {
-//     const html = data.map(elem => {
-//         return (
-//             `
-//             <div>
-//                 <strong>${elem.author} dice: </strong><em>${elem.text}</em>
-//             </div>
-//             `
-//         )
-//     }).join(' ')
-//     document.getElementById('chatbox').innerHTML = html
-// }
+socket.on('chat message', (msg) => {
+    const chatContent = document.querySelector('#chat-content');
+    const newMessage = document.createElement('p');
+    newMessage.innerHTML = `<strong>${msg.user}</strong>: ${msg.message}`;
+    chatContent.appendChild(newMessage);
 
-// const addMessage = () => {
-//     const msg = {
-//         author: document.getElementById('username').value,
-//         text: document.getElementById('texto').value ,
-//     }
-//     socket.emit('nuevo-mensaje', msg)
-//     return false
-// }
+    chatContent.scrollTop = chatContent.scrollHeight;
+});
+
+socket.on('chat history', (messages) => {
+    const chatContent = document.querySelector('#chat-content');
+    messages.forEach((msg) => {
+        const newMessage = document.createElement('p');
+        newMessage.innerHTML = `<strong>${msg.user}</strong>: ${msg.message}`;
+        chatContent.appendChild(newMessage);
+    });
+
+    chatContent.scrollTop = chatContent.scrollHeight;
+});

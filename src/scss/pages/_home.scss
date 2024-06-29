@@ -34,6 +34,10 @@
     z-index: 1000;
 }
 
+#chat-button:hover {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
 #chat-window {
     position: fixed;
     bottom: 80px;
@@ -47,6 +51,7 @@
     display: none;
     flex-direction: column;
     z-index: 1000;
+    overflow: hidden;
 }
 
 #chat-header {
@@ -72,6 +77,7 @@
     flex: 1;
     padding: 10px;
     overflow-y: auto;
+    word-wrap: break-word;
     background-color: #f1f1f1;
 }
 
@@ -91,6 +97,10 @@
     box-sizing: border-box;
 }
 
+#chat-input input::placeholder {
+    font-size: 13px;
+}
+
 #chat-input button {
     padding: 10px;
     background-color: #181818;
@@ -101,4 +111,6 @@
     box-sizing: border-box;
     white-space: nowrap;
     width: 80px; 
+    font-size: 13px;
 }
+

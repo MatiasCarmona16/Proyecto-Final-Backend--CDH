@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const MessageSchema = mongoose.Schema({
+const messageSchema = new Schema({
 
     user: {
         type: String,
@@ -9,8 +9,11 @@ const MessageSchema = mongoose.Schema({
     message: {
         type: String,
         required: true,
+    },
+    timestamp: {
+        type: Date, 
+        default: Date.now
     }
 })
 
-const Message = mongoose.model('messages', MessageSchema)
-export default Message
+export const MessageSchema = model('chat', messageSchema);

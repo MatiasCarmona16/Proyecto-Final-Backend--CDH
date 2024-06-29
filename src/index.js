@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import handlebars from "express-handlebars";
 import configvarenv from './config/configvarenv.js';
+import http from 'http';
 
 import { __dirname } from './path.js';
 import  MongoSingleton from './dao/mongodb/connectionDB.js';
@@ -12,10 +13,18 @@ import { passAdmin} from './middlewares/admin.js';
 import errorHandler from './middlewares/error.js'
 
 import { addLogger } from './config/logger_Base.js';
+import { setupSocket } from './config/socketio.js';
 
 //Express
 const app = express();
 
+//Server http
+const server = http.createServer(app);
+
+//Confi Socket.io
+setupSocket(server)
+
+//Iniciar middlewares globals
 initialGlobalsMiddleware(app);
 
 //Carpeta Public
@@ -31,6 +40,7 @@ app.engine('handlebars', handlebars.engine({
 app.set('view engine', 'handlebars');
 app.set('views', __dirname+'/views');
 
+//Logger
 app.use(addLogger);
 
 app.use(errorHandler);
@@ -42,7 +52,7 @@ setRoutViews(app, requireLogin, passAdmin);
 //App listen
 const SERVER_PORT = configvarenv.port;
 
-app.listen (SERVER_PORT, () => {
+server.listen (SERVER_PORT, () => {
     console.log(`Server escuchando en el PORT: ${SERVER_PORT}`)
 })
 
