@@ -306,8 +306,18 @@ xmlns="http://www.w3.org/2000/svg"
                     });
 
                     if (response.ok) {
-                    console.log("Compra realizada con éxito");
-                    window.location.href = '/ticket';
+                    Swal.fire({
+                        title: 'Purchase Complete!',
+                        text: 'Your purchase has been successfully processed.',
+                        icon: 'success',
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+
+                    
+                    setTimeout(() => {
+                        window.location.href = '/ticket';
+                    }, 3000);
                     
                     await clearCart();
                 } else {

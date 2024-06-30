@@ -18,7 +18,6 @@ describe('Testeo para la libreria de Encriptacion de password-Bcryps', () => {
 
         //Then
         const result = createHash(passwordTest)
-        console.log(result)
 
         //Assert 
         expect(result).not.to.be.NaN;

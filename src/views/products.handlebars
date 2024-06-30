@@ -120,7 +120,20 @@ quantity: 1
 });
 
 if (!response.ok) {
-throw new Error("No se pudo agregar producto al Carrito");
+const errorData = await response.json();
+            if (response.status === 403) {
+                Toastify({
+                    text: errorData.message,
+                    duration: 2200,
+                    gravity: "bottom",
+                    style: {
+                        background: "#E54242",
+                    },
+                }).showToast();
+            } else {
+                throw new Error(errorData.message || "No se pudo agregar producto al Carrito");
+            }
+            return;
 }
 
 const responseData = await response.json();

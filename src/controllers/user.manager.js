@@ -199,6 +199,9 @@ export const changeUserRole = async (req, res) => {
         }
 
         await user.save();
+
+        req.session.user = user;
+
         res.status(200).json({ 
             message: `Rol cambiado a ${user.role}`,
             userInfo: user 
@@ -264,6 +267,18 @@ export const deleteUsersInactive = async (req, res) => {
         const deletUser = await userService.deleteUsersInactiveService()
         res.status(200).json(deletUser)
     } catch (error) {
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
+        res.status(500).json({ message: error.message });
+    }
+}
+
+export const getUserSpecificbyId = async(req, res) => {
+    const { uid } = req.params;
+    try {
+        const userFound = await userService.findUserIdService(uid)
+        return userFound;
+    } catch(error) {
         req.logger.warning(`warning log - ${error}`)
         req.logger.error(`error log - ${error}`)
         res.status(500).json({ message: error.message });

@@ -6,7 +6,7 @@ routerCartView.get('/', async (req, res) => {
     try{
         res.status(200).render("cart", { userInfo: req.session.user, titulo: "Carrito"})
     } catch (error) {
-        console.log(error)
+        console.error(error)
         res.status(500).render("cart")
     }
 })

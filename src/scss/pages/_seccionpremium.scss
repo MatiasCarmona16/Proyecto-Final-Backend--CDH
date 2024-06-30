@@ -1,0 +1,56 @@
+.container-change-rol {
+    margin: 70px 0 50px 0 ;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 50px 30px;
+    background: #fff;
+    box-shadow: 0px 10px 32px 19px rgba(0,0,0,0.2);
+    border-radius: 10px;
+}
+
+.container-change-rol h1 {
+    font-weight: 400;
+    margin: 0 0 14px 0;
+}
+
+.container-change-rol ul {
+    color: rgb(163, 20, 20);
+    font-size: 16px;
+}
+
+.form-uploaddoc select {
+    margin: 0 0 0 7px;
+    padding: 5px 10px;
+    border-color: rgb(119, 119, 119);
+    border-radius: 4px;
+}
+
+.form-uploaddoc input{
+    background-color: black;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border-color: transparent;
+}
+
+.container-change-rol h2 {
+    font-weight: 400;
+    margin: 10px 0 15px 0;
+    font-size: 27px;
+}
+
+.form-subir-arch label, input{
+    margin: 10px 0 0 0;
+    
+}
+
+.form-subir-arch input[type="submit"]{
+    background-color: black;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border-color: transparent;
+    margin: 15px 0 0 0;
+}
+

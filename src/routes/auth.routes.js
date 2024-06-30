@@ -8,7 +8,8 @@ import {
     changeUserRole,
     uploadDocuments,
     getUsers,
-    deleteUsersInactive
+    deleteUsersInactive,
+    getUserSpecificbyId
 
 } from "../controllers/user.manager.js";
 
@@ -32,7 +33,8 @@ routerAuth.post('/users/:uid/documents', uploader.fields([
 routerAuth.post('/users/premium/:uid', changeUserRole);
 
 routerAuth.get('/users', getUsers);
-routerAuth.delete('/users-inactivity', deleteUsersInactive)
+routerAuth.get('/users/:uid', getUserSpecificbyId);
+routerAuth.delete('/users-inactivity', deleteUsersInactive);
 
 routerAuth.get('/github', passport.authenticate("github", {scope:["user:email"]}), async (req, res) => {});
 routerAuth.get('/callbackGithub', passport.authenticate("github", {}), async (req, res) => {

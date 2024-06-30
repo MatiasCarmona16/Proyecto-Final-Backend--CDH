@@ -30,7 +30,7 @@ export const uploader = multer({
     storage,
     // Si se genera algun error, se captura: 
     onError: function(err, next) {
-        console.log(err, 'HELO');
+        console.log(err);
         next()
     }
 })

@@ -40,8 +40,8 @@ export const checkProductOwnerShipInCart = async (req, res, next) => {
         if(!product){
             return res.status(404).json({ message: "Producto no encontrado" });
         }
-        if(user.role === "premium" && product.owner === user.email) {
-            return res.status(403).json({ message: "No puedes agregar tus propios productos al carrito" });
+        if(product.owner === user.email) {
+            return res.status(403).json({ message: "You cannot add your own products to the cart" });
         }
 
         return next();

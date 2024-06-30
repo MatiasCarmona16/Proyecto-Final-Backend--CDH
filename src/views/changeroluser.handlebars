@@ -9,7 +9,7 @@
 
             <div class="header-a">
             <a href="http://localhost:8080" class="btn-dec">Home</a>
-            <a href="/productsview" class="btn-dec">iStore</a>
+            <a href="/productsview" class="btn-dec" onclick="getToCart(event)">iStore</a>
             {{#if userInfo}}
                         <p><a class="btn-dec" href="/auth/change-rol-user">Hi {{userInfo.first_name}}!</a></p>
                         <a id="deslog" href="/api/auth/logout" class="btn-dec">Logout</a>
@@ -28,53 +28,69 @@
 
 <main>
     <div class="container">
-        <h1>Cambiar Rol del Usuario</h1>
-        <div id="messages">
-            {{#if error_msg}}
-                <div style="color: red; font-size: 12px">{{error_msg}}</div>
-            {{/if}}
-            {{#if success_msg}}
-                <div style="color: green; font-size: 12px">{{success_msg}}</div>
-            {{/if}}
+
+        <div>
+            <a href="/productaccesspremium">Sell your products on the iStore!</a>
         </div>
+
+        <div class="container-change-rol">
+
+        <h1>Change your role to get more access!</h1>
+
+        <p>To change your role from "user" to "premium," you must upload 3 documents in txt format with the following exact names:</p>
+        <ul>
+            <li>Identificacion</li>
+            <li>Comprobante de domicilio</li>
+            <li>Comprobante de estado de cuenta</li>
+        </ul>
+
+            
+
         <div id="currentRole">
-            <p>Rol actual: {{userInfo.role}}</p>
+            <p>You currently have user access: <strong>{{userInfo.role}}</strong></p>
         </div>
-        <form id="changeRoleForm">
-            <label for="role">Nuevo Rol:</label>
+
+        <form class="form-uploaddoc" id="changeRoleForm">
+            <label for="role">Change role to:</label>
             <select name="role" id="newRole" required>
-                <option value="usuario">Usuario</option>
+                <option value="usuario">User</option>
                 <option value="premium">Premium</option>
             </select>
-            <input type="submit" value="Cambiar Rol">
+            <input type="submit" value="Update">
         </form>
-        <hr>
-    </div>
 
-    <div class="container">
-        <h2>Subir Documentos</h2>
-        {{#if error_msg}}
-            <div style="color: red; font-size: 12px">{{error_msg}}</div>
-        {{/if}}
-        {{#if success_msg}}
-            <div style="color: green; font-size: 12px">{{success_msg}}</div>
-        {{/if}}
-        <form id="uploadDocumentsForm" enctype="multipart/form-data">
-            <label for="profile">Perfil:</label>
-            <input type="file" name="profiles" id="profiles" >
+        <div id="messages">
+                {{#if error_msg}}
+                    <div style="color: red; font-size: 12px">{{error_msg}}</div>
+                {{/if}}
+                {{#if success_msg}}
+                    <div style="color: green; font-size: 12px">{{success_msg}}</div>
+                {{/if}}
+            </div>
+
+        <hr>
+        
+        <h2>Upload documents 🗎</h2>
+        <form class="form-subir-arch" id="uploadDocumentsForm" enctype="multipart/form-data">
+            <label for="profile">Upload avatar photo:</label>
+            <input class="inputs-form-arch" type="file" name="profiles" id="profiles" >
             <br>
-            <label for="product">Producto:</label>
-            <input type="file" name="products" id="products" >
+            <label for="product">Upload product photo:</label>
+            <input class="inputs-form-arch" type="file" name="products" id="products" >
             <br>
-            <label for="documents">Otros Documentos:</label>
-            <input type="file" name="documents" id="documents" multiple >
+            <label for="documents">Upload documents:</label>
+            <input class="inputs-form-arch" type="file" name="documents" id="documents" multiple >
             <br>
-            <input type="submit" value="Subir Documentos">
+            <input class="inputs-form-arch-button" type="submit" value="Upload file">
         </form>
+
+        </div>
+
     </div>
 
 
     <script>
+
         document.getElementById('changeRoleForm').addEventListener('submit', function(event) {
             event.preventDefault(); 
             
@@ -100,7 +116,7 @@
                     } else {
                         messagesElement.innerHTML = `<div style="color: red; font-size: 12px">${data.message}</div>`;
                     }
-                    currentRoleElement.innerHTML = `<p>Rol actual: ${data.userInfo.role}</p>`;
+                    currentRoleElement.innerHTML = `<p>You currently have user access: <strong>${data.userInfo.role}</strong></p>`;
                 } else {
                     messagesElement.innerHTML = `<div style="color: red; font-size: 12px">Error al cambiar el rol del usuario</div>`;
                 }
@@ -125,11 +141,41 @@
         })
         .then(response => response.json())
         .then(data => {
-            alert(data.message)
+            Swal.fire({
+                    icon: 'success',
+                    title: 'Document Uploaded',
+                    text: data.message,
+                    showConfirmButton: false,
+                    timer: 2000 
+                });
         })
         .catch(error => {
             console.error('Error:', error);
         });
     });
+
+
+    async function getToCart(event) {
+    event.preventDefault();
+    try {
+        let cartId = localStorage.getItem("cartId");
+        
+        if (!cartId) {
+            const response = await fetch(`/api/cart/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            const data = await response.json();
+            localStorage.setItem("cartId", data._id);
+            cartId = data._id;
+        }
+        
+        window.location.href = "/productsview";
+    } catch (error) {
+        console.error(error);
+    }
+}
     </script>
 </main>
