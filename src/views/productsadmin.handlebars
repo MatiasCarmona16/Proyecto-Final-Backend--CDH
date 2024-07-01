@@ -3,18 +3,23 @@
     <nav class="navbar p-5 mt-2">
         <div class="container-navbar">
             <div class="marca-nav">
-                <a href="http://localhost:8080" class="navbar-brand">IPhone Store</a>
+                <a href="http://localhost:8080" class="navbar-brand">iPhone Store</a>
             </div>
             
 
             <div class="header-a">
-            <a href="http://localhost:8080">Inicio</a>
-            <a href="/productsview">Productos</a>
+            <a href="http://localhost:8080" class="btn-dec">Home</a>
+            <a href="/productsview" class="btn-dec">iStore</a>
             {{#if userInfo}}
-                        <a id="deslog" href="/api/auth/logout">Logout</a>
+                        {{#if isAdminUser}}
+                            <a href="/productsaccesadmin" class="btn-dec">Admin Dashboard</a>
+                        {{/if}}
+
+                        <p><a href="/auth/change-rol-user" class="btn-dec">Hi {{userInfo.first_name}}!</a></p>
+                        <a id="deslog" href="/api/auth/logout" class="btn-dec">Logout</a>
                     {{else}}
-                        <a href="/auth/login-view">Login</a>
-                        <a href="/auth/register-view">Register</a>
+                        <a href="/auth/login-view" class="btn-dec">Login</a>
+                        <a href="/auth/register-view" class="btn-dec">Register</a>
                     {{/if}}
             </div>
 
@@ -25,41 +30,37 @@
 
 <div class="container">
 
-    <h2 class="title-adm-prod">Agregar Productos por "ADMIN"</h2>
+    <h2 class="title-adm-prod">Add product to iStore with "Admin" access</h2>
+    <hr>
     <div class="form-contenedor-prodsadmin">
     <form action= "/api/products/" method="post" class="form">
-        <p>Agregar Producto:</p>
+        <p>Product dates:</p>
         
         <div class="input-container">
-            <input  type="text" name="title" placeholder="Nombre del producto" >
+            <input  type="text" name="title" placeholder="Product name" >
         </div>
 
         <div class="input-container">
-            <input type="text" name="description" placeholder="Descripcion del producto" >
+            <input type="text" name="description" placeholder="Product description" >
         </div>
 
         <div class="input-container">
-            <input type="text" name="thumbnail" placeholder="Url de la imagen" >
+            <input type="text" name="thumbnail" placeholder="Url Thumbnail" >
         </div>
 
         <div class="input-container">
-            <input type="number" name="price" placeholder="Precio del producto" >
+            <input type="number" name="price" placeholder="Price" >
         </div>
 
         <div class="input-container">
-            <input type="text" name="category" placeholder="Categoria del producto" >
+            <input type="text" name="category" placeholder="Category" >
         </div>
     
         <div class="input-container">
-            <input type="number" name="stock" placeholder="Stock del producto" >
-        </div>
-
-        <div class="input-container">
-            <input type="text" name="code" placeholder="Codigo del producto" >
+            <input type="number" name="stock" placeholder="Stock" >
         </div>
             
-            
-            <input id="button-aut-send" type="submit" value="Agregar producto a la BD" class="submit">
+            <input id="button-aut-send" type="submit" value="Add to iStore" class="submit">
         </input>
         </form>
     </div>

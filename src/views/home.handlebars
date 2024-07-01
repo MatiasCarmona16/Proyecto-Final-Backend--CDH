@@ -12,6 +12,10 @@
             <a href="/productsview" class="btn-dec" onclick="getToCart(event)">iStore</a>
             
             {{#if userInfo}}
+                        {{#if isAdminUser}}
+                            <a href="/productsaccesadmin" class="btn-dec">Admin Dashboard</a>
+                        {{/if}}
+
                         <p><a href="/auth/change-rol-user" class="btn-dec">Profile</a></p>
                         <a id="deslog" href="/api/auth/logout" class="btn-dec">Logout</a>
                     {{else}}
@@ -59,6 +63,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     const user = "{{userInfo.first_name}}"; 
+    const errorMessage = "{{error_msg}}";
 </script>
 <script src="/js/home.js"></script>
 <script src="/js/chat.js"></script>

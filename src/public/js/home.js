@@ -22,6 +22,24 @@ async function getToCart(event) {
     }
 }
 
+document.addEventListener("DOMContentLoaded", function() {
+    
+    if (errorMessage) {
+        Toastify({
+            text: errorMessage,
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            offset: {
+                y: 160 
+            },
+            backgroundColor: "#E54242",
+            className: "custom-toast",
+        }).showToast();
+    }
+});
+
     function toggleChat() {
     const chatWindow = document.getElementById('chat-window');
     chatWindow.style.display = chatWindow.style.display === 'none' || chatWindow.style.display === '' ? 'flex' : 'none';

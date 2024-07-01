@@ -9,7 +9,8 @@ import  MongoSingleton from './dao/mongodb/connectionDB.js';
 import { initialGlobalsMiddleware } from './middlewares/config.middleware.js'; 
 import { setRoutApi, setRoutViews } from './routes/index.js';
 import { requireLogin } from './middlewares/auth.js';
-import { passAdmin} from './middlewares/admin.js';
+import { passAdmin } from './middlewares/passAdm.js';
+import { passPrem } from './middlewares/passPrem.js';
 import errorHandler from './middlewares/error.js'
 
 import { addLogger } from './config/logger_Base.js';
@@ -46,8 +47,8 @@ app.use(addLogger);
 app.use(errorHandler);
 
 //Routes
-setRoutApi(app, requireLogin, passAdmin);
-setRoutViews(app, requireLogin, passAdmin);
+setRoutApi(app, requireLogin, passAdmin, passPrem);
+setRoutViews(app, requireLogin, passAdmin, passPrem);
 
 //App listen
 const SERVER_PORT = configvarenv.port;

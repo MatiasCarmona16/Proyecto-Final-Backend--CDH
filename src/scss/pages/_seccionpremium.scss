@@ -1,5 +1,5 @@
 .container-change-rol {
-    margin: 70px 0 50px 0 ;
+    margin: 0 0 50px 0 ;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -40,9 +40,12 @@
     font-size: 27px;
 }
 
-.form-subir-arch label, input{
+.form-subir-arch label{
     margin: 10px 0 0 0;
-    
+}
+
+.form-subir-arch input {
+    margin: 10px 0 0 0;
 }
 
 .form-subir-arch input[type="submit"]{
@@ -54,3 +57,24 @@
     margin: 15px 0 0 0;
 }
 
+#messages {
+    margin: 10px 0 0 0 ;
+}
+
+.container-etiq-a-prem {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: end;
+    margin: 50px 0 10px 0;
+}
+
+.container-etiq-a-prem a {
+    font-weight: 300;
+    font-style: italic;
+}
+
+.container-etiq-a-prem a:hover{
+    
+    text-shadow: 6px 5px 10px rgba(0,0,0,0.54);
+}
