@@ -109,18 +109,31 @@ export const recoverPassword = async (req, res) => {
         from: 'iPhone Store <matias2002carmona@gmail.com>',
         to: `${userData.email}`,
         subject: 'Recover password',
-        text: 'El link para restablecer la contrasena expirara en 1 hora.',
+        text: 'The link to reset your password will expire in 1 hour.',
         html: `
-            <div>
-                <h1>Link para restaurar contrasena</h1>
-                <p>Link: <a href="http://localhost:8080/auth/restore-password-view?token=${token}"> Haz click aqui para recuperar la contrasena</a></p>
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+            <div style="text-align: center; padding: 20px; background-color: #f4f4f4;">
+                <h1 style="color: #333;">iPhone Store</h1>
             </div>
-        `,
+            <div style="padding: 20px;">
+                <h2>Password Reset Link</h2>
+                <p style="font-size: 16px;">Click the following link to reset your password. This link will expire in 1 hour.</p>
+                <p style="font-size: 16px;">
+                    Link: <a href="http://localhost:8080/auth/restore-password-view?token=${token}" style="color: #007bff; text-decoration: none;">Click here to reset your password</a>
+                </p>
+                <p style="font-size: 16px;">If you did not request a password change, please ignore this email.</p>
+                <p style="font-size: 16px;">Thank you,</p>
+                <p style="font-size: 16px;">The iPhone Store Team</p>
+            </div>
+            <div style="text-align: center; padding: 20px; background-color: #f4f4f4;">
+                <p style="font-size: 14px; color: #777;">© 2024 iPhone Store. All rights reserved.</p>
+            </div>
+        </div>
+    `,
     })
 
     if(!!mensaje.messageId){
-        console.log('Mensaje enviado', mensaje.messageId)
-        res.send('Mensaje enviado')
+        return res.status(200).json({ success: true, message: 'Email sent successfully.' });
     }
 
     } catch(error) {
@@ -313,8 +326,6 @@ export const deleteUser = async (req, res) => {
 export const deleteUsersInactive = async (req, res) => {
     try {
         const deletUser = await userService.deleteUsersInactiveService()
-        console.log (deletUser)
-
 
         res.status(200).json(deletUser)
     } catch (error) {

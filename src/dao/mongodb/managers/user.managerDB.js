@@ -1,4 +1,5 @@
 import { UserSchema } from "../models/user.schema.js";
+import { transporter } from "../../../config/mail.js";
 
 export class UserManager {
     //Metodo para crear un usuario
@@ -97,12 +98,50 @@ export class UserManager {
         cutOffDate.setDate(cutOffDate.getDate() - 2); //2 dias
 
         try {
+            const inactiveUsers = await UserSchema.find({ last_connection: { $lte: cutOffDate } });
+
             const deletedUsers = await UserSchema.deleteMany({ last_connection: { $lte: cutOffDate } })
-            return deletedUsers;
+
+            for (const user of inactiveUsers) {
+                const mailOptions = {
+                    from: 'iPhone Store <matias2002carmona@gmail.com>',
+                    to: user.email,
+                    subject: 'Account Deletion Notification',
+                    text: `Hello ${user.first_name}`,
+                    html: `
+                    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+                        <div style="text-align: center; padding: 20px; background-color: #f4f4f4;">
+                            <h1 style="color: #333;">iPhone Store</h1>
+                        </div>
+                        <div style="padding: 20px;">
+                            <h2>Hello ${user.first_name},</h2>
+                            <p style="font-size: 16px;">We noticed that you have been inactive on the iPhone Store for more than 2 days. As a result, your account has been removed due to inactivity.</p>
+                            <p style="font-size: 16px;">If you have any questions or believe this is a mistake, please contact our support team.</p>
+                            <p style="font-size: 16px;">Thank you for your understanding.</p>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background-color: #f4f4f4;">
+                            <p style="font-size: 14px; color: #777;">© 2024 iPhone Store. All rights reserved.</p>
+                        </div>
+                    </div>
+                `,
+                };
+
+                try {
+                    await transporter.sendMail(mailOptions);
+                } catch (error) {
+                    console.error(`Failed to send email to ${user.email}: ${error.message}`);
+                }
+            }
+
+            return { 
+                deletedCount: deletedUsers.deletedCount,
+                inactiveUsers: inactiveUsers
+            };
         } catch (error) {
-            return { success: false, message: `Error, no se eliminaron los usuarios.`, error: error }
+            return { success: false, message: `Error, no se eliminaron los usuarios inactivos.`, error: error }
         }
     }
+
 }
 
 export default { UserManager }

@@ -102,11 +102,21 @@ export async function dlteProduct (req, res) {
                 subject: 'Your product was removed from the iStore',
                 text: 'Your product was removed from our iPhone Store page.',
                 html: `
-                    <div>
-                        <h1>Hi ${user.first_name}!</h1>
-                        <p>We had problems with your product, therefore it is removed from our store for certain reasons.</p>
-                    </div>
-                `,
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+            <div style="text-align: center; padding: 20px; background-color: #f4f4f4;">
+                <h1 style="color: #333;">iPhone Store</h1>
+            </div>
+            <div style="padding: 20px;">
+                <h2>Hi ${user.first_name}!</h2>
+                <p style="font-size: 16px;">We had problems with your product, therefore it has been removed from our store for certain reasons.</p>
+                <p style="font-size: 16px;">If you have any questions or need further assistance, please contact our support team.</p>
+                <p style="font-size: 16px;">Thank you for your understanding.</p>
+            </div>
+            <div style="text-align: center; padding: 20px; background-color: #f4f4f4;">
+                <p style="font-size: 14px; color: #777;">© 2024 iPhone Store. All rights reserved.</p>
+            </div>
+        </div>
+    `,
             })
 
             if(!!mensaje.messageId){

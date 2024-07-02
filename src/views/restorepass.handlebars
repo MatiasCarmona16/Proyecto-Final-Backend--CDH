@@ -21,28 +21,30 @@
 
 <main>
     <div class="container">
-        <h1>Restaurar contraseña</h1>
-        <p>Por favor, ingresa tu nueva contraseña y confírmala.</p>
-        
-        
+        <div class="container-all-restorepass">
+            <h1>Reset password</h1>
+            <hr>
+            <p>Please enter your new password and confirm it.</p>
 
-        <form action="/api/auth/restore-password" method="post">
+
+            <form action="/api/auth/restore-password" method="post">
             {{#if error_msg}}
-            <div style="color: red; font-size: 12px">{{error_msg}}</div>
-        {{/if}}
+                <div class="error-restore">{{error_msg}}</div>
+            {{/if}}
+
             <input type="hidden" name="token" value="{{token}}">
-            <div>
-                <label for="newPassword">Nueva contraseña:</label>
-                <input type="password" id="newPassword" name="newPassword" required placeholder="Nueva contraseña">
-            </div>
-            <div>
-                <label for="confirmPassword">Confirmar nueva contraseña:</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirmar nueva contraseña">
-            </div>
-            <div>
-                <input type="submit" value="Restablecer contraseña">
+            <div class="container-input-label-res">
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" name="newPassword" required placeholder="New Password">
+            
+            
+                <label id="label-confirm" for="confirmPassword">Confirm new password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm new password">
+
+                <input class="butt-res-pass" type="submit" value="Restore password">
             </div>
         </form>
+        </div>
     </div>
 </main>
 

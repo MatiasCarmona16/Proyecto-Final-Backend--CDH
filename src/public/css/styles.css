@@ -1115,4 +1115,79 @@ svg {
   margin: 15px 0 0 0;
 }
 
+.container-tittl-rec {
+  margin: 100px 0 0 0;
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+}
+
+.form-recover-pass input {
+  border-radius: 5px;
+  border: 1px solid rgb(197, 197, 197);
+}
+
+.input-email-rec {
+  padding: 6px 5px;
+  width: 300px;
+}
+
+.input-send-rec {
+  background-color: black;
+  color: white;
+  padding: 6px 9px;
+}
+
+.input-send-rec:hover {
+  background-color: rgb(34, 34, 34);
+}
+
+.container-all-restorepass {
+  margin: 100px 0 0 0;
+  background-color: white;
+  border-radius: 10px;
+  padding: 40px;
+}
+
+#newPassword {
+  padding: 6px 5px;
+  width: 250px;
+  border-radius: 5px;
+  border: 1px solid rgb(197, 197, 197);
+}
+
+#confirmPassword {
+  padding: 6px 5px;
+  width: 250px;
+  border-radius: 5px;
+  border: 1px solid rgb(197, 197, 197);
+}
+
+.container-input-label-res {
+  display: inline-block;
+}
+
+#label-confirm {
+  margin: 0 2px 0 10px;
+}
+
+.butt-res-pass {
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  padding: 6px 8px;
+  border: 1px solid transparent;
+  margin: 0 0 0 10px;
+}
+
+.butt-res-pass:hover {
+  background-color: rgb(34, 34, 34);
+}
+
+.error-restore {
+  font-size: 12px;
+  color: red;
+  margin: 0 0 10px 0;
+}
+
 /*# sourceMappingURL=styles.css.map */
