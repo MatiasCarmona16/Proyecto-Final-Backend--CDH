@@ -64,4 +64,196 @@
         </input>
         </form>
     </div>
+
+
+    <div class="container-users-table">
+        <h2>Users:</h2>
+    </div>
+
+    <hr>
+
+    <table class="admin-user-table">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users}}
+            <tr>
+                <td>{{this.first_name}}</td>
+                <td>{{this.last_name}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.role}}</td>
+                <td>
+                    <button class="delete-user-btn" data-user-id="{{this._id}}">Delete</button>
+                    <button class="change-role-btn" data-user-id="{{this._id}}" data-user-role="{{this.role}}">Change Role</button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <div class="option-clean-user">
+        <h3>Eliminate those accounts that have been inactive for more than 2 days</h3>
+        <button id="clean-users-btn" class="clean-users-button">Clean Users</button>
+    </div>
 </div>
+
+<script>
+
+    //Eliminacion de usuario
+    document.querySelectorAll('.delete-user-btn').forEach(button => {
+        button.addEventListener('click', async (event) => {
+            const userId = event.target.getAttribute('data-user-id');
+
+            const confirmation = await Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            });
+
+            if (confirmation.isConfirmed) {
+                try {
+                    const response = await fetch(`/api/auth/users/${userId}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Error deleting user: ' + (result.message || 'Unknown error')
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: 'User has been deleted successfully.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Error deleting user: ' + error.message
+                    });
+                }
+            }
+        });
+    });
+
+//Cambiar el rol de los usuarios
+document.querySelectorAll('.change-role-btn').forEach(button => {
+        button.addEventListener('click', async (event) => {
+            const userId = event.target.getAttribute('data-user-id');
+            const currentRole = event.target.getAttribute('data-user-role');
+            const newRole = currentRole === 'usuario' ? 'premium' : 'usuario';
+
+            const confirmation = await Swal.fire({
+                title: 'Are you sure?',
+                text: `You are about to change the role to ${newRole}.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, change it!'
+            });
+
+            if (confirmation.isConfirmed) {
+                try {
+                    const response = await fetch(`/api/auth/users/admin/${userId}`, {
+                        method: 'POST'
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    const result = await response.json();
+
+                    if (result.message) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Role Changed!',
+                            text: `User role has been changed to ${newRole}.`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Error changing role: ' + (result.message || 'Unknown error')
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Error changing role: ' + error.message
+                    });
+                }
+            }
+        });
+    });
+
+    //Eliminacion de usuarios inactivos 
+    document.getElementById('clean-users-btn').addEventListener('click', async () => {
+        try {
+            const response = await fetch('/api/auth/users-inactivity', {
+                method: 'DELETE'
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const result = await response.json();
+
+            if (result.success) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Error cleaning users: ' + (result.message || 'Unknown error')
+                });
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Users Cleaned!',
+                    text: 'Inactive users have been deleted successfully.',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    window.location.reload();
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Error cleaning users: ' + error.message
+            });
+        }
+    });
+</script>

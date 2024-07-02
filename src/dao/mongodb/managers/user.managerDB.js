@@ -78,6 +78,19 @@ export class UserManager {
         }
     }
 
+    //Metodo para eliminar usuario especifico
+    async deleteUserSpecific(id){
+        try{
+            const result = await UserSchema.findByIdAndDelete(id);
+            if (!result) {
+                throw new Error('User not found');
+            }
+            return { success: true, message: "User deleted successfully." };
+        }catch(error){
+            return { success: false, message: `Error, no se elimino el usuario.`, error: error }
+        }
+    }
+
     //Metodo para eliminar los usuarios inactivos
     async deleteUsersInactive(){
         const cutOffDate = new Date();

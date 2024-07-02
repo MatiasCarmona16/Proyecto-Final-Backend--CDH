@@ -31,6 +31,10 @@ export class UserService {
         return await userc.getUsersFilter()
     }
 
+    async deleteUserService(id){
+        return await userc.deleteUserSpecific(id)
+    }
+
     async deleteUsersInactiveService(){
         return await userc.deleteUsersInactive()
     }

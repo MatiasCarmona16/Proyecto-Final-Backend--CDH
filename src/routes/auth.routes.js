@@ -9,7 +9,9 @@ import {
     uploadDocuments,
     getUsers,
     deleteUsersInactive,
-    getUserSpecificbyId
+    getUserSpecificbyId,
+    deleteUser,
+    changeUserRoleforAdmin
 
 } from "../controllers/user.manager.js";
 
@@ -31,7 +33,10 @@ routerAuth.post('/users/:uid/documents', uploader.fields([
     { name: 'documents', maxCount: 10 }
 ]), uploadDocuments); 
 routerAuth.post('/users/premium/:uid', changeUserRole);
+routerAuth.post('/users/admin/:uid', changeUserRoleforAdmin);
 
+
+routerAuth.delete('/users/:uid', deleteUser);
 routerAuth.get('/users', getUsers);
 routerAuth.get('/users/:uid', getUserSpecificbyId);
 routerAuth.delete('/users-inactivity', deleteUsersInactive);

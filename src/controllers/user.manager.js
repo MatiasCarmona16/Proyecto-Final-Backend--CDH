@@ -170,7 +170,7 @@ export const restorePassword = async (req, res) => {
     }
 };
 
-//Logica para que cambie de rol el usuario
+//Logica para que cambie de rol el usuario desde la vista usuario
 
 export const changeUserRole = async (req, res) => {
     const { uid } = req.params;
@@ -211,6 +211,40 @@ export const changeUserRole = async (req, res) => {
         req.logger.error(`error log - ${error}`);
         res.status(500).json({ message: error.message });
 }
+}
+
+//Logica para cambiar el rol de usuario desde la vista de admin
+
+export const changeUserRoleforAdmin = async (req, res) => {
+    const { uid } = req.params;
+    
+    try {
+        const user = await userService.findUserIdService(uid);
+
+        if(!user) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+
+        if (user.role === "usuario") {
+            user.role = "premium";
+        } else if (user.role === "premium") {
+            user.role = "usuario";
+        } else {
+            return res.status(400).json({ message: "Rol no válido" });
+        }
+
+        await user.save();
+
+        res.status(200).json({ 
+            message: `Rol cambiado a ${user.role}`,
+            userInfo: user 
+        });
+
+    }catch(error) {
+        req.logger.warning(`warning log - ${error}`);
+        req.logger.error(`error log - ${error}`);
+        res.status(500).json({ message: error.message });
+    }
 }
 
 //Logica para cargar los documentos
@@ -261,10 +295,27 @@ export const getUsers = async (req, res) => {
     }
 }
 
-//Logica para la eliminaciond de usuarios
+//Logica para eliminar un usuario en especifico
+export const deleteUser = async (req, res) => {
+    const { uid } = req.params
+
+    try{
+        await userService.deleteUserService(uid)
+        res.status(200).send({ succes: true })
+    }catch(error){
+        req.logger.warning(`warning log - ${error}`)
+        req.logger.error(`error log - ${error}`)
+        res.status(500).json({ message: error.message });
+    }
+}
+
+//Logica para la eliminacion de usuarios
 export const deleteUsersInactive = async (req, res) => {
     try {
         const deletUser = await userService.deleteUsersInactiveService()
+        console.log (deletUser)
+
+
         res.status(200).json(deletUser)
     } catch (error) {
         req.logger.warning(`warning log - ${error}`)

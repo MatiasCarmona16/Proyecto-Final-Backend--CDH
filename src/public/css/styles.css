@@ -396,6 +396,110 @@ svg {
   align-items: center;
 }
 
+.container-users-table {
+  margin: 90px 0 0 0;
+}
+
+.container-users-table h2 {
+  font-weight: 300;
+}
+
+/* Estilo para la tabla de usuarios */
+.admin-user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.admin-user-table th, .admin-user-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.admin-user-table td {
+  text-align: center;
+}
+
+.admin-user-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  text-align: center;
+}
+
+.admin-user-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.admin-user-table tr:hover {
+  background-color: #ddd;
+}
+
+.admin-user-table th, .admin-user-table td {
+  padding: 12px 15px;
+}
+
+.delete-user-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.delete-user-btn:hover {
+  background-color: #c82333;
+}
+
+.change-role-btn {
+  background-color: rgb(209, 209, 40);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 0 0 0 10px;
+}
+
+.change-role-btn:hover {
+  background-color: rgb(190, 190, 38);
+}
+
+.option-clean-user {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 60px;
+  border: 1px solid rgb(214, 214, 214);
+  border-radius: 10px;
+  margin: 0 0 20px 0;
+}
+
+.option-clean-user h3 {
+  font-weight: 300;
+  font-size: 20px;
+  margin: 0 0 0 10px;
+}
+
+.clean-users-button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.clean-users-button:hover {
+  background-color: #45a049;
+}
+
 .card-flex {
   display: flex;
   justify-content: center;
