@@ -652,6 +652,42 @@ svg {
     opacity: 1;
   }
 }
+.boton-next-prod {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin: 20px 0 40px 0;
+}
+
+.boton-next-prod a {
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px 5px 10px;
+}
+
+.boton-next-prod a:hover {
+  background-color: rgb(37, 37, 37);
+}
+
+.boton-atras-prod {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin: 20px 0 40px 0;
+}
+
+.boton-atras-prod a {
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px 5px 10px;
+}
+
+.boton-atras-prod a:hover {
+  background-color: rgb(37, 37, 37);
+}
+
 .title-cart {
   font-size: 25px;
   margin: 30px 0 0 50px;

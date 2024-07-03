@@ -47,7 +47,7 @@ app.use(addLogger);
 app.use(errorHandler);
 
 //Routes
-setRoutApi(app, requireLogin, passAdmin, passPrem);
+setRoutApi(app, requireLogin, passPrem);
 setRoutViews(app, requireLogin, passAdmin, passPrem);
 
 //App listen

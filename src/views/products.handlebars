@@ -61,14 +61,14 @@
 </div>
 
 {{#if products.hasNextPage}}
-<div>
-    <a href="{{products.nextLink}}">Siguiente</a>
+<div class="boton-next-prod">
+    <a href="{{products.nextLink}}">Next</a>
 </div>
 {{/if}}
 
 {{#if products.hasPrevPage}}
-<div>
-    <a href="{{products.prevLink}}">Anterior</a>
+<div class="boton-atras-prod">
+    <a href="{{products.prevLink}}">Return</a>
 </div>
 {{/if}}
 
@@ -141,7 +141,6 @@ const errorData = await response.json();
 }
 
 const responseData = await response.json();
-console.log("Producto agregado con exito al carrito:", responseData);
 
 Toastify({
 

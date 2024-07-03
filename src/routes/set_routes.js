@@ -14,8 +14,8 @@ import {
     routerProdsPremium
 } from "./index.js";
 
-const setRoutApi = async (app, requireLogin) => {
-    app.use("/api/products", requireLogin, routerProds);
+const setRoutApi = async (app, requireLogin, passPrem) => {
+    app.use("/api/products", requireLogin,passPrem, routerProds);
     app.use("/api/cart",  routerCart)
     app.use("/api/auth", routerAuth);
     app.use("/api/sessions", requireLogin, routerSession);
@@ -32,5 +32,7 @@ const setRoutViews = async (app, requireLogin, passAdmin, passPrem) => {
     app.use('/ticket', requireLogin, routerViewTicket);
     app.use('/cart', requireLogin, routerCartView);
 }
+
+//Ruta swagger se encuentra en /middlewares/config.middlewares.js
 
 export { setRoutApi, setRoutViews };

@@ -105,3 +105,40 @@ background: linear-gradient(180deg, rgba(246,246,246,1) 9%, rgba(244,244,244,1) 
     }
 }
 
+//Boton next y back
+
+.boton-next-prod {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin: 20px 0 40px 0;
+}
+
+.boton-next-prod a {
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px 5px 10px;
+}
+
+.boton-next-prod a:hover{
+  background-color: rgb(37, 37, 37);
+}
+
+.boton-atras-prod {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin: 20px 0 40px 0;
+}
+
+.boton-atras-prod a {
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px 5px 10px;
+}
+
+.boton-atras-prod a:hover{
+  background-color: rgb(37, 37, 37);
+}
