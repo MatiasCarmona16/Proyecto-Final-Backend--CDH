@@ -36,11 +36,11 @@
         <hr>
 
         <div class="contenedor-create-prod-prem">
-        <form action="/api/products" method="post">
+        <form id="premium-create-product-form">
         
             <label for="title">Title:</label>
             <br>
-            <input type="text" id="title" name="title" required>
+            <input type="text" id="title" name="title" placeholder="Title" required>
             
             <hr>
 
@@ -58,7 +58,7 @@
             
             <label for="price">Price:</label>
             <br>
-            <input type="number" id="price" name="price" step="0.01" required>
+            <input type="number" id="price" name="price" step="0.01" placeholder="Price" required>
 
             <hr>
             
@@ -127,6 +127,57 @@
 </main>
 
 <script>
+    //Crear product siendo premium
+    document.getElementById('premium-create-product-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        const form = event.target;
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        
+        try {
+            const response = await fetch('/api/products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            
+            const result = await response.json();
+            
+            if (response.status === 201) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Product Created!',
+                    text: 'Product has been created successfully.',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    form.reset();
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Error creating product: ' + (result.message || 'Unknown error')
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Error creating product: ' + error.message
+            });
+        }
+    });
+
+
+    //Delete Prod siendo premium
     const deleteProduct = async (productId) => {
         try {
             const response = await fetch(`/api/products/${productId}`, {

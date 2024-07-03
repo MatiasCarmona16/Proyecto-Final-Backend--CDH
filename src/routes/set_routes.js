@@ -14,8 +14,8 @@ import {
     routerProdsPremium
 } from "./index.js";
 
-const setRoutApi = async (app, requireLogin,passPrem) => {
-    app.use("/api/products", requireLogin, passPrem, routerProds);
+const setRoutApi = async (app, requireLogin) => {
+    app.use("/api/products", requireLogin, routerProds);
     app.use("/api/cart",  routerCart)
     app.use("/api/auth", routerAuth);
     app.use("/api/sessions", requireLogin, routerSession);

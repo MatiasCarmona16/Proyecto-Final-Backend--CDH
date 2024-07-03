@@ -9,8 +9,14 @@ routerProdsViews.get("/", async (req, res) => {
 
     const prods = await productsService.getProductsService({ limit, page, sort, query })
     try {
+        let isAdminUser = false;
+        if (req.session.user && req.session.user.role === 'admin') {
+            isAdminUser = true;
+        }
+
         res.status(200).render("products", {
-            js:"/products.js", 
+            js:"/products.js",
+            isAdminUser: isAdminUser,
             products: prods, 
             userInfo: req.session.user, 
             titulo: "Productos",

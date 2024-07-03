@@ -11,6 +11,10 @@
             <a href="http://localhost:8080" class="btn-dec">Home</a>
             <a href="/productsview" class="btn-dec">iStore</a>
             {{#if userInfo}}
+                        {{#if isAdminUser}}
+                            <a href="/productsaccesadmin" class="btn-dec">ADMIN</a>
+                        {{/if}}
+
                         <p><a href="/auth/change-rol-user" class="btn-dec">Hi {{userInfo.first_name}}!</a></p>
                         <a id="deslog" href="/api/auth/logout" class="btn-dec">Logout</a>
                         <p>|</p>

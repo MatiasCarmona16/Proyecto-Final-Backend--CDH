@@ -33,7 +33,7 @@
     <h2 class="title-adm-prod">Add product to iStore with "Admin" access</h2>
     <hr>
     <div class="form-contenedor-prodsadmin">
-    <form action= "/api/products/" method="post" class="form">
+    <form id="admin-add-product-form" class="form">
         <p>Product dates:</p>
         
         <div class="input-container">
@@ -53,7 +53,7 @@
         </div>
 
         <div class="input-container">
-            <input type="text" name="category" placeholder="Category" >
+            <input type="text" name="category" placeholder="Category (Celulares)" >
         </div>
     
         <div class="input-container">
@@ -63,6 +63,17 @@
             <input id="button-aut-send" type="submit" value="Add to iStore" class="submit">
         </input>
         </form>
+
+        <div class="container-dlt-rprod-form">
+        <h2 class="title-form-dlt-prod-adm">Delete Product</h2>
+        <form id="admin-delete-product-form">
+            <div class="admin-input-container">
+                <input type="text" id="admin-delete-product-id" placeholder="Product ID">
+            
+                <input id="admin-delete-product-button" type="submit" value="Delete Product" class="admin-submit-button">
+            </div>
+        </form>
+        </div>
     </div>
 
 
@@ -105,6 +116,54 @@
 </div>
 
 <script>
+    
+    document.getElementById('admin-add-product-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        const form = event.target;
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        
+        try {
+            const response = await fetch('/api/products/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            
+            const result = await response.json();
+            
+            if (response.status === 201) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Product Created!',
+                    text: 'Product has been created successfully.',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    form.reset(); 
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Error creating product: ' + (result.message || 'Unknown error')
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Error creating product: ' + error.message
+            });
+        }
+    });
 
     //Eliminacion de usuario
     document.querySelectorAll('.delete-user-btn').forEach(button => {
@@ -256,4 +315,80 @@ document.querySelectorAll('.change-role-btn').forEach(button => {
             });
         }
     });
+
+// Eliminar producto por ID
+    document.getElementById('admin-delete-product-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const productId = document.getElementById('admin-delete-product-id').value;
+
+        if (productId.trim() === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Product ID cannot be empty.'
+            });
+            return;
+        }
+
+        const confirmation = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        });
+
+        if (confirmation.isConfirmed) {
+            try {
+                const response = await fetch(`/api/products/${productId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                if (response.status === 204) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Deleted!',
+                    text: 'Product has been deleted successfully.',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    window.location.reload();
+                });
+            } else {
+                const result = await response.json();
+
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Deleted!',
+                        text: 'Product has been deleted successfully.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Error deleting product: ' + (result.message || 'Unknown error')
+                    });
+                }
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Error deleting product: ' + error.message
+            });
+        }
+    }
+});
+
 </script>
