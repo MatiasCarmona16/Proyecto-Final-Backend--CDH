@@ -3,12 +3,12 @@
     <nav class="navbar p-5 mt-2">
         <div class="container-navbar">
             <div class="marca-nav">
-                <a href="http://localhost:8080" class="navbar-brand">iPhone Store</a>
+                <a href="/" class="navbar-brand">iPhone Store</a>
             </div>
             
 
             <div class="header-a">
-            <a href="http://localhost:8080" class="btn-dec">Home</a>
+            <a href="/" class="btn-dec">Home</a>
             <a href="/productsview" class="btn-dec" onclick="getToCart(event)">iStore</a>
             {{#if userInfo}}
                         <p><a class="btn-dec" href="/auth/change-rol-user">Hi {{userInfo.first_name}}!</a></p>
