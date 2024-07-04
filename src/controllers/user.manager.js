@@ -119,7 +119,7 @@ export const recoverPassword = async (req, res) => {
                 <h2>Password Reset Link</h2>
                 <p style="font-size: 16px;">Click the following link to reset your password. This link will expire in 1 hour.</p>
                 <p style="font-size: 16px;">
-                    Link: <a href="http://localhost:8080/auth/restore-password-view?token=${token}" style="color: #007bff; text-decoration: none;">Click here to reset your password</a>
+                    Link: <a href="https://proyecto-final-backend-cdh-production.up.railway.app/auth/restore-password-view?token=${token}" style="color: #007bff; text-decoration: none;">Click here to reset your password</a>
                 </p>
                 <p style="font-size: 16px;">If you did not request a password change, please ignore this email.</p>
                 <p style="font-size: 16px;">Thank you,</p>
