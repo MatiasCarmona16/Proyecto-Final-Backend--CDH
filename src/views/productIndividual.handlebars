@@ -1,0 +1,86 @@
+<header>
+    <div class="container">
+    <nav class="navbar p-5 mt-2">
+        <div class="container-navbar">
+            <div class="marca-nav">
+                <a href="/" class="navbar-brand">iPhone Store</a>
+            </div>
+            
+
+            <div class="header-a">
+            <a href="/" class="btn-dec">Home</a>
+            <a href="/productsview" class="btn-dec">iStore</a>
+            {{#if userInfo}}
+                        {{#if isAdminUser}}
+                            <a href="/productsaccesadmin" class="btn-dec">ADMIN</a>
+                        {{/if}}
+
+                        <p><a href="/auth/change-rol-user" class="btn-dec">Hi {{userInfo.first_name}}!</a></p>
+                        <a id="deslog" href="/api/auth/logout" class="btn-dec">Logout</a>
+                        <p>|</p>
+                        <a href="/cart"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="12.45" viewBox="0 0 448 512"><path d="M160 112c0-35.3 28.7-64 64-64s64 28.7 64 64v48H160V112zm-48 48H48c-26.5 0-48 21.5-48 48V416c0 53 43 96 96 96H352c53 0 96-43 96-96V208c0-26.5-21.5-48-48-48H336V112C336 50.1 285.9 0 224 0S112 50.1 112 112v48zm24 48a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm152 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"/></svg></svg></a>
+                    {{else}}
+                        <a href="/auth/login-view" class="btn-dec">Login</a>
+                        <a href="/auth/register-view" class="btn-dec">Register</a>
+                    {{/if}}
+            </div>
+
+        </div>
+    </nav>
+    </div>
+</header>
+
+<main>
+
+    <div class="container">
+    
+    
+    
+    <div class="container-product-principal">
+
+        <div class="enlace-prod-specif">
+        <a href="/">Home</a>
+        <p>/</p>
+        <a href="/productsview">iStore</a>
+        <p>/</p>
+        <a href="/productsview/{{product._id}}">{{product.title}}</a>
+    </div>
+        
+        <div class="contianer-prod-countain">
+            
+            <div class="img-cont-prod">
+                <img src={{product.thumbnail}} alt="">
+            </div>
+
+            <div class="info-content-prod">
+                <h3>{{product.title}}</h3>
+                <h4>{{product.description}}</h4>
+                <p>{{product.code}}</p>
+                <h4>$ {{product.price}}</h4>
+                <p>Free shipping throughout the country</p>
+                    <div class="tarjt-containers">
+                        <img class="img-tarjets" src="/img/mastercard.png" alt="">
+                        <img class="img-tarjets" src="/img/visa.png" alt="">
+                        <img class="img-tarjets" src="/img/americanxpress.png" alt="">
+                        <img class="img-tarjets" src="/img/paypal.png" alt="">
+                    </div>
+                
+                <p>Sold by: {{product.owner}}</p>
+                <a href="">Add to cart</a>
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+</main>
+
+<script>
+
+
+    //Funcion logout para boton Logout
+    document.getElementById('deslog').addEventListener('click',logout)
+    function logout() {
+        localStorage.removeItem('cartId');
+    }
+</script>

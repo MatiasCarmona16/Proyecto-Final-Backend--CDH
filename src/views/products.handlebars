@@ -40,7 +40,7 @@
 {{#each products.payload}}
 <div class="card" style="width: 18rem;">
     <div class="img-container">
-        <img src={{this.thumbnail}} class="card-img-top" alt="...">
+        <a href="/productsview/{{this._id}}"><img src={{this.thumbnail}} class="card-img-top" alt="..."></a>
     </div>
         <div class="card-body">
             <h5 class="card-title">{{this.title}}</h5>

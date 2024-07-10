@@ -14,17 +14,46 @@ routerProdsViews.get("/", async (req, res) => {
             isAdminUser = true;
         }
 
+
         res.status(200).render("products", {
             js:"/products.js",
             isAdminUser: isAdminUser,
             products: prods, 
             userInfo: req.session.user, 
             titulo: "Productos",
-            error: null,})
+            error: null,
+        })
     }catch(error) {
         res.status(500).render("products", {
             products: [],
             titulo: "Productos", 
+            error: "ERROR_"})
+    }
+})
+
+routerProdsViews.get("/:id", async (req, res) => {
+    const { id } = req.params
+
+    try {
+        const prodct = await productsService.getProductsIdService(id)
+
+        let isAdminUser = false;
+        if (req.session.user && req.session.user.role === 'admin') {
+            isAdminUser = true;
+        }
+
+        res.status(200).render('productIndividual', {
+            isAdminUser: isAdminUser,
+            product: prodct,
+            userInfo: req.session.user, 
+            titulo: "Product",
+            error: null,
+        })
+
+    } catch (error) {
+        res.status(500).render("productIndividual", {
+            product: [],
+            titulo: "Product", 
             error: "ERROR_"})
     }
 })
