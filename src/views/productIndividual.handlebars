@@ -55,9 +55,11 @@
             <div class="info-content-prod">
                 <h3>{{product.title}}</h3>
                 <h4>{{product.description}}</h4>
+                <hr>
                 <p>{{product.code}}</p>
-                <h4>$ {{product.price}}</h4>
-                <p>Free shipping throughout the country</p>
+                <h5>$ {{product.price}}</h5>
+                <span><i class="fa-solid fa-truck fa-2xs" style="color: #63ad6f;"></i>Free shipping throughout the country</span>
+                <h6>Payment methods:</h6>
                     <div class="tarjt-containers">
                         <img class="img-tarjets" src="/img/mastercard.png" alt="">
                         <img class="img-tarjets" src="/img/visa.png" alt="">
@@ -65,8 +67,9 @@
                         <img class="img-tarjets" src="/img/paypal.png" alt="">
                     </div>
                 
-                <p>Sold by: {{product.owner}}</p>
-                <a href="">Add to cart</a>
+                <h7>Sold by: {{product.owner}}</h7>
+                <hr>
+                <button onclick="addToCart('{{product._id}}')">Add to Cart</button>
             </div>
 
         </div>
@@ -76,6 +79,70 @@
 </main>
 
 <script>
+
+    //Funcion agregar al carrito
+async function addToCart(productId) {
+try {
+let cartId = localStorage.getItem("cartId");
+
+if (!cartId) {
+const response = await fetch("/api/cart/", {
+method: "POST",
+headers: {
+    "Content-Type": "application/json"
+}
+});
+const data = await response.json();
+localStorage.setItem("cartId", data._id);
+cartId = data._id;
+}
+
+const response = await fetch(`/api/cart/${cartId}/product/${productId}`, {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({
+quantity: 1 
+})
+});
+
+if (!response.ok) {
+const errorData = await response.json();
+            if (response.status === 403) {
+                Toastify({
+                    text: errorData.message,
+                    duration: 2200,
+                    gravity: "bottom",
+                    style: {
+                        background: "#E54242",
+                    },
+                }).showToast();
+            } else {
+                throw new Error(errorData.message || "No se pudo agregar producto al Carrito");
+            }
+            return;
+}
+
+const responseData = await response.json();
+
+Toastify({
+
+text: `Product added to cart`,
+
+duration: 2200,
+gravity: "bottom",
+style: {
+    background: "rgb(22,22,22)",
+    background: "radial-gradient(circle, rgba(22,22,22,1) 18%, rgba(8,8,8,1) 86%)",
+},
+
+}).showToast();
+
+} catch (error) {
+console.error(error);
+}
+}
 
 
     //Funcion logout para boton Logout

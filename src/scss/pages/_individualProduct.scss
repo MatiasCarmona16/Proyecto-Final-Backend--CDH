@@ -32,6 +32,7 @@
     padding: 20px;
     width: 70%;
     height: 500px;
+    box-shadow: 0px 10px 61px 31px rgba(77, 77, 77, 0.1);
 }
 
 .img-cont-prod {
@@ -44,7 +45,7 @@
 }
 
 .img-cont-prod img {
-    width: 300px;
+    width: 65%;
 }
 
 .info-content-prod{
@@ -52,34 +53,77 @@
     flex-direction: column;
     justify-content: flex-start;
     border: 1px solid rgb(187, 187, 187);
-    padding: 10px 15px 10px 15px;
+    padding: 25px 15px 10px 15px;
     border-radius: 20px;
-    width: 50%;
+    width: 60%;
 }
 
 .info-content-prod h3 {
     font-size: 1.5vw;
+    font-weight: 600;
 }
 
 .info-content-prod h4 {
-    font-size: 1.5vw;
+    font-size: 1.3vw;
     font-weight: 400;
+    
 }
 
-.info-content-prod a {
+.info-content-prod h5 {
+    font-size: 1.7vw;
+    font-weight: 500;
+    color: rgb(99, 173, 111);
+}
+
+.info-content-prod p {
+    font-size: 0.8vw;
+    color: rgb(102, 102, 102);
+}
+
+.info-content-prod span {
+    font-size: 0.8vw;
+    margin: 10px 0 0 0;
+    color: rgb(99, 173, 111);
+}
+
+.info-content-prod i{
+    padding: 0 5px 0 0px;
+}
+
+.info-content-prod h6 {
+    margin: 15px 0 6px 0;
+    font-weight: 300;
+}
+
+.info-content-prod h7 {
+    color: rgb(128, 128, 128);
+    font-size: 1vw;
+}
+
+.info-content-prod button {
     color: white;
     background-color: black;
-    padding: 10px 20px 10px 20px;
-    width: 60%;
-    border-radius: 10px;
+    padding: 12px 0 12px 0;
+    width: 100%;
+    border-radius: 15px;
+    text-align: center;
+    align-self: center;
+    border: none;
+    font-size: 1vw;
+}
+
+.info-content-prod button:hover{
+    background-color: rgb(37, 37, 37);
+    box-shadow: 0px 7px 21px 0px rgba(0,0,0,0.1);
 }
 
 .tarjt-containers{
     display: flex;
-    gap: 5px;
+    gap: 8px;
+    margin: 0 0 6px 0;
 }
 
 .img-tarjets {
-    width: 14%;
+    width: 15%;
     height: 90%;
 }
