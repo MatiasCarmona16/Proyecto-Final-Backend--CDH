@@ -50,7 +50,8 @@ export class ProductManager {
     //Metodo para obtener un producto por su ID
     async getProductsId (productId) {
         try {
-            return await ProductSchema.findById(productId);
+            const prod = await ProductSchema.findById(productId);
+            return prod;
         } catch (error) {
             return { success: false, message: `Error al obtener el ID del producto.`, error: error }
         }

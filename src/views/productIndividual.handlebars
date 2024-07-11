@@ -12,7 +12,7 @@
             <a href="/productsview" class="btn-dec">iStore</a>
             {{#if userInfo}}
                         {{#if isAdminUser}}
-                            <a href="/productsaccesadmin" class="btn-dec">Admin dashboard</a>
+                            <a href="/productsaccesadmin" class="btn-dec">ADMIN</a>
                         {{/if}}
 
                         <p><a href="/auth/change-rol-user" class="btn-dec">Hi {{userInfo.first_name}}!</a></p>
@@ -30,73 +30,57 @@
     </div>
 </header>
 
+<main>
 
     <div class="container">
+    
+    
+    
+    <div class="container-product-principal">
 
-    <div class="img_portada">
+        <div class="enlace-prod-specif">
+        <a href="/">Home</a>
+        <p>/</p>
+        <a href="/productsview">iStore</a>
+        <p>/</p>
+        <a href="/productsview/{{product._id}}">{{product.title}}</a>
     </div>
-
-<div class="card-flex">
-{{#each products.payload}}
-<div class="card" style="width: 18rem;">
-    <div class="img-container">
-        <a href="/productsview/{{this._id}}"><img src={{this.thumbnail}} class="card-img-top" alt="..."></a>
-    </div>
-        <div class="card-body">
-            <h5 class="card-title">{{this.title}}</h5>
-            <hr>
-            <p class="card-subtitle">USD {{this.price}}</p>
-            <p class="card-text">{{this.description}}</p>
-            <div class="d-flex justify-content-center">
-                <button onclick="addToCart('{{this._id}}')" class="CartBtn">
-                    <span class="IconContainer"> 
-                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512" fill="rgb(17, 17, 17)" class="cart"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"></path></svg>
-                    </span>
-                <p class="text">Add to Cart</p>
-                </button>
+        
+        <div class="contianer-prod-countain">
+            
+            <div class="img-cont-prod">
+                <img src={{product.thumbnail}} alt="">
             </div>
+
+            <div class="info-content-prod">
+                <h3>{{product.title}}</h3>
+                <h4>{{product.description}}</h4>
+                <hr>
+                <p>{{product.code}}</p>
+                <h5>$ {{product.price}}</h5>
+                <span><i class="fa-solid fa-truck fa-2xs" style="color: #63ad6f;"></i>Free shipping throughout the country</span>
+                <h6>Payment methods:</h6>
+                    <div class="tarjt-containers">
+                        <img class="img-tarjets" src="/img/mastercard.png" alt="">
+                        <img class="img-tarjets" src="/img/visa.png" alt="">
+                        <img class="img-tarjets" src="/img/americanxpress.png" alt="">
+                        <img class="img-tarjets" src="/img/paypal.png" alt="">
+                    </div>
+                
+                <h7>Sold by: {{product.owner}}</h7>
+                <hr>
+                <button onclick="addToCart('{{product._id}}')">Add to Cart</button>
+            </div>
+
+        </div>
+
     </div>
-</div>
-{{/each}}
-</div>
-
-{{#if products.hasNextPage}}
-<div class="boton-next-prod">
-    <a href="{{products.nextLink}}">Next</a>
-</div>
-{{/if}}
-
-{{#if products.hasPrevPage}}
-<div class="boton-atras-prod">
-    <a href="{{products.prevLink}}">Return</a>
-</div>
-{{/if}}
-
-</div>
+    </div>
+</main>
 
 <script>
 
-    document.addEventListener("DOMContentLoaded", function() {
-    const cards = document.querySelectorAll('.card');
-
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('card-visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.5
-    });
-
-    cards.forEach(card => {
-        observer.observe(card);
-    });
-});
-
-
-//Funcion agregar al carrito
+    //Funcion agregar al carrito
 async function addToCart(productId) {
 try {
 let cartId = localStorage.getItem("cartId");
@@ -160,10 +144,10 @@ console.error(error);
 }
 }
 
-document.getElementById('deslog').addEventListener('click',logout)
-function logout() {
-localStorage.removeItem('cartId');
-}
 
+    //Funcion logout para boton Logout
+    document.getElementById('deslog').addEventListener('click',logout)
+    function logout() {
+        localStorage.removeItem('cartId');
+    }
 </script>
-
